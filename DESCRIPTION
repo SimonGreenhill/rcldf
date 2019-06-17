@@ -7,7 +7,7 @@ Author:
 Maintainer: Simon J. Greenhill <simon@simon.net.nz>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -15,6 +15,9 @@ Imports:
     readr,
     tools
 Suggests: 
-    testthat
+    testthat,
+    spelling,
+    covr
 URL: https://github.com/SimonGreenhill/rcldf
-BugReports:https://github.com/SimonGreenhill/rcldf/issues
+BugReports: https://github.com/SimonGreenhill/rcldf/issues
+Language: en-US

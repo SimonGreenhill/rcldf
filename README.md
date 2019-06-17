@@ -1,6 +1,10 @@
-# rcldf
+# rcldf - a R library for reading CLDF files
 
-The goal of rcldf is to ...
+[![Travis build status](https://travis-ci.org/SimonGreenhill/rcldf.svg?branch=master)](https://travis-ci.org/SimonGreenhill/rcldf)
+[![Coverage status](https://codecov.io/gh/SimonGreenhill/rcldf/branch/master/graph/badge.svg)](https://codecov.io/github/SimonGreenhill/rcldf?branch=master)
+
+
+# rcldf is a library for R to read Cross-Linguistic Data files (CLDF)
 
 ## Installation
 
@@ -18,3 +22,9 @@ This is a basic example which shows you how to solve a common problem:
 ## basic example code
 ```
 
+
+## TODO
+
+* TODO summary(df)
+* TODO as.cldf.wide
+* TODO docs

@@ -62,5 +62,3 @@ read.metadata <- function(path) {
 }
 
 
-# TODO summary
-# TODO as.cldf.wide
