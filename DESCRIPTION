@@ -13,7 +13,8 @@ LazyData: true
 Imports:
     jsonlite,
     readr,
-    tools
+    tools,
+    bib2df
 Suggests: 
     testthat,
     spelling,

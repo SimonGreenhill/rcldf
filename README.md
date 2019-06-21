@@ -8,15 +8,14 @@
 
 ## Installation
 
-You can install the released version of rcldf from [CRAN](https://CRAN.R-project.org) with:
+You can install rcldf directly from [GitHub](https://github.com/SimonGreenhill/rcldf) using `devtools`:
 
-``` r
-install.packages("rcldf")
+```r
+library(devtools)
+install_github("SimonGreenhill/rcldf", dependencies = TRUE)
 ```
 
 ## Example
-
-This is a basic example which shows you how to solve a common problem:
 
 ```r
 # create a `cldf` object by giving either a path to the directory
@@ -24,12 +23,26 @@ This is a basic example which shows you how to solve a common problem:
 > df <- cldf('/path/to/dir/wals_1a_cldf')
 > df <- cldf('/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json')
 
-# each table is attached to the df object, as is the metadata.
-> names(df)
-[1] "metadata"   "values"     "languages"  "parameters" "codes"     
+# a cldf object has various bits of information
+> summary(df)
+A Cross-Linguistic Data Format (CLDF) dataset:
+Name: My Dataset
+Type: http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+Tables:
+  1/4: codes (4 columns, 5 rows)
+  2/4: languages (9 columns, 563 rows)
+  3/4: parameters (6 columns, 1 rows)
+  4/4: values (7 columns, 563 rows)
+Sources: 947
 
 
-> df$languages
+
+# each table is attached to the df$tables list.
+> names(df$tables)
+[1] values"     "languages"  "parameters" "codes" 
+
+
+> df$tables$languages
 # A tibble: 563 x 9
    ID    Name   Macroarea Latitude Longitude Glottocode ISO639P3code Genus     Family   
    <chr> <chr>  <chr>        <dbl>     <dbl> <chr>      <chr>        <chr>     <chr>    
@@ -38,13 +51,13 @@ This is a basic example which shows you how to solve a common problem:
  3 ach   Aché   NA          -25.2      -55.2 ache1246   guq          Tupi-Gua… Tupian   
 
 
-> df$parameters
+> df$tables$parameters
 # A tibble: 1 x 6
   ID    Name                 Description Authors       Url                      Area    
   <chr> <chr>                <chr>       <chr>         <chr>                    <chr>   
 1 1A    Consonant Inventori… NA          Ian Maddieson http://wals.info/featur… Phonolo… 
 
-> df$values
+> df$tables$values
 # A tibble: 563 x 7
    ID     Language_ID Parameter_ID Value Code_ID Comment Source                                       
    <chr>  <chr>       <chr>        <chr> <chr>   <chr>   <chr>                                        
@@ -54,7 +67,7 @@ This is a basic example which shows you how to solve a common problem:
  4 1A-acm acm         1A           2     1A-2    NA      Olmsted-1966;Olmsted-1964
  
  
-> df$codes
+> df$tables$codes
 # A tibble: 5 x 4
   ID    Parameter_ID Name             Description
   <chr> <chr>        <chr>            <chr>      
@@ -64,6 +77,7 @@ This is a basic example which shows you how to solve a common problem:
 4 1A-4  1A           Moderately large NA         
 5 1A-5  1A           Large            NA         
 
+
 ```
 
 
@@ -72,5 +86,6 @@ This is a basic example which shows you how to solve a common problem:
 * TODO summary(df)
 * TODO as.cldf.wide
 * TODO docs
-* TODO sources.bib
+* TODO sources.bib (md, "dc:source": "sources.bib". Use bib2df, not on cran?)
+* TODO citation(df) 
 * TODO sources parsing (column parsing)

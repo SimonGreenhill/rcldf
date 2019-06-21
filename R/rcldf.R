@@ -4,12 +4,16 @@
 cldf <- function(mdpath) {
     md <- read.metadata(mdpath)
     dir <- dirname(mdpath)
-    o <- structure(list(), class = "cldf")
+    o <- structure(list(tables = list(), sources = c()), class = "cldf")
+    o[['name']] <- dir
+    o[['type']] <- md$`dc:conformsTo`
     o[['metadata']] <- md
+    o[['sources']] <- bib2df::bib2df(file.path(dir, md$`dc:source`))
+
     for (i in 1:nrow(md$tables)) {
         filename <- file.path(dir, md$tables[i, 'url'])
         table <- tools::file_path_sans_ext(md$tables[i, 'url'])
-        o[[table]] <- readr::read_csv(
+        o[['tables']][[table]] <- readr::read_csv(
             filename, col_names = TRUE,
             col_types = get_table_schema(md$tables[i, "tableSchema"]$columns),
             quote = "\""
@@ -62,3 +66,24 @@ read.metadata <- function(path) {
 }
 
 
+summary.cldf <- function(object, ...) {
+    if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
+
+    cat("A Cross-Linguistic Data Format (CLDF) dataset:\n")
+    cat(sprintf("Name: %s\n", object$name))
+    cat(sprintf("Type: %s\n", object$type))
+    cat("Tables:\n")
+    i <- 1
+    n <- length(object$tables)
+    for (table in sort(names(object$tables))) {
+        cat(sprintf(
+            "  %d/%d: %s (%d columns, %d rows)\n",
+            i, n,
+            table,
+            ncol(object$tables[[table]]),
+            nrow(object$tables[[table]])
+        ))
+        i <- i + 1
+    }
+    cat(sprintf("Sources: %d\n", nrow(object$sources)))
+}

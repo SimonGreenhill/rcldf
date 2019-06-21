@@ -54,19 +54,22 @@ context("cldf")
 test_that("test cldf", {
     mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
     df <- cldf(mdpath)
+    expect_is(cldf, 'cldf')
     # is metadata the same
     expect_equal(df[['metadata']], read.metadata(mdpath))
     # do we have all tables loaded
-    expect_equal(nrow(df[['languages']]), 563)
-    expect_equal(nrow(df[['parameters']]), 1)
-    expect_equal(nrow(df[['values']]), 563)
-    expect_equal(nrow(df[['codes']]), 5)
+    expect_equal(nrow(df$tables[['languages']]), 563)
+    expect_equal(nrow(df$tables[['parameters']]), 1)
+    expect_equal(nrow(df$tables[['values']]), 563)
+    expect_equal(nrow(df$tables[['codes']]), 5)
 
     # check some values
-    expect_equal(df[['languages']]$ID[1], 'abi')
-    expect_equal(df[['parameters']]$ID[1], '1A')
-    expect_equal(df[['values']]$ID[1], '1A-abi')
-    expect_equal(df[['codes']]$ID[1], '1A-1')
+    expect_equal(df$tables[['languages']]$ID[1], 'abi')
+    expect_equal(df$tables[['parameters']]$ID[1], '1A')
+    expect_equal(df$tables[['values']]$ID[1], '1A-abi')
+    expect_equal(df$tables[['codes']]$ID[1], '1A-1')
+
+    expect_equal(nrow(df$sources), 947)
 
 })
 
@@ -76,4 +79,28 @@ test_that("test read_cldf", {
     a <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
     b <- read_cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
     expect_equal(a, b)
+})
+
+
+context("summary.cldf")
+test_that("test summary.cldf", {
+
+    expect_error(summary.cldf('x'), "'object' must inherit from class cldf")
+
+    df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    out <- paste(capture.output(summary(df)), collapse="\n")
+
+    expect_output(out, "^A Cross-Linguistic Data Format (CLDF) dataset:$")
+    expect_output(out, "^Name: tests/testthat/examples/wals_1A_cldf$")
+    expect_output(out, "Type: http://cldf.clld.org/v1.0/terms.rdf#StructureData")
+
+    expect_output(out, "1/4: codes (4 columns, 5 rows)")
+    expect_output(out, "2/4: languages (9 columns, 563 rows)")
+    expect_output(out, "3/4: parameters (6 columns, 1 rows)")
+    expect_output(out, "4/4: values (7 columns, 563 rows)")
+    expect_output(out, "Sources: 947")
+
+
+
+
 })
