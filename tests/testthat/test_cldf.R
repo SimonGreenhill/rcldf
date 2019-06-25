@@ -1,33 +1,30 @@
 library(rcldf)
 
-context("read.metadata")
-test_that("read.metadata works", {
+test_that("resolve_path", {
     # given json
-    m <- read.metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
-    expect_equal(nrow(m$tables), 4)
+    m <- resolve_path('examples/wals_1A_cldf/StructureDataset-metadata.json')
+    expect_equal(m, 'examples/wals_1A_cldf/StructureDataset-metadata.json')
 
     # given dir
-    m <- read.metadata('examples/wals_1A_cldf')
-    expect_equal(nrow(m$tables), 4)
+    m <- resolve_path('examples/wals_1A_cldf')
+    expect_equal(m, 'examples/wals_1A_cldf/StructureDataset-metadata.json')
 
     # given invalid file
     expect_error(
-        read.metadata('examples/wals_1A_cld'),
+        resolve_path('examples/wals_1A_cld'),
         "does not exist"
     )
     expect_error(
-        read.metadata('examples/bad/StructureDataset-metadata.json'),
+        resolve_path('examples/bad/StructureDataset-metadata.json'),
         "does not exist"
     )
-
-
 })
 
 
 context("get_table_schema")
 test_that("test get_table_schema", {
-    m <- read.metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
-    schema <- get_table_schema(m$tables[2, "tableSchema"]$columns)
+    d <- cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')
+    schema <- get_table_schema(d$metadata$tables[2, "tableSchema"]$columns)
     expect_equal(schema$cols$ID, readr::col_character())
     expect_equal(schema$cols$Name, readr::col_character())
     expect_equal(schema$cols$Macroarea, readr::col_character())
@@ -47,20 +44,20 @@ test_that("test get_table_schema", {
     # check that a warning is generated.
     expect_warning(schema2 <- get_table_schema(list(df)))
     expect_equal(schema2$cols$`1`, readr::col_guess())
-
 })
+
 
 context("cldf")
 test_that("test cldf", {
     mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
     df <- cldf(mdpath)
-    expect_is(cldf, 'cldf')
+    expect_is(df, 'cldf')
     # is metadata the same
-    expect_equal(df[['metadata']], read.metadata(mdpath))
+    expect_equal(df[['metadata']], jsonlite::fromJSON(mdpath))
     # do we have all tables loaded
-    expect_equal(nrow(df$tables[['languages']]), 563)
+    expect_equal(nrow(df$tables[['languages']]), 9)
     expect_equal(nrow(df$tables[['parameters']]), 1)
-    expect_equal(nrow(df$tables[['values']]), 563)
+    expect_equal(nrow(df$tables[['values']]), 9)
     expect_equal(nrow(df$tables[['codes']]), 5)
 
     # check some values
@@ -69,8 +66,16 @@ test_that("test cldf", {
     expect_equal(df$tables[['values']]$ID[1], '1A-abi')
     expect_equal(df$tables[['codes']]$ID[1], '1A-1')
 
-    expect_equal(nrow(df$sources), 947)
+    expect_equal(nrow(df$sources), 11)
 
+})
+
+
+context("read dir or json")
+test_that("test dir or json", {
+    a <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    b <- cldf("examples/wals_1A_cldf")
+    expect_identical(a, b)
 })
 
 
@@ -78,7 +83,7 @@ context("read_cldf")
 test_that("test read_cldf", {
     a <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
     b <- read_cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
-    expect_equal(a, b)
+    expect_identical(a, b)
 })
 
 
@@ -88,19 +93,22 @@ test_that("test summary.cldf", {
     expect_error(summary.cldf('x'), "'object' must inherit from class cldf")
 
     df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
-    out <- paste(capture.output(summary(df)), collapse="\n")
+    out <- capture.output(summary(df))
 
-    expect_output(out, "^A Cross-Linguistic Data Format (CLDF) dataset:$")
-    expect_output(out, "^Name: tests/testthat/examples/wals_1A_cldf$")
-    expect_output(out, "Type: http://cldf.clld.org/v1.0/terms.rdf#StructureData")
+    expect_match(out[1], "A Cross-Linguistic Data Format \\(CLDF\\) dataset:")
+    expect_match(out[2], "^Name: .*examples/wals_1A_cldf$")
+    expect_match(out[3], "Type: http://cldf.clld.org/v1.0/terms.rdf#StructureData")
+    expect_match(out[4], "Tables:")
+    expect_match(out[5], "1/4: codes \\(4 columns, 5 rows\\)")
+    expect_match(out[6], "2/4: languages \\(9 columns, 9 rows\\)")
+    expect_match(out[7], "3/4: parameters \\(6 columns, 1 rows\\)")
+    expect_match(out[8], "4/4: values \\(7 columns, 9 rows\\)")
+    expect_match(out[9], "Sources: 11")
+})
 
-    expect_output(out, "1/4: codes (4 columns, 5 rows)")
-    expect_output(out, "2/4: languages (9 columns, 563 rows)")
-    expect_output(out, "3/4: parameters (6 columns, 1 rows)")
-    expect_output(out, "4/4: values (7 columns, 563 rows)")
-    expect_output(out, "Sources: 947")
 
-
-
-
+context("test handling of no sources")
+test_that("test handling of no sources", {
+    df <- cldf("examples/no_sources")
+    expect_equal(is.na(df$sources), TRUE)
 })
