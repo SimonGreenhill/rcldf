@@ -25,6 +25,8 @@ cat("Mem Used     ", mem_used(), "\n")
 cat("Object Size: ", object_size(df), "\n")
 cat("Time:        ", end.time - start.time, "\n")
 
+
+cat("are sources a promise?", is_promise(df$sources), "\n")
 start.time <- Sys.time()
 x <- nrow(df$sources)
 end.time <- Sys.time()

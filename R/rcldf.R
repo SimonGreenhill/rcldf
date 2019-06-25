@@ -13,26 +13,26 @@ cldf <- function(mdpath) {
     o$sources <- read_bib(dir, o$metadata$`dc:source`)
 
     for (i in 1:nrow(o$metadata$tables)) {
-        filename <- file.path(dir, o$metadata$tables[i, 'url'])
-        table <- tools::file_path_sans_ext(o$metadata$tables[i, 'url'])
-        o[['tables']][[table]] <- readr::read_csv(
-            filename, col_names = TRUE,
-            col_types = get_table_schema(o$metadata$tables[i, "tableSchema"]$columns),
-            quote = "\""
+        filename <- file.path(dir, o$metadata$tables[i, "url"])
+        table <- tools::file_path_sans_ext(o$metadata$tables[i, "url"])
+        cols <- get_table_schema(o$metadata$tables[i, "tableSchema"]$columns)
+        o[["tables"]][[table]] <- readr::read_csv(
+            filename, col_names = TRUE, col_types = cols, quote = "\""
         )
     }
     o
 }
 
-read_cldf <- function(path) { cldf(path) }
+read_cldf <- function(path) cldf(path)
 
 
 get_spec <- function(dt) {
     dt <- unlist(dt)
-    if (is.null(names(dt))) { names(dt) <- 'base' }
-    if ('string' %in% dt[['base']]) {
+    if (is.null(names(dt))) names(dt) <- "base"
+
+    if ("string" %in% dt[["base"]]) {
         return(readr::col_character())
-    } else if ('decimal' %in% dt[['base']]) {
+    } else if ("decimal" %in% dt[["base"]]) {
         return(readr::col_double())
     } else {
         warning(paste("Unable to identify coltype", dt))
@@ -44,24 +44,26 @@ get_spec <- function(dt) {
 get_table_schema <- function(schema) {
     spec <- list()
     for (i in 1:nrow(schema[[1]])) {
-        label <- as.name(schema[[1]][i, 'name'])
-        spec[[label]] <- get_spec(schema[[1]][i, 'datatype'])
+        label <- as.name(schema[[1]][i, "name"])
+        spec[[label]] <- get_spec(schema[[1]][i, "datatype"])
     }
     do.call(readr::cols, spec)
 }
 
 
 resolve_path <- function(path) {
-    if (file.exists(path) & endsWith(path, '-metadata.json')) {
+    if (file.exists(path) & endsWith(path, "-metadata.json")) {
         # given a metadata.json file
         mdfile <- path
     } else if (dir.exists(path)) {
         # given a dirname, try find the metadata file.
-        mdfile <- list.files(path, '*-metadata.json', full.names = TRUE)
+        mdfile <- list.files(path, "*-metadata.json", full.names = TRUE)
     } else if (!file.exists(path)) {
         stop(sprintf("Path %s does not exist", path))
     } else {
-        stop("Need either the path to a metadata.json file or a directory containing metadata.json")
+        stop(
+            "Need either a metadata.json file or a directory with metadata.json"
+        )
     }
     mdfile
 }
@@ -99,5 +101,6 @@ read_bib <- function(dir, bib){
     if (is.null(bib)) return(NA)
     bib <- file.path(dir, bib)
     if (!file.exists(bib)) return(NA)
-    bib2df::bib2df(bib)
+    delayedAssign("sources", bib2df::bib2df(bib))  # TODO not working
+    sources
 }
