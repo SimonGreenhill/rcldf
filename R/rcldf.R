@@ -26,5 +26,5 @@ cldf <- function(mdpath) {
 }
 
 #' @rdname cldf
-read_cldf <- function(path) { cldf(path) }
+read_cldf <- function(mdpath) { cldf(mdpath) }
 
