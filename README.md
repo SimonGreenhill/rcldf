@@ -36,7 +36,6 @@ Tables:
 Sources: 947
 
 
-
 # each table is attached to the df$tables list.
 > names(df$tables)
 [1] values"     "languages"  "parameters" "codes" 
@@ -78,14 +77,40 @@ Sources: 947
 5 1A-5  1A           Large            NA         
 
 
+
+# You can extract a "wide" table, with all foreign key entries filled in:
+> as.cldf.wide(df, 'codes')
+
+# A tibble: 5 x 9
+  ID    Parameter_ID Name.codes Description.cod… Name.parameters Description.par… Authors
+  <chr> <chr>        <chr>      <chr>            <chr>           <chr>            <chr>  
+1 1A-1  1A           Small      A small thing    Consonant Inve… NA               Ian Ma…
+2 1A-2  1A           Moderatel… a moderately sm… Consonant Inve… NA               Ian Ma…
+3 1A-3  1A           Average    an average thing Consonant Inve… NA               Ian Ma…
+4 1A-4  1A           Moderatel… a moderately la… Consonant Inve… NA               Ian Ma…
+5 1A-5  1A           Large      a large thing    Consonant Inve… NA               Ian Ma…
+# … with 2 more variables: Url <chr>, Area <chr>
+
+
+
+# Or: 
+> as.cldf.wide(df, 'values')
+
+# A tibble: 9 x 23
+  ID    Language_ID Parameter_ID.va… Value Code_ID Comment Source Name.languages
+  <chr> <chr>       <chr>            <chr> <chr>   <chr>   <chr>  <chr>         
+1 1A-a… abi         1A               2     1A-2    NA      Najli… Abipón        
+2 1A-a… abk         1A               5     1A-5    NA      Hewit… Abkhaz        
+3 1A-a… ach         1A               1     1A-1    NA      Susni… Aché          
+4 1A-a… acm         1A               2     1A-2    NA      Olmst… Achumawi      
+5 1A-a… aco         1A               5     1A-5    NA      Mille… Acoma         
+6 1A-a… adz         1A               2     1A-2    NA      Holzk… Adzera        
+7 1A-a… agh         1A               3     1A-3    NA      Hyman… Aghem         
+8 1A-a… aht         1A               4     1A-4    NA      Kari-… Ahtna         
+9 1A-a… aik         1A               3     1A-3    NA      Hanke… Aikaná        
+# … with 15 more variables: Macroarea <chr>, Latitude <dbl>, Longitude <dbl>,
+#   Glottocode <chr>, ISO639P3code <chr>, Genus <chr>, Family <chr>,
+#   Name.parameters <chr>, Description.parameters <chr>, Authors <chr>, Url <chr>,
+#   Area <chr>, Parameter_ID.codes <chr>, Name.codes <chr>, Description.codes <chr>
+
 ```
-
-
-## TODO
-
-* TODO summary(df)
-* TODO as.cldf.wide
-* TODO docs
-* TODO sources.bib (md, "dc:source": "sources.bib". Use bib2df, not on cran?)
-* TODO citation(df) 
-* TODO sources parsing (column parsing)
