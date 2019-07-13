@@ -1,6 +1,8 @@
 
 get_tablename <- function(t) { tools::file_path_sans_ext(t)}
 
+relabel <- function(column, table) { paste0(column, '.', table) }
+
 #CONSTRUCTOR
 cldf <- function(mdpath) {
     mdpath <- resolve_path(mdpath)
@@ -127,20 +129,26 @@ as.cldf.wide <- function(object, table) {
 
     if (is.null(pks)) return(out)
 
+    out <- dplyr::rename_all(out, function(x) relabel(x, table))
     for (p in 1:nrow(pks)) {
         src <- pks$columnReference[[p]]
         tbl <- get_tablename(pks$reference$resource[[p]])
         dest <- pks$reference$columnReference[[p]]
         message(paste("Joining", src, '->', tbl, '->', dest))
-        # ugh
-        by_clause <- c(dest)
-        names(by_clause) <- c(src)
-        suffixes <- c(paste0('.', table), paste0('.', tbl))
 
-        # merge(out, object$tables[['parameters']], by.x="Parameter_ID", by.y="ID", suffixes=suffixes)
-        out <- dplyr::inner_join(
-            out, object$tables[[tbl]], by=by_clause, suffix=suffixes
-        )
+        t <- dplyr::rename_all(object$tables[[tbl]], function(x) relabel(x, tbl))
+
+        by_clause <- c(relabel(dest, tbl)) # ugh
+        names(by_clause) <- c(relabel(src, table)) # ugh
+        out <- dplyr::left_join(out, t, by=by_clause)
+    }
+
+    # and now tidy up by renaming unique columns (i.e. remove excess ".table")
+    shortnames <- gsub('\\..*$', '', colnames(out))
+    for (i in 1:length(colnames(out))) {
+        if (length(which(shortnames == shortnames[i])) == 1) {
+            out <- dplyr::rename(out, !!shortnames[i] := colnames(out)[i])
+        }
     }
     out
 }

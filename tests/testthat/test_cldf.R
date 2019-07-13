@@ -146,7 +146,7 @@ test_that("test as.cldf.wide", {
 
     # The below tests are overkill, but I'd rather test this now than have
     # an impossible bug to track down later.
-    # from values
+    # ...from values
     expect_equal(df.values$ID, df$tables$values$ID)
     expect_equal(df.values$Language_ID, df$tables$values$Language_ID)
     expect_equal(df.values$Value, df$tables$values$Value)
@@ -155,8 +155,8 @@ test_that("test as.cldf.wide", {
     expect_equal(df.values$Comment, df$tables$values$Comment)
     expect_equal(df.values$Parameter_ID.values, df$tables$values$Parameter_ID)
 
-    # # from languages
-    # expect_equal(df.values$Name.languages, df$tables$languages$Name)
+    # ...from languages
+    expect_equal(df.values$Name.languages, df$tables$languages$Name)
     expect_equal(df.values$Macroarea, df$tables$languages$Macroarea)
     expect_equal(df.values$Latitude, df$tables$languages$Latitude)
     expect_equal(df.values$Longitude, df$tables$languages$Longitude)
@@ -165,18 +165,29 @@ test_that("test as.cldf.wide", {
     expect_equal(df.values$Genus, df$tables$languages$Genus)
     expect_equal(df.values$Family, df$tables$languages$Family)
 
-    # from parameters
+    # ...from parameters
     # these fail because theres only one row so (x, x, x) != (x), so we use
     # a different test here
     expect_true(all(df.values$Name.parameters == df$tables$parameters$Name))
-    #expect_equal(df.values$Description.parameters, df$tables$parameters$Description)
+    # and all NAs, so just check this column is empty..
+    expect_true(all(is.na(df.values$Description.parameters)))
+    expect_true(all(is.na(df$tables$parameters$Description)))
     expect_true(all(df.values$Area == df$tables$parameters$Area))
     expect_true(all(df.values$Authors == df$tables$parameters$Authors))
     expect_true(all(df.values$Url == df$tables$parameters$Url))
 
     # # from codes
-    # ?? expect_true(all(df.values$Parameter_ID.codes == df$tables$codes$Parameter_ID))
-    # expect_true(all(df.values$Name.codes == df$tables$codes$Name))
-    # expect_true(all(df.values$Description.codes == df$tables$codes$Description))
+    expect_equal(  # just check values
+        sort(unique(df.values$Parameter_ID.codes)),
+        sort(unique(df$tables$codes$Parameter_ID))
+    )
+    expect_equal(  # just check values
+        sort(unique(df.values$Name.codes)),
+        sort(unique(df$tables$codes$Name))
+    )
+    expect_equal(  # just check values
+        sort(unique(df.values$Description.codes)),
+        sort(unique(df$tables$codes$Description))
+    )
 })
 
