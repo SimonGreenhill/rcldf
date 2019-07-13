@@ -14,7 +14,8 @@ Imports:
     jsonlite,
     readr,
     tools,
-    bib2df
+    bib2df,
+    vroom
 Suggests: 
     testthat,
     spelling,
@@ -22,3 +23,4 @@ Suggests:
 URL: https://github.com/SimonGreenhill/rcldf
 BugReports: https://github.com/SimonGreenhill/rcldf/issues
 Language: en-US
+RoxygenNote: 6.1.0

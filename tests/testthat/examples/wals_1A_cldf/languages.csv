@@ -1,10 +1,10 @@
 ID,Name,Macroarea,Latitude,Longitude,Glottocode,ISO639P3code,Genus,Family
-abi,Abipón,,-29.0,-61.0,abip1241,axb,South Guaicuruan,Guaicuruan
+abi,Abipón,South America,-29.0,-61.0,abip1241,axb,South Guaicuruan,Guaicuruan
 abk,Abkhaz,,43.0833333333,41.0,abkh1244,abk,Northwest Caucasian,Northwest Caucasian
-ach,Aché,,-25.25,-55.1666666667,ache1246,guq,Tupi-Guaraní,Tupian
+ach,Aché,South America,-25.25,-55.1666666667,ache1246,guq,Tupi-Guaraní,Tupian
 acm,Achumawi,,41.5,-121.0,achu1247,acv,Palaihnihan,Hokan
 aco,Acoma,,34.9166666667,-107.583333333,west2632,kjq,Keresan,Keresan
-adz,Adzera,,-6.25,146.25,adze1240,adz,Oceanic,Austronesian
-agh,Aghem,,6.66666666667,10.0,aghe1239,agq,Bantoid,Niger-Congo
-aht,Ahtna,,62.0,-145.0,ahte1237,aht,Athapaskan,Na-Dene
+adz,Adzera,Pacific,-6.25,146.25,adze1240,adz,Oceanic,Austronesian
+agh,Aghem,Africa,6.66666666667,10.0,aghe1239,agq,Bantoid,Niger-Congo
+aht,Ahtna,North America,62.0,-145.0,ahte1237,aht,Athapaskan,Na-Dene
 aik,Aikaná,,-12.6666666667,-60.6666666667,aika1237,tba,Aikaná,Aikaná

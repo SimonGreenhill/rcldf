@@ -1,4 +1,5 @@
 
+get_tablename <- function(t) { tools::file_path_sans_ext(t)}
 
 #CONSTRUCTOR
 cldf <- function(mdpath) {
@@ -14,10 +15,10 @@ cldf <- function(mdpath) {
 
     for (i in 1:nrow(o$metadata$tables)) {
         filename <- file.path(dir, o$metadata$tables[i, "url"])
-        table <- tools::file_path_sans_ext(o$metadata$tables[i, "url"])
+        table <- get_tablename(o$metadata$tables[i, "url"])
         cols <- get_table_schema(o$metadata$tables[i, "tableSchema"]$columns)
-        o[["tables"]][[table]] <- readr::read_csv(
-            filename, col_names = TRUE, col_types = cols, quote = "\""
+        o[["tables"]][[table]] <- vroom::vroom(
+            filename, delim=",", col_names = TRUE, col_types = cols, quote = "\""
         )
     }
     o
@@ -96,11 +97,50 @@ summary.cldf <- function(object, ...) {
     cat(sprintf("Sources: %d\n", nsources))
 }
 
-
-read_bib <- function(dir, bib){
+#' Reads a BibTeX file into a dataframe
+#'
+#' @param dir the directory the BibTeX file is in.
+#' @param y the name of the BibTeX file
+#' @return A tibble dataframe
+#' @keyword internals
+#' @examples
+#' df <- read_bib("mycldf", "sources.bib")
+read_bib <- function(dir, bib="sources.bib"){
     if (is.null(bib)) return(NA)
     bib <- file.path(dir, bib)
     if (!file.exists(bib)) return(NA)
-    delayedAssign("sources", bib2df::bib2df(bib))  # TODO not working
-    sources
+    bib2df::bib2df(bib)
+}
+
+
+as.cldf.wide <- function(object, table) {
+    if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
+    # error on no table
+    if (is.na(table)) stop("Need a table to expand")
+    # error on bad table
+    if (table %in% names(object$tables) == FALSE) stop(paste("Invalid table", table))
+    # find tables that join this one
+    tbl_idx <- which(names(object$tables) == table)
+    pks <- object$metadata$tables[tbl_idx, "tableSchema"]$foreignKeys[[1]]
+
+    out <- object$tables[[table]]
+
+    if (is.null(pks)) return(out)
+
+    for (p in 1:nrow(pks)) {
+        src <- pks$columnReference[[p]]
+        tbl <- get_tablename(pks$reference$resource[[p]])
+        dest <- pks$reference$columnReference[[p]]
+        message(paste("Joining", src, '->', tbl, '->', dest))
+        # ugh
+        by_clause <- c(dest)
+        names(by_clause) <- c(src)
+        suffixes <- c(paste0('.', table), paste0('.', tbl))
+
+        # merge(out, object$tables[['parameters']], by.x="Parameter_ID", by.y="ID", suffixes=suffixes)
+        out <- dplyr::inner_join(
+            out, object$tables[[tbl]], by=by_clause, suffix=suffixes
+        )
+    }
+    out
 }
