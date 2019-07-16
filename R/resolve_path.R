@@ -4,12 +4,12 @@
 #' @export
 #' @return A string containing the path to the metadata.json file
 resolve_path <- function(path) {
-    if (file.exists(path) & endsWith(path, "-metadata.json")) {
+    if (file.exists(path) & endsWith(path, "*.json")) {
         # given a metadata.json file
         mdfile <- path
     } else if (dir.exists(path)) {
         # given a dirname, try find the metadata file.
-        mdfile <- list.files(path, "*-metadata.json", full.names = TRUE)
+        mdfile <- list.files(path, "*.json", full.names = TRUE)
     } else if (!file.exists(path)) {
         stop(sprintf("Path %s does not exist", path))
     } else {
