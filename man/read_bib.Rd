@@ -17,6 +17,3 @@ A tibble dataframe
 \description{
 Reads a BibTeX file into a dataframe
 }
-\examples{
-df <- read_bib("mycldf", "sources.bib")
-}

@@ -3,6 +3,4 @@
 #' @param column the tablename.
 #' @param table the tablename.
 #' @return A string of "column.table"
-#' @examples
-#' relabel("languages", "ID")
 relabel <- function(column, table) { paste0(column, '.', table) }

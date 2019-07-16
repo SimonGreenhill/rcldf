@@ -17,6 +17,3 @@ A string of "column.table"
 \description{
 Relabels a column in a dataset for merging.
 }
-\examples{
-relabel("languages", "ID")
-}
