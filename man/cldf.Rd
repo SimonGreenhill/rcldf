@@ -7,7 +7,7 @@
 \usage{
 cldf(mdpath)
 
-read_cldf(path)
+read_cldf(mdpath)
 }
 \arguments{
 \item{mdpath}{the path to the directory or metadata.json file.}
@@ -17,4 +17,7 @@ A `cldf` object
 }
 \description{
 Reads a Cross-Linguistic Data Format dataset into an object.
+}
+\examples{
+cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 }

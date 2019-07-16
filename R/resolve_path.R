@@ -1,6 +1,7 @@
 #' Helper function to resolve the path (e.g. directory or md.json file)
 #'
 #' @param path the path to resolve
+#' @export
 #' @return A string containing the path to the metadata.json file
 resolve_path <- function(path) {
     if (file.exists(path) & endsWith(path, "-metadata.json")) {

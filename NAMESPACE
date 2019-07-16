@@ -2,4 +2,6 @@
 
 S3method(summary,cldf)
 export(as.cldf.wide)
+export(cldf)
 export(get_tablename)
+export(resolve_path)

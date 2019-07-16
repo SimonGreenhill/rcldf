@@ -18,5 +18,6 @@ A tibble dataframe
 Extracts a CLDF table as a 'wide' dataframe by resolving all foreign key links
 }
 \examples{
-df <- as.cldf.wide(cldfobj, 'values')
+cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
+forms <- as.cldf.wide(cldfobj, 'forms')
 }

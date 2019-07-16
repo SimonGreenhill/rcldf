@@ -2,7 +2,9 @@
 #'
 #' @param mdpath the path to the directory or metadata.json file.
 #' @return A `cldf` object
+#' @export
 #' @examples
+#' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 cldf <- function(mdpath) {
     mdpath <- resolve_path(mdpath)
     dir <- dirname(mdpath)

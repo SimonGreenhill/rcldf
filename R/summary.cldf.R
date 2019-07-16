@@ -5,6 +5,7 @@
 #' @return None
 #' @export
 #' @examples
+#' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 #' summary(cldfobj)
 summary.cldf <- function(object, ...) {
     if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")

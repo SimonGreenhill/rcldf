@@ -10,6 +10,8 @@ get_spec <- function(dt) {
         return(readr::col_character())
     } else if ("decimal" %in% dt[["base"]]) {
         return(readr::col_double())
+    } else if ("boolean" %in% dt[["base"]]) {
+        return(readr::col_logical())
     } else {
         warning(paste("Unable to identify coltype", dt))
         return(readr::col_guess())

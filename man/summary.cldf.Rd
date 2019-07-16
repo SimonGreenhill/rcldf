@@ -18,5 +18,6 @@ None
 Summarises the CLDF file
 }
 \examples{
+cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 summary(cldfobj)
 }

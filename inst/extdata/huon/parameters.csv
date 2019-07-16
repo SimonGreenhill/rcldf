@@ -1,0 +1,141 @@
+ID,Name,Concepticon_ID,Concepticon_Gloss
+i,I,1209,I
+thou,thou,1215,THOU
+we,we,1212,WE
+who,who,1235,WHO
+what,what,1236,WHAT
+that,that,78,THAT
+this,this,1214,THIS
+one,one,1493,ONE
+two,two,1498,TWO
+hesays,(he) says,1458,SAY
+moon,moon,1313,MOON
+round,round,1395,ROUND
+itisfull,(it is) full,1429,FULL
+hisknee,(his) knee,1371,KNEE
+itsclaw,(its) claw,72,CLAW
+breast,breast,1402,BREAST
+hecomes,(he) comes,1446,COME
+hesits,(he) sits,1416,SIT
+hegivesme,(he) gives me,1447,GIVE
+hestands,(he) stands,1442,STAND
+all,all,98,ALL
+many,many,1198,MANY
+night,night,1233,NIGHT
+long,long,1203,LONG
+big,big,1202,BIG
+small,small,1246,SMALL
+star,star,1430,STAR
+sun,sun,1343,SUN
+cloud,cloud,1489,CLOUD
+rain,rain,658,RAIN (PRECIPITATION)
+itsbelly,(its) belly,1251,BELLY
+itsnose,(its) nose,1221,NOSE
+itsheart,(its) heart,1223,HEART
+itsfat,(its) fat,323,FAT (ORGANIC SUBSTANCE)
+itsneck,(its) neck,1333,NECK
+itshair,(its) hair,1040,HAIR
+hedies,(he) dies,1494,DIE
+heseesme,(he) sees me,1409,SEE
+hesleeps,(he) sleeps,1585,SLEEP
+heeats,(he) eats,1336,EAT
+hebitesit,(he) bites it,1403,BITE
+black,black,163,BLACK
+green,green,1425,GREEN
+white,white,1335,WHITE
+red,red,156,RED
+yellow,yellow,1424,YELLOW
+good,good,1035,GOOD
+hot,hot,1286,HOT
+new,new,1231,NEW
+itisdry,(it is) dry,1398,DRY
+cold,cold,1287,COLD
+itsname,(its) name,1405,NAME
+not,not,1240,NOT
+itburns,(it) burns,1428,BURNING
+road,road,667,ROAD
+water,water,948,WATER
+smoke,smoke,778,SMOKE (EXHAUST)
+hehithim,(he) hit him,353,STRIKE
+heknows,(he) knows,1410,KNOW (SOMETHING)
+sand,sand,671,SAND
+stone,stone,857,STONE
+mountain,mountain,639,MOUNTAIN
+ashes,ashes,646,ASH
+earth,earth,1228,EARTH (SOIL)
+itsleaf,(its) leaf,628,LEAF
+tree,tree,906,TREE
+itsroot,(its) root,670,ROOT
+itsseed,(its) seed,714,SEED
+itsear,(its) ear,1247,EAR
+louse,louse,1392,LOUSE
+dog,dog,2009,DOG
+bird,bird,937,BIRD
+woman,woman,962,WOMAN
+man,man,1554,MAN
+itsblood,(its) blood,946,BLOOD
+hishand,(his) hand,1277,HAND
+itstongue,(its) tongue,1205,TONGUE
+itstooth,(its) tooth,1380,TOOTH
+itsfoot,(its) foot,1301,FOOT
+itstail,(its) tail,1220,TAIL
+itsmeat,(its) meat,634,MEAT
+itseye,(its) eye,1248,EYE
+itsskin,(its) skin,763,SKIN
+itshead,(its) head,1256,HEAD
+itsbone,(its) bone,1394,BONE
+he,he,1211,HE
+ye,ye,1213,YOU
+they,they,817,THEY
+where,where,1237,WHERE
+how,how,1239,HOW
+and,and,1577,AND
+there,there,1937,THERE
+rightside,right (side),1019,RIGHT
+leftside,left (side),244,LEFT
+heholds,(he) holds,1448,HOLD
+hefalls,(he) falls,1280,FALL
+heturns,(he) turns,1444,TURN AROUND
+hethrows,(he) throws,1456,THROW
+hepulls,(he) pulls,1455,PULL
+hepushes,(he) pushes,1452,PUSH
+hewashes,(he) washes,1453,WASH
+hedigs,(he) digs,1418,DIG
+hecuts,(he) cuts,1432,CUT
+some,some,1241,SOME
+short,short,1645,SHORT
+wind,wind,960,WIND
+sky,sky,1732,SKY
+dust,dust,2,DUST
+lake,lake,624,LAKE
+itsflower,(its) flower,239,FLOWER
+itsfruit,(its) fruit,1507,FRUIT
+stick,stick,1295,STICK
+worm,worm,1219,WORM
+snake,snake,730,SNAKE
+animal,animal,619,ANIMAL
+itsback,(its) back,1291,BACK
+itswing,(its) wing,1257,WING
+itsbreath,(its) breath,870,BREATH
+hevomits,(he) vomits,1278,VOMIT
+helaughs,(he) laughs,1355,LAUGH
+hesucks,(he) sucks,1421,SUCK
+hecries,(he) cries,1839,CRY
+hespits,(he) spits,1440,SPIT
+old,old,1229,OLD
+warm,warm,1232,WARM
+dull,dull,379,BLUNT
+hisbrother,(his) brother,1262,BROTHER
+hissister,(his) sister,1263,SISTER
+hisfather,(his) father,1217,FATHER
+hismother,(his) mother,1216,MOTHER
+shesews,(she) sews,1457,SEW
+rope,rope,1218,ROPE
+heshoots,(he) shoots,1172,SHOOT
+hecounts,(he) counts,1420,COUNT
+theyplay,(they) play,1413,PLAY
+clothing,clothing,1895,CLOTHES
+work,work,984,WORK (LABOUR)
+spear,spear,945,SPEAR
+heblows,(he) blows,175,BLOW (OF WIND)
+itswells,(it) swells,1573,SWELL

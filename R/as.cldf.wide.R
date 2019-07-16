@@ -8,7 +8,8 @@
 #' @return A tibble dataframe
 #' @export
 #' @examples
-#' df <- as.cldf.wide(cldfobj, 'values')
+#' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
+#' forms <- as.cldf.wide(cldfobj, 'forms')
 as.cldf.wide <- function(object, table) {
     if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
     # error on no table
