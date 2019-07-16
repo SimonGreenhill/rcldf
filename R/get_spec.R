@@ -10,6 +10,8 @@ get_spec <- function(dt) {
         return(readr::col_character())
     } else if ("decimal" %in% dt[["base"]]) {
         return(readr::col_double())
+    } else if ("integer" %in% dt[["base"]]) {
+        return(readr::col_integer())
     } else if ("boolean" %in% dt[["base"]]) {
         return(readr::col_logical())
     } else {
