@@ -100,6 +100,18 @@ test_that("test read_cldf", {
 })
 
 
+
+context("print.cldf")
+test_that("test print.cldf", {
+
+    expect_error(print.cldf('x'), "'x' must inherit from class cldf")
+    df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    out <- capture.output(print(df))
+
+    expect_match(out[1], "A CLDF dataset with 4 tables \\(codes, languages, parameters, values\\)")
+})
+
+
 context("summary.cldf")
 test_that("test summary.cldf", {
 
