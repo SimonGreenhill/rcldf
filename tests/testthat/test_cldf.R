@@ -71,6 +71,19 @@ test_that("test cldf", {
 })
 
 
+context('read_bib')
+test_that("read_bib", {
+    s <- read_bib("examples/wals_1A_cldf")
+    expect_true(nrow(s) == 11)
+    # NA on null file
+    s <- read_bib("examples/wals_1A_cldf", NULL)
+    expect_true(is.na(s))
+    # NA on missing files
+    s <- read_bib("examples/wals_1A_cldf", "missing.bib")
+    expect_true(is.na(s))
+})
+
+
 context("read dir or json")
 test_that("test dir or json", {
     a <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
