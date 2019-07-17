@@ -4,15 +4,22 @@
 #' @return a `readr` column spec
 get_spec <- function(dt) {
     dt <- unlist(dt)
-    if (is.null(names(dt))) names(dt) <- "base"
-
-    if ("string" %in% dt[["base"]]) {
+    # if there's no col type specified, then the CLDF default is string.
+    if (is.null(dt)) {
         return(readr::col_character())
-    } else if ("decimal" %in% dt[["base"]]) {
+    }
+    # collapse a complex datatype to its base datatype.
+    if ('base' %in% names(dt)) dt <- dt['base']
+
+    if (dt == "string") {
+        return(readr::col_character())
+    } else if (dt == "decimal") {
         return(readr::col_double())
-    } else if ("integer" %in% dt[["base"]]) {
+    } else if (dt == "integer") {
         return(readr::col_integer())
-    } else if ("boolean" %in% dt[["base"]]) {
+    } else if (dt == "float") {
+        return(readr::col_double())
+    } else if (dt == "boolean") {
         return(readr::col_logical())
     } else {
         warning(paste("Unable to identify coltype", dt))
