@@ -2,6 +2,10 @@
 r_packages:
   - covr
 language: R
+r:
+  - oldrel
+  - release
+  - devel
 sudo: false
 cache: packages
 after_success:
