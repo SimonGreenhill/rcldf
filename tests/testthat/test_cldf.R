@@ -18,6 +18,22 @@ test_that("resolve_path", {
         resolve_path('examples/bad/StructureDataset-metadata.json'),
         "does not exist"
     )
+
+    expect_error(
+        resolve_path('examples/wals_1A_cldf/values.csv'),
+        "Need either"
+    )
+})
+
+
+context("get_spec")
+test_that("test get_spec", {
+    md <- jsonlite::fromJSON('examples/example-metadata.json')
+    schema <- md$tables[1, "tableSchema"]$columns[[1]]
+    expect_equal(get_spec(schema[1, "datatype"]), readr::col_character())
+    expect_equal(get_spec(schema[2, "datatype"]), readr::col_integer())
+    expect_equal(get_spec(schema[3, "datatype"]), readr::col_double())
+    expect_equal(get_spec(schema[4, "datatype"]), readr::col_logical())
 })
 
 
@@ -136,6 +152,10 @@ context("test handling of no sources")
 test_that("test handling of no sources", {
     df <- cldf("examples/no_sources")
     expect_equal(is.na(df$sources), TRUE)
+
+    out <- capture.output(summary(df))
+    expect_match(out[9], "Sources: 0")
+
 })
 
 
@@ -146,6 +166,7 @@ test_that("test as.cldf.wide", {
     df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
     expect_error(as.cldf.wide(df), "argument \"table\" is missing, with no default")
     expect_error(as.cldf.wide(df, 'foo'), "Invalid table foo")
+    expect_error(as.cldf.wide(df, NA), "Need a table to expand")
 
     # languages has nothing to join, so should just return the same
     expect_equal(as.cldf.wide(df, 'languages'), df$table$languages)

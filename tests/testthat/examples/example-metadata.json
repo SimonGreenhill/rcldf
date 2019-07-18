@@ -1,0 +1,30 @@
+{
+    "@context": [ "http://www.w3.org/ns/csvw", { "@language": "en" } ],
+    "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#StructureDataset",
+    "dc:source": "sources.bib",
+    "dialect": {},
+    "tables": [
+        {
+            "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#ValueTable",
+            "tableSchema": {
+                "columns": [
+                    {
+                        "name": "NoDatatype"
+                    },
+                    {
+                        "name": "IntegerDatatype",
+                        "datatype": "integer"
+                    },
+                    {
+                        "name": "FloatDatatype",
+                        "datatype": "float"
+                    },
+                    {
+                        "name": "BooleanDatatype",
+                        "datatype": "boolean"
+                    }
+                ]
+            }
+        }
+    ]
+}

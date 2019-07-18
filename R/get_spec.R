@@ -5,7 +5,7 @@
 get_spec <- function(dt) {
     dt <- unlist(dt)
     # if there's no col type specified, then the CLDF default is string.
-    if (is.null(dt)) {
+    if (is.null(dt) || is.na(dt)) {
         return(readr::col_character())
     }
     # collapse a complex datatype to its base datatype.
