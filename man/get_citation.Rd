@@ -15,3 +15,7 @@ An (invisible) string containing the citation text
 \description{
 Prints and returns the Citation for the given CLDF dataset
 }
+\examples{
+cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
+get_citation(cldfobj)
+}
