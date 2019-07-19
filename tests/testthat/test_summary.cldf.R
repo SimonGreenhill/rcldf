@@ -1,0 +1,20 @@
+library(rcldf)
+
+context("summary.cldf")
+test_that("test summary.cldf", {
+
+    expect_error(summary.cldf('x'), "'object' must inherit from class cldf")
+
+    df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    out <- capture.output(summary(df))
+
+    expect_match(out[1], "A Cross-Linguistic Data Format \\(CLDF\\) dataset:")
+    expect_match(out[2], "^Name: .*examples/wals_1A_cldf$")
+    expect_match(out[3], "Type: http://cldf.clld.org/v1.0/terms.rdf#StructureData")
+    expect_match(out[4], "Tables:")
+    expect_match(out[5], "1/4: codes \\(4 columns, 5 rows\\)")
+    expect_match(out[6], "2/4: languages \\(9 columns, 9 rows\\)")
+    expect_match(out[7], "3/4: parameters \\(6 columns, 1 rows\\)")
+    expect_match(out[8], "4/4: values \\(7 columns, 9 rows\\)")
+    expect_match(out[9], "Sources: 11")
+})

@@ -6,6 +6,10 @@
         }
     ],
     "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#StructureDataset",
+    "dc:title": "The Dataset",
+    "dc:bibliographicCitation": "Cite me like this!",
+    "dc:license": "http://creativecommons.org/licenses/by/4.0/",
+    "dc:creator": "Simon Greenhill",
     "dc:source": "sources.bib",
     "dialect": {
         "commentPrefix": null
