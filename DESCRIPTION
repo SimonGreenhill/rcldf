@@ -13,6 +13,7 @@ Imports:
     jsonlite,
     tools,
     bib2df,
+    compiler,
     vroom,
     rlang,
     readr,
@@ -20,8 +21,11 @@ Imports:
 Suggests: 
     testthat,
     spelling,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 URL: https://github.com/SimonGreenhill/rcldf
 BugReports: https://github.com/SimonGreenhill/rcldf/issues
 Language: en-US
 RoxygenNote: 6.1.0
+VignetteBuilder: knitr

@@ -26,3 +26,5 @@ get_spec <- function(dt) {
         return(readr::col_guess())
     }
 }
+
+get_spec <- compiler::cmpfun(get_spec)
