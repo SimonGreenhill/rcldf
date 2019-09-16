@@ -4,7 +4,7 @@
 \name{rcldf-package}
 \alias{rcldf}
 \alias{rcldf-package}
-\title{rcldf: rcldf - An R Package For Reading Cross Linguistic Data Format (CLDF)}
+\title{rcldf: rcldf - Read linguistic data in the Cross Linguistic Data Format (CLDF)}
 \description{
 Reads Cross-Linguistic Data Files (CLDF) into R.
 }
