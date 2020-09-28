@@ -27,5 +27,5 @@ Suggests:
 URL: https://github.com/SimonGreenhill/rcldf
 BugReports: https://github.com/SimonGreenhill/rcldf/issues
 Language: en-US
-RoxygenNote: 6.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr

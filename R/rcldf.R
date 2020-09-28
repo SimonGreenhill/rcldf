@@ -14,14 +14,15 @@ cldf <- function(mdpath) {
     o$type <- o$metadata$`dc:conformsTo`
 
     # load sources
-    o$sources <- read_bib(dir, o$metadata$`dc:source`)
+    o$sources <- tryCatch({ read_bib(dir, o$metadata$`dc:source`) })
 
     for (i in 1:nrow(o$metadata$tables)) {
         filename <- file.path(dir, o$metadata$tables[i, "url"])
         table <- get_tablename(o$metadata$tables[i, "url"])
         cols <- get_table_schema(o$metadata$tables[i, "tableSchema"]$columns)
+
         o[["tables"]][[table]] <- vroom::vroom(
-            filename, delim=",", col_names = TRUE, col_types = cols, quote = "\""
+            filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"'
         )
     }
     o

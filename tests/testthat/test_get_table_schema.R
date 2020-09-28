@@ -22,5 +22,5 @@ test_that("test get_table_schema", {
     )
     # check that a warning is generated.
     expect_warning(schema2 <- get_table_schema(list(df)))
-    expect_equal(schema2$cols$`1`, readr::col_guess())
+    expect_equal(schema2$cols$ID, readr::col_guess())
 })
