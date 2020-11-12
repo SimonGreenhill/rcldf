@@ -1,6 +1,5 @@
 library(rcldf)
 
-context("summary.cldf")
 test_that("test summary.cldf", {
 
     expect_error(summary.cldf('x'), "'object' must inherit from class cldf")

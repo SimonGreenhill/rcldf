@@ -1,6 +1,5 @@
 library(rcldf)
 
-context("get_table_schema")
 test_that("test get_table_schema", {
     d <- cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')
     schema <- get_table_schema(d$metadata$tables[2, "tableSchema"]$columns)
