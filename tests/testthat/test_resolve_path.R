@@ -1,16 +1,24 @@
 library(rcldf)
 
 test_that("resolve_path", {
+    expected <- 'examples/wals_1A_cldf/StructureDataset-metadata.json$'
+
     # given json
-    m <- resolve_path('examples/wals_1A_cldf/StructureDataset-metadata.json')
-    expect_match(m, 'examples/wals_1A_cldf/StructureDataset-metadata.json$')
+    expect_match(
+        resolve_path('examples/wals_1A_cldf/StructureDataset-metadata.json'),
+        expected
+    )
 
     # given dir
-    m <- resolve_path('examples/wals_1A_cldf')
-    expect_match(m, 'examples/wals_1A_cldf/StructureDataset-metadata.json$')
+    expect_match(resolve_path('examples/wals_1A_cldf'), expected)
+    # dir with trailing slash
+    expect_match(resolve_path('examples/wals_1A_cldf/'), expected)
 
-    m <- resolve_path('examples/wals_1A_cldf/')  # trailing slash
-    expect_match(m, 'examples/wals_1A_cldf/StructureDataset-metadata.json$')
+    # given full path
+    p <- base::normalizePath("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    expect_match(resolve_path(p), expected)
+    p <- base::normalizePath("examples/wals_1A_cldf")
+    expect_match(resolve_path(p), expected)
 
     # given invalid file
     expect_error(
