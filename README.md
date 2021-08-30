@@ -29,19 +29,19 @@ A Cross-Linguistic Data Format (CLDF) dataset:
 Name: My Dataset
 Type: http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
 Tables:
-  1/4: codes (4 columns, 5 rows)
-  2/4: languages (9 columns, 563 rows)
-  3/4: parameters (6 columns, 1 rows)
-  4/4: values (7 columns, 563 rows)
+  1/4: CodeTable (4 columns, 5 rows)
+  2/4: LanguageTable (9 columns, 563 rows)
+  3/4: ParameterTable (6 columns, 1 rows)
+  4/4: ValueTable (7 columns, 563 rows)
 Sources: 947
 
 
 # each table is attached to the df$tables list.
 > names(df$tables)
-[1] values"     "languages"  "parameters" "codes" 
+[1] "ValueTable"     "LanguageTable"  "ParameterTable" "CodeTable" 
 
 
-> df$tables$languages
+> df$tables$LanguageTable
 # A tibble: 563 x 9
    ID    Name   Macroarea Latitude Longitude Glottocode ISO639P3code Genus     Family   
    <chr> <chr>  <chr>        <dbl>     <dbl> <chr>      <chr>        <chr>     <chr>    
@@ -50,13 +50,13 @@ Sources: 947
  3 ach   Aché   NA          -25.2      -55.2 ache1246   guq          Tupi-Gua… Tupian   
 
 
-> df$tables$parameters
+> df$tables$ParameterTable
 # A tibble: 1 x 6
   ID    Name                 Description Authors       Url                      Area    
   <chr> <chr>                <chr>       <chr>         <chr>                    <chr>   
 1 1A    Consonant Inventori… NA          Ian Maddieson http://wals.info/featur… Phonolo… 
 
-> df$tables$values
+> df$tables$ValueTable
 # A tibble: 563 x 7
    ID     Language_ID Parameter_ID Value Code_ID Comment Source                                       
    <chr>  <chr>       <chr>        <chr> <chr>   <chr>   <chr>                                        
@@ -66,7 +66,7 @@ Sources: 947
  4 1A-acm acm         1A           2     1A-2    NA      Olmsted-1966;Olmsted-1964
  
  
-> df$tables$codes
+> df$tables$CodeTable
 # A tibble: 5 x 4
   ID    Parameter_ID Name             Description
   <chr> <chr>        <chr>            <chr>      
@@ -79,10 +79,10 @@ Sources: 947
 
 
 # You can extract a "wide" table, with all foreign key entries filled in:
-> as.cldf.wide(df, 'codes')
+> as.cldf.wide(df, 'CodeTable')
 
 # A tibble: 5 x 9
-  ID    Parameter_ID Name.codes Description.cod… Name.parameters Description.par… Authors
+  ID    Parameter_ID Name.CodeTable Description.Cod… Name.ParameterTable Description.Par… Authors
   <chr> <chr>        <chr>      <chr>            <chr>           <chr>            <chr>  
 1 1A-1  1A           Small      A small thing    Consonant Inve… NA               Ian Ma…
 2 1A-2  1A           Moderatel… a moderately sm… Consonant Inve… NA               Ian Ma…
@@ -94,10 +94,10 @@ Sources: 947
 
 
 # Or: 
-> as.cldf.wide(df, 'values')
+> as.cldf.wide(df, 'ValueTable')
 
 # A tibble: 9 x 23
-  ID    Language_ID Parameter_ID.va… Value Code_ID Comment Source Name.languages
+  ID    Language_ID Parameter_ID.Va… Value Code_ID Comment Source Name.LanguageTable
   <chr> <chr>       <chr>            <chr> <chr>   <chr>   <chr>  <chr>         
 1 1A-a… abi         1A               2     1A-2    NA      Najli… Abipón        
 2 1A-a… abk         1A               5     1A-5    NA      Hewit… Abkhaz        
@@ -110,7 +110,7 @@ Sources: 947
 9 1A-a… aik         1A               3     1A-3    NA      Hanke… Aikaná        
 # … with 15 more variables: Macroarea <chr>, Latitude <dbl>, Longitude <dbl>,
 #   Glottocode <chr>, ISO639P3code <chr>, Genus <chr>, Family <chr>,
-#   Name.parameters <chr>, Description.parameters <chr>, Authors <chr>, Url <chr>,
-#   Area <chr>, Parameter_ID.codes <chr>, Name.codes <chr>, Description.codes <chr>
+#   Name.parameters <chr>, Description.ParameterTable <chr>, Authors <chr>, Url <chr>,
+#   Area <chr>, Parameter_ID.CodeTable <chr>, Name.CodeTable <chr>, Description.CodeTable <chr>
 
 ```

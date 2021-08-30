@@ -4,5 +4,5 @@
 #' @return A string
 #' @export
 #' @examples
-#' get_tablename("languages.csv")
-get_tablename <- function(tbl) { tools::file_path_sans_ext(tbl) }
+#' get_tablename("http://cldf.clld.org/v1.0/terms.rdf#ValueTable")
+get_tablename <- function(url) { strsplit(url, '#')[[1]][[2]] }

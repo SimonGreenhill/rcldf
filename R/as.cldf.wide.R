@@ -8,7 +8,8 @@
 #' @return A tibble dataframe
 #' @export
 #' @examples
-#' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
+#' md <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")
+#' cldfobj <- cldf(md)
 #' forms <- as.cldf.wide(cldfobj, 'forms')
 as.cldf.wide <- function(object, table) {
     if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
@@ -28,13 +29,13 @@ as.cldf.wide <- function(object, table) {
     out <- dplyr::rename_all(out, function(x) relabel(x, table))
     for (p in 1:nrow(pks)) {
         src <- pks$columnReference[[p]]
-        tbl <- get_tablename(pks$reference$resource[[p]])
+        filename <- pks$reference$resource[[p]]
+        tbl <- object$resources[[filename]]
         dest <- pks$reference$columnReference[[p]]
         message(paste("Joining", src, '->', tbl, '->', dest))
 
         # rename to column.table format
         t <- dplyr::rename_all(object$tables[[tbl]], function(x) relabel(x, tbl))
-
         by_clause <- c(relabel(dest, tbl)) # ugh
         names(by_clause) <- c(relabel(src, table)) # ugh
         out <- dplyr::left_join(out, t, by=by_clause)

@@ -12,14 +12,16 @@ cldf <- function(mdpath) {
     o$metadata <- jsonlite::fromJSON(mdpath)
     o$name <- dir
     o$type <- o$metadata$`dc:conformsTo`
+    o$resources <- list()
 
     # load sources
     o$sources <- tryCatch({ read_bib(dir, o$metadata$`dc:source`) })
 
     for (i in 1:nrow(o$metadata$tables)) {
         filename <- file.path(dir, o$metadata$tables[i, "url"])
-        table <- get_tablename(o$metadata$tables[i, "url"])
+        table <- get_tablename(o$metadata$tables[i, "dc:conformsTo"])
         cols <- get_table_schema(o$metadata$tables[i, "tableSchema"]$columns)
+        o$resources[[o$metadata$tables[i, "url"]]] <- table
 
         o[["tables"]][[table]] <- vroom::vroom(
             filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"'
