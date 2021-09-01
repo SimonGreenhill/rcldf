@@ -5,12 +5,17 @@
 \alias{read_cldf}
 \title{Reads a Cross-Linguistic Data Format dataset into an object.}
 \usage{
-cldf(mdpath)
+cldf(mdpath, load_bib = TRUE)
 
 read_cldf(mdpath)
 }
 \arguments{
 \item{mdpath}{the path to the directory or metadata.json file.}
+
+\item{load_bib}{a boolean flag (TRUE/FALSE, default TRUE) to load the
+sources.bib BibTex file. `load_bib=FALSE` can easily speed up loading
+of a CLDF dataset by an order of magnitude or two, so consider this if
+you don't need access to the source information.}
 }
 \value{
 A `cldf` object

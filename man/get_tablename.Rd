@@ -4,10 +4,12 @@
 \alias{get_tablename}
 \title{Convert a CLDF URL tablename to a short tablename}
 \usage{
-get_tablename(tbl)
+get_tablename(conformsto, url = NA)
 }
 \arguments{
-\item{tbl}{the tablename.}
+\item{conformsto}{the dc:conforms to statement}
+
+\item{url}{the url statement}
 }
 \value{
 A string
@@ -16,5 +18,5 @@ A string
 Convert a CLDF URL tablename to a short tablename
 }
 \examples{
-get_tablename("languages.csv")
+get_tablename("http://cldf.clld.org/v1.0/terms.rdf#ValueTable")
 }

@@ -34,4 +34,17 @@ test_that("resolve_path", {
         resolve_path('examples/wals_1A_cldf/values.csv'),
         "Need either"
     )
+
+    # no metadata JSON file
+    expect_error(
+        resolve_path("examples/not_a_cldf"),
+        "no metadata JSON file found"
+    )
+
+    # multiple JSON files found
+    expect_error(
+        resolve_path("examples/not_a_cldf/also_not_a_cldf"),
+        "multiple JSON files found! please specify which one."
+    )
 })
+

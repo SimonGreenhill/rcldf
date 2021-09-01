@@ -1,6 +1,10 @@
 #' Reads a Cross-Linguistic Data Format dataset into an object.
 #'
 #' @param mdpath the path to the directory or metadata.json file.
+#' @param load_bib a boolean flag (TRUE/FALSE, default TRUE) to load the
+#'     sources.bib BibTex file. `load_bib=FALSE` can easily speed up loading
+#'     of a CLDF dataset by an order of magnitude or two, so consider this if
+#'     you don't need access to the source information.
 #' @return A `cldf` object
 #' @export
 #' @examples
@@ -10,10 +14,16 @@ cldf <- function(mdpath, load_bib=TRUE) {
 
     dir <- dirname(mdpath)
     o <- structure(list(tables = list()), class = "cldf")
-    o$metadata <- jsonlite::fromJSON(mdpath)
     o$name <- dir
-    o$type <- o$metadata$`dc:conformsTo`
     o$resources <- list()
+
+    o$metadata <- jsonlite::fromJSON(mdpath)
+    # valid JSON?
+    if (startsWith(o$metadata$`dc:conformsTo`, 'http://cldf.clld.org/') == FALSE) {
+        stop(sprintf("Invalid JSON file: %s", mdpath))
+    } else {
+        o$type <- o$metadata$`dc:conformsTo`
+    }
 
     # load sources
     if (load_bib) {

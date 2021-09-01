@@ -1,6 +1,7 @@
 #' Convert a CLDF URL tablename to a short tablename
 #'
-#' @param tbl the tablename.
+#' @param conformsto the dc:conforms to statement
+#' @param url the url statement
 #' @return A string
 #' @export
 #' @examples

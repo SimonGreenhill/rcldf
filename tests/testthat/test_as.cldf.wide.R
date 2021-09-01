@@ -1,7 +1,7 @@
 library(rcldf)
 
 test_that("test as.cldf.wide", {
-    expect_error(as.cldf.wide('x'), "'object' must inherit from class cldf")
+    expect_error(as.cldf.wide('x', ''), "'object' must inherit from class cldf")
 
     df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
     expect_error(as.cldf.wide(df), "argument \"table\" is missing, with no default")
