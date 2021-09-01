@@ -7,5 +7,13 @@ read_bib <- function(dir, bib="sources.bib"){
     if (is.null(bib)) return(NA)
     bib <- file.path(dir, bib)
     if (!file.exists(bib)) return(NA)
-    bib2df::bib2df(bib)
+
+    tryCatch(
+        bib <- bib2df::bib2df(bib),
+        error = function(e) {
+            warning(paste("unable to load bibtex file", bib))
+            bib <- NA
+        }
+    )
+    bib
 }

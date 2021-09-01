@@ -5,8 +5,9 @@
 #' @export
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-cldf <- function(mdpath) {
+cldf <- function(mdpath, load_bib=TRUE) {
     mdpath <- resolve_path(mdpath)
+
     dir <- dirname(mdpath)
     o <- structure(list(tables = list()), class = "cldf")
     o$metadata <- jsonlite::fromJSON(mdpath)
@@ -15,11 +16,20 @@ cldf <- function(mdpath) {
     o$resources <- list()
 
     # load sources
-    o$sources <- tryCatch({ read_bib(dir, o$metadata$`dc:source`) })
+    if (load_bib) {
+        o$sources <- read_bib(dir, o$metadata$`dc:source`)
+    } else {
+        o$sources <- NA
+    }
 
     for (i in 1:nrow(o$metadata$tables)) {
         filename <- file.path(dir, o$metadata$tables[i, "url"])
-        table <- get_tablename(o$metadata$tables[i, "dc:conformsTo"])
+
+        table <- get_tablename(
+            o$metadata$tables[i, "dc:conformsTo"],
+            o$metadata$tables[i, "url"]
+        )
+
         cols <- get_table_schema(o$metadata$tables[i, "tableSchema"]$columns)
         o$resources[[o$metadata$tables[i, "url"]]] <- table
 

@@ -86,6 +86,15 @@ test_that("test handling of no sources", {
 })
 
 
+test_that("test load_bib = FALSE", {
+    df <- cldf("examples/wals_1A_cldf", load_bib=FALSE)
+    expect_equal(is.na(df$sources), TRUE)
+
+    out <- capture.output(summary(df))
+    expect_match(out[11], "Sources: 0")
+})
+
+
 context("get_citation")
 test_that("test get_citation", {
     expect_error(get_citation('x'), "'obj' must inherit from class cldf")
