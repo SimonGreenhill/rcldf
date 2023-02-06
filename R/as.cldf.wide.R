@@ -10,7 +10,7 @@
 #' @examples
 #' md <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")
 #' cldfobj <- cldf(md)
-#' forms <- as.cldf.wide(cldfobj, 'forms')
+#' forms <- as.cldf.wide(cldfobj, 'FormTable')
 as.cldf.wide <- function(object, table) {
     if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
     # error on no table
