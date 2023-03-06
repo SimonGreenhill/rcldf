@@ -44,7 +44,7 @@ cldf <- function(mdpath, load_bib=TRUE) {
         o$resources[[o$metadata$tables[i, "url"]]] <- table
 
         o[["tables"]][[table]] <- vroom::vroom(
-            filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"'
+            filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"', na = c("")
         )
     }
     o
