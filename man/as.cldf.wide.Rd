@@ -20,5 +20,5 @@ Extracts a CLDF table as a 'wide' dataframe by resolving all foreign key links
 \examples{
 md <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")
 cldfobj <- cldf(md)
-forms <- as.cldf.wide(cldfobj, 'forms')
+forms <- as.cldf.wide(cldfobj, 'FormTable')
 }
