@@ -1,24 +1,32 @@
 library(rcldf)
 
 test_that("resolve_path", {
-    expected <- 'examples/wals_1A_cldf/StructureDataset-metadata.json$'
-
+    expected <- jsonlite::fromJSON('examples/wals_1A_cldf/StructureDataset-metadata.json')
     # given json
-    expect_match(
+    expect_equal(
         resolve_path('examples/wals_1A_cldf/StructureDataset-metadata.json'),
         expected
     )
 
     # given dir
-    expect_match(resolve_path('examples/wals_1A_cldf'), expected)
+    expect_equal(resolve_path('examples/wals_1A_cldf'), expected)
     # dir with trailing slash
-    expect_match(resolve_path('examples/wals_1A_cldf/'), expected)
+    expect_equal(resolve_path('examples/wals_1A_cldf/'), expected)
 
     # given full path
     p <- base::normalizePath("examples/wals_1A_cldf/StructureDataset-metadata.json")
-    expect_match(resolve_path(p), expected)
+    expect_equal(resolve_path(p), expected)
     p <- base::normalizePath("examples/wals_1A_cldf")
-    expect_match(resolve_path(p), expected)
+    expect_equal(resolve_path(p), expected)
+
+    # give dir with multiple jsons
+    expect_equal(
+        resolve_path('examples/multiple_json'),
+        jsonlite::fromJSON('examples/multiple_json/valid.json')
+    )
+
+
+    ### ERRORS
 
     # given invalid file
     expect_error(
@@ -44,7 +52,7 @@ test_that("resolve_path", {
     # multiple JSON files found
     expect_error(
         resolve_path("examples/not_a_cldf/also_not_a_cldf"),
-        "multiple JSON files found! please specify which one."
+        "no metadata JSON file found"
     )
 })
 

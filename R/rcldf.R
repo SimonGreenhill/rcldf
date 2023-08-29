@@ -10,21 +10,22 @@
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 cldf <- function(mdpath, load_bib=TRUE) {
-    mdpath <- resolve_path(mdpath)
-
-    dir <- dirname(mdpath)
-    o <- structure(list(tables = list()), class = "cldf")
-    o$name <- dir
-    o$resources <- list()
-
-    o$metadata <- jsonlite::fromJSON(mdpath)
-    # valid JSON?
-    if (startsWith(o$metadata$`dc:conformsTo`, 'http://cldf.clld.org/') == FALSE) {
-        stop(sprintf("Invalid JSON file: %s", mdpath))
+    mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
+    # figure out dir
+    if (!file.exists(mdpath)) {
+        stop("Invalid path")
+    # given a filename
+    } else if (!dir.exists(mdpath)) {
+        dir <- dirname(mdpath)
+    # given a dirname
     } else {
-        o$type <- o$metadata$`dc:conformsTo`
+        dir <- mdpath
     }
 
+    o <- structure(list(tables = list(), name=dir), class = "cldf")
+    o$resources <- list()
+    o$metadata <- resolve_path(mdpath)
+    o$type <- o$metadata$`dc:conformsTo`
     # load sources
     if (load_bib) {
         o$sources <- read_bib(dir, o$metadata$`dc:source`)
