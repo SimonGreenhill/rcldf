@@ -7,6 +7,9 @@
 #' o <- download("https://github.com/lexibank/panobodyparts/archive/refs/tags/v1.0.zip")
 download <- function(url, cache_dir=tools::R_user_dir("rcldf", which = "cache")){
     if (!is_url(url)) { stop("Does not look like a URL") }
+
+    if(!(grepl("refs/tags/v", url, fixed = TRUE)) & grepl("github", url, fixed = TRUE) ){stop("GitHub-url does not point to an archive with a release tag, e.g. https://github.com/grambank/grambank/archive/refs/tags/v1.0.3.zip.")}
+
     # create cache dir if it does not exist
     if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive=TRUE)
 
