@@ -5,10 +5,8 @@
 #' @export
 #' @examples
 #' o <- download("https://github.com/lexibank/panobodyparts/archive/refs/tags/v1.0.zip")
-download <- function(url){
+download <- function(url, cache_dir=tools::R_user_dir("rcldf", which = "cache")){
     if (!is_url(url)) { stop("Does not look like a URL") }
-    # get user cache dir
-    cache_dir <- tools::R_user_dir("rcldf", which = "cache")
     # create cache dir if it does not exist
     if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive=TRUE)
 
