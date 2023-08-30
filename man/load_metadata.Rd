@@ -2,16 +2,16 @@
 % Please edit documentation in R/load_metadata.R
 \name{load_metadata}
 \alias{load_metadata}
-\title{Helper function to load the JSON metadata (e.g. directory or md.json file)}
+\title{Function to load the JSON metadata (e.g. directory or md.json file)}
 \usage{
-load_metadata(path)
+load_metadata(mdpath)
 }
 \arguments{
-\item{path}{the path to resolve}
+\item{mdpath}{the path to resolve}
 }
 \value{
 A json object containing metadata from valid CLDF JSON, or an error.
 }
 \description{
-Helper function to load the JSON metadata (e.g. directory or md.json file)
+Function to load the JSON metadata (e.g. directory or md.json file)
 }

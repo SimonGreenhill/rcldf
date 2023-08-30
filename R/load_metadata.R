@@ -8,7 +8,7 @@
 load_metadata <- function(mdpath) {
     o <- jsonlite::fromJSON(mdpath)
     if (startsWith(o$`dc:conformsTo`, 'http://cldf.clld.org/')) {
-        return(o)
+        return(list(path=mdpath, metadata=o))
     }
     stop("Invalid CLDF JSON file - does not conform to CLDF spec")
 }
