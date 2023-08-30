@@ -17,7 +17,10 @@ Imports:
     vroom (>= 1.3.1),
     rlang,
     readr (>= 1.3.1),
-    dplyr
+    dplyr,
+    curl,
+    archive,
+    openssl
 Suggests: 
     testthat,
     spelling,

@@ -24,7 +24,7 @@ summary.cldf <- function(object, ...) {
         cat(sprintf("Creator: %s\n", object$metadata$`dc:creator`))
     }
 
-    cat(sprintf("JSON: %s\n", object$name))
+    cat(sprintf("Path: %s\n", object$base_dir))
     cat(sprintf("Type: %s\n", object$type))
     cat("Tables:\n")
     i <- 1

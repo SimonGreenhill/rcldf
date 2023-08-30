@@ -13,8 +13,9 @@ resolve_path <- function(path) {
         return(load_metadata(path))
     # given a dirname, try find the metadata file.
     } else if (dir.exists(path)) {
-        mdfiles <- list.files(path, "*.json", full.names = TRUE)
-        for (m in mdfiles) {
+        mdfiles <- list.files(path, "*.json", full.names = TRUE, recursive=TRUE)
+        # limit to 10 so we don't risk loading all json files on the computer
+        for (m in head(mdfiles, 10)) {
             try({return(load_metadata(m))}, silent = TRUE)
         }
         stop(sprintf("no metadata JSON file found in %s", path))

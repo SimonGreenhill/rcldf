@@ -18,10 +18,12 @@ install_github("SimonGreenhill/rcldf", dependencies = TRUE)
 ## Example
 
 ```r
-# create a `cldf` object by giving either a path to the directory
-# or the metadata.json file
+# create a `cldf` object giving either a path to the directory
+# or the metadata.json file, or a URL:
+
 > df <- cldf('/path/to/dir/wals_1a_cldf')
 > df <- cldf('/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json')
+> df <- cldf("https://github.com/grambank/grambank/archive/refs/tags/v1.0.3.zip")
 
 # a cldf object has various bits of information
 > summary(df)
