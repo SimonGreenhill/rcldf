@@ -35,6 +35,9 @@ cldf <- function(mdpath, load_bib=TRUE) {
         o$sources <- NA
     }
 
+    # identify missing character
+    
+
     for (i in 1:nrow(o$metadata$tables)) {
         filename <- file.path(o$base_dir, o$metadata$tables[i, "url"])
 
