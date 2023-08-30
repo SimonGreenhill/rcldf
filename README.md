@@ -115,4 +115,9 @@ Sources: 947
 #   Name.parameters <chr>, Description.ParameterTable <chr>, Authors <chr>, Url <chr>,
 #   Area <chr>, Parameter_ID.CodeTable <chr>, Name.CodeTable <chr>, Description.CodeTable <chr>
 
+
+# If you just want to get one table:
+
+df <- get_table_from('LanguageTable', '/path/to/dir/wals_1a_cldf')
+
 ```
