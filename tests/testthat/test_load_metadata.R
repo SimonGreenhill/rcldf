@@ -1,5 +1,3 @@
-library(rcldf)
-
 test_that("load_metadata", {
     # use this to test that we loaded a metadata file
     path <- 'examples/wals_1A_cldf/StructureDataset-metadata.json'

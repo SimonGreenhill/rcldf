@@ -1,5 +1,3 @@
-library(rcldf)
-
 test_that("test cldf", {
     mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
     df <- cldf(mdpath)

@@ -1,7 +1,4 @@
-library(rcldf)
-
 mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
-
 
 test_that("test get_table_from", {
     df <- get_table_from('LanguageTable', mdpath)

@@ -1,7 +1,3 @@
-library(rcldf)
-library(mockthat)
-
-
 test_that("test download errors on non-url", {
     expect_error(download("/path/to/file"), "Does not look like a URL")
 })

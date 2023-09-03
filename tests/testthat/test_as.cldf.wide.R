@@ -1,5 +1,3 @@
-library(rcldf)
-
 test_that("test as.cldf.wide", {
     expect_error(as.cldf.wide('x', ''), "'object' must inherit from class cldf")
 

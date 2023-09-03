@@ -1,5 +1,3 @@
-library(rcldf)
-
 test_that("resolve_path", {
 
     path <- 'examples/wals_1A_cldf/StructureDataset-metadata.json'

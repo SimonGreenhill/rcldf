@@ -1,5 +1,3 @@
-library(rcldf)
-
 test_that("test is_url", {
     expect_equal(is_url("http://simon.net.nz"), TRUE)
     expect_equal(is_url("http://simon.net.nz/something/file.zip"), TRUE)
