@@ -18,5 +18,6 @@ a dataframe
 Extracts a single table from a CLDF dataset.
 }
 \examples{
-df <- get_table_from("LanguageTable", "my/cldf")
+df <- get_table_from("LanguageTable",
+    system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 }

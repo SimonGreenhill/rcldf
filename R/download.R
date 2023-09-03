@@ -1,6 +1,7 @@
 #' Downloads and unpacks a dataset into the user cache dir
 #'
 #' @param url a string
+#' @param cache_dir a path to the desired cache directory
 #' @return a string containing the download path
 #' @export
 #' @examples

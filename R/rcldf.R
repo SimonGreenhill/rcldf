@@ -1,18 +1,19 @@
 #' Reads a Cross-Linguistic Data Format dataset into an object.
 #'
-#' @param mdpath the path to the directory or metadata.json file.
+#' @param mdpath the path to the directory or metadata JSON file.
 #' @param load_bib a boolean flag (TRUE/FALSE, default TRUE) to load the
-#'     sources.bib BibTex file. `load_bib=FALSE` can easily speed up loading
+#'     sources.bib BibTeX file. `load_bib=FALSE` can easily speed up loading
 #'     of a CLDF dataset by an order of magnitude or two, so consider this if
 #'     you don't need access to the source information.
+#' @param cache_dir a directory to cache downloaded files to
 #' @return A `cldf` object
 #' @export
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-cldf <- function(mdpath, load_bib=TRUE) {
+cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
     # is it a url?
     if (is_url(mdpath)) {
-        mdpath <- download(mdpath)
+        mdpath <- download(mdpath, cache_dir=cache_dir)
     } else {
         mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
     }

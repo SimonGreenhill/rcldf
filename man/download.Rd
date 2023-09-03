@@ -8,6 +8,8 @@ download(url, cache_dir = tools::R_user_dir("rcldf", which = "cache"))
 }
 \arguments{
 \item{url}{a string}
+
+\item{cache_dir}{a path to the desired cache directory}
 }
 \value{
 a string containing the download path

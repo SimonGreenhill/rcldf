@@ -4,16 +4,8 @@
 #' @param bib the name of the BibTeX file (default="sources.bib")
 #' @return A tibble dataframe
 read_bib <- function(dir, bib="sources.bib"){
-    if (is.null(bib)) return(NA)
+    if (is.null(bib)) { return(NA) }
     bib <- file.path(dir, bib)
-    if (!file.exists(bib)) return(NA)
-
-    tryCatch(
-        bib <- bib2df::bib2df(bib),
-        error = function(e) {
-            warning(paste("unable to load bibtex file", bib))
-            bib <- NA
-        }
-    )
-    bib
+    if (!file.exists(bib)) { return(NA) }
+    bib2df::bib2df(bib)
 }

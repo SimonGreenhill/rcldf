@@ -16,10 +16,6 @@ summary.cldf <- function(object, ...) {
         cat(sprintf("Name: %s\n", object$name))
     }
 
-    if ("dc:identifier" %in% names(object$metadata)) {
-        cat(sprintf("Identifier: %s\n", object$metadata$`dc:identifier`))
-    }
-
     if ("dc:creator" %in% names(object$metadata)) {
         cat(sprintf("Creator: %s\n", object$metadata$`dc:creator`))
     }
