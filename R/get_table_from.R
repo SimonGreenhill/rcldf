@@ -13,20 +13,10 @@ get_table_from <- function(table, mdpath) {
         mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
     }
     mdpath <- resolve_path(mdpath)
-
-    for (i in 1:nrow(mdpath$metadata$tables)) {
-        tabletype <- get_tablename(
-            mdpath$metadata$tables[i, "dc:conformsTo"],
-            mdpath$metadata$tables[i, "url"]
-        )
-
-        if (tabletype == table) {
-            filename <- file.path(dirname(mdpath$path), mdpath$metadata$tables[i, "url"])
-
-            cols <- get_table_schema(mdpath$metadata$tables[i, "tableSchema"]$columns)
-            return(vroom::vroom(
-                filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"', na = c("")
-            ))
+    csvw <- csvwr::read_csvw(mdpath$path)
+    for (i in 1:length(csvw$tables)) {
+        if (table == get_tablename(csvw$tables[[i]]$`dc:conformsTo`, csvw$tables[[i]]$url)) {
+            return(csvw$tables[[i]]$dataframe)
         }
     }
     stop(sprintf("Table %s not found", table))

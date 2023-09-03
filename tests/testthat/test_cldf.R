@@ -12,6 +12,12 @@ test_that("test cldf", {
     expect_equal(nrow(df$tables[['ValueTable']]), 9)
     expect_equal(nrow(df$tables[['CodeTable']]), 5)
 
+    # test resource mapping
+    expect_equal(df$resources[['codes.csv']], 'CodeTable')
+    expect_equal(df$resources[['languages.csv']], 'LanguageTable')
+    expect_equal(df$resources[['parameters.csv']], 'ParameterTable')
+    expect_equal(df$resources[['values.csv']], 'ValueTable')
+
     # check some values
     expect_equal(df$tables[['LanguageTable']]$ID[1], 'abi')
     expect_equal(df$tables[['ParameterTable']]$ID[1], '1A')

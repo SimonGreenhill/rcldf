@@ -29,7 +29,7 @@ as.cldf.wide <- function(object, table) {
     out <- dplyr::rename_all(out, function(x) relabel(x, table))
     for (p in 1:nrow(pks)) {
         src <- pks$columnReference[[p]]
-        filename <- pks$reference$resource[[p]]
+        filename <- pks$reference$resource[[p]]  # filename.csv
         tbl <- object$resources[[filename]]
         dest <- pks$reference$columnReference[[p]]
         message(paste("Joining", src, '->', tbl, '->', dest))
