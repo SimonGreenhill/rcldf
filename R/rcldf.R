@@ -16,42 +16,35 @@ cldf <- function(mdpath, load_bib=TRUE) {
     } else {
         mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
     }
-
+    # TODO don't load medata??
     mdpath <- resolve_path(mdpath)
+    csvw <- csvwr::read_csvw(mdpath$path)
 
-    o <- structure(list(tables = list(), name=mdpath$path), class = "cldf")
-    o$resources <- list()
+    o <- structure(list(
+        base_dir = dirname(mdpath$path),
+        tables = list(),  # tables by table type (e.g. "LanguageTable")
+        resources = list(),  # tables by resource name (e.g. "languages.csv")
+        name = mdpath$path,
+        csvwr = csvw,
+        type = csvw$`dc:conformsTo`,
+        sources = NA
+    ), class = "cldf")
+
+    o$source_path = file.path(o$base_dir, csvw$`dc:source`)
     o$metadata <- mdpath$metadata
-    o$type <- mdpath$metadata$`dc:conformsTo`
-    o$base_dir <- dirname(mdpath$path)
+
     # load sources
     if (load_bib) {
         # n.b. we use suppressWarnings to suppress:
         #   `as_data_frame()` was deprecated in tibble 2.0.0.
         # caused by bib2df, this has not been updated since 2020, so we should
         # replace it. See: https://github.com/SimonGreenhill/rcldf/issues/13
-        o$sources <- suppressWarnings(read_bib(o$base_dir, o$metadata$`dc:source`))
-    } else {
-        o$sources <- NA
+        o$sources <- suppressWarnings(read_bib(o$base_dir, csvw$`dc:source`))
     }
-
-    # identify missing character
-    
-
-    for (i in 1:nrow(o$metadata$tables)) {
-        filename <- file.path(o$base_dir, o$metadata$tables[i, "url"])
-
-        table <- get_tablename(
-            o$metadata$tables[i, "dc:conformsTo"],
-            o$metadata$tables[i, "url"]
-        )
-
-        cols <- get_table_schema(o$metadata$tables[i, "tableSchema"]$columns)
-        o$resources[[o$metadata$tables[i, "url"]]] <- table
-
-        o[["tables"]][[table]] <- vroom::vroom(
-            filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"', na = c("")
-        )
+    for (i in 1:length(csvw$tables)) {
+        table <- get_tablename(csvw$tables[[i]]$`dc:conformsTo`, csvw$tables[[i]]$url)
+        o[["tables"]][[table]] <- csvw$tables[[i]]$dataframe
+        o[["resources"]][[basename(csvw$tables[[i]]$url)]] <- table
     }
     o
 }
