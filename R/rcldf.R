@@ -17,8 +17,8 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
     } else {
         mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
     }
-    # TODO don't load medata??
-    mdpath <- resolve_path(mdpath)
+
+    mdpath <- resolve_path(mdpath) # TODO don't load medata??
     csvw <- csvwr::read_csvw(mdpath$path)
 
     o <- structure(list(
@@ -26,14 +26,19 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         tables = list(),  # tables by table type (e.g. "LanguageTable")
         resources = list(),  # tables by resource name (e.g. "languages.csv")
         name = mdpath$path,
-        csvwr = csvw,
         type = csvw$`dc:conformsTo`,
         sources = NA
     ), class = "cldf")
-
     o$source_path = file.path(o$base_dir, csvw$`dc:source`)
     o$metadata <- mdpath$metadata
 
+    # add tables
+    for (i in 1:length(csvw$tables)) {
+        table <- get_tablename(csvw$tables[[i]]$`dc:conformsTo`, csvw$tables[[i]]$url)
+        if (table %in% names(o[["tables"]])) { stop(paste("Duplicate name: ", table)) }
+        o[["tables"]][[table]] <- csvw$tables[[i]]$dataframe
+        o[["resources"]][[basename(csvw$tables[[i]]$url)]] <- table
+    }
     # load sources
     if (load_bib) {
         # n.b. we use suppressWarnings to suppress:
@@ -42,11 +47,9 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         # replace it. See: https://github.com/SimonGreenhill/rcldf/issues/13
         o$sources <- suppressWarnings(read_bib(o$base_dir, csvw$`dc:source`))
     }
-    for (i in 1:length(csvw$tables)) {
-        table <- get_tablename(csvw$tables[[i]]$`dc:conformsTo`, csvw$tables[[i]]$url)
-        o[["tables"]][[table]] <- csvw$tables[[i]]$dataframe
-        o[["resources"]][[basename(csvw$tables[[i]]$url)]] <- table
-    }
+
+    rm(csvw)  # explicit clean
+
     o
 }
 
