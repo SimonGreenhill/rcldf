@@ -69,12 +69,9 @@ test_that("test handling of no sources", {
 
 
 test_that("test handling of valid/invalid JSON files", {
-    df <- cldf("examples/not_a_cldf/also_not_a_cldf/valid.json")
-    expect_is(df, 'cldf')
-
     expect_error(
         cldf("examples/not_a_cldf/also_not_a_cldf/invalid.json"),
-        'Invalid JSON file'
+        'Invalid CLDF JSON file'
     )
 
 })

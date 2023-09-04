@@ -18,10 +18,12 @@ install_github("SimonGreenhill/rcldf", dependencies = TRUE)
 ## Example
 
 ```r
-# create a `cldf` object by giving either a path to the directory
-# or the metadata.json file
+# create a `cldf` object giving either a path to the directory
+# or the metadata.json file, or a URL:
+
 > df <- cldf('/path/to/dir/wals_1a_cldf')
 > df <- cldf('/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json')
+> df <- cldf("https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
 
 # a cldf object has various bits of information
 > summary(df)
@@ -112,5 +114,10 @@ Sources: 947
 #   Glottocode <chr>, ISO639P3code <chr>, Genus <chr>, Family <chr>,
 #   Name.parameters <chr>, Description.ParameterTable <chr>, Authors <chr>, Url <chr>,
 #   Area <chr>, Parameter_ID.CodeTable <chr>, Name.CodeTable <chr>, Description.CodeTable <chr>
+
+
+# If you just want to get one table:
+
+df <- get_table_from('LanguageTable', '/path/to/dir/wals_1a_cldf')
 
 ```

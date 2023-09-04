@@ -21,6 +21,10 @@ get_spec <- function(dt) {
         return(readr::col_double())
     } else if (dt == "boolean") {
         return(readr::col_logical())
+    } else if (dt == "json") {
+        return(readr::col_character())
+    } else if (dt == "anyURI") {
+        return(readr::col_character())
     } else {
         warning(paste("Unable to identify coltype", dt))
         return(readr::col_guess())

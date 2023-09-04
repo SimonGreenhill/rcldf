@@ -10,30 +10,36 @@
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 cldf <- function(mdpath, load_bib=TRUE) {
-    mdpath <- resolve_path(mdpath)
-
-    dir <- dirname(mdpath)
-    o <- structure(list(tables = list()), class = "cldf")
-    o$name <- dir
-    o$resources <- list()
-
-    o$metadata <- jsonlite::fromJSON(mdpath)
-    # valid JSON?
-    if (startsWith(o$metadata$`dc:conformsTo`, 'http://cldf.clld.org/') == FALSE) {
-        stop(sprintf("Invalid JSON file: %s", mdpath))
+    # is it a url?
+    if (is_url(mdpath)) {
+        mdpath <- download(mdpath)
     } else {
-        o$type <- o$metadata$`dc:conformsTo`
+        mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
     }
 
+    mdpath <- resolve_path(mdpath)
+
+    o <- structure(list(tables = list(), name=mdpath$path), class = "cldf")
+    o$resources <- list()
+    o$metadata <- mdpath$metadata
+    o$type <- mdpath$metadata$`dc:conformsTo`
+    o$base_dir <- dirname(mdpath$path)
     # load sources
     if (load_bib) {
-        o$sources <- read_bib(dir, o$metadata$`dc:source`)
+        # n.b. we use suppressWarnings to suppress:
+        #   `as_data_frame()` was deprecated in tibble 2.0.0.
+        # caused by bib2df, this has not been updated since 2020, so we should
+        # replace it. See: https://github.com/SimonGreenhill/rcldf/issues/13
+        o$sources <- suppressWarnings(read_bib(o$base_dir, o$metadata$`dc:source`))
     } else {
         o$sources <- NA
     }
 
+    # identify missing character
+    
+
     for (i in 1:nrow(o$metadata$tables)) {
-        filename <- file.path(dir, o$metadata$tables[i, "url"])
+        filename <- file.path(o$base_dir, o$metadata$tables[i, "url"])
 
         table <- get_tablename(
             o$metadata$tables[i, "dc:conformsTo"],
@@ -44,7 +50,7 @@ cldf <- function(mdpath, load_bib=TRUE) {
         o$resources[[o$metadata$tables[i, "url"]]] <- table
 
         o[["tables"]][[table]] <- vroom::vroom(
-            filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"'
+            filename, delim=",", col_names = TRUE, col_types = cols$cols, quote = '"', na = c("")
         )
     }
     o

@@ -5,24 +5,20 @@
 #' @return A string containing the path to the metadata.json file
 resolve_path <- function(path) {
     path <- base::normalizePath(path, mustWork = FALSE)
+    # no file
+    if (!file.exists(path)) {
+        stop(sprintf("Path %s does not exist", path))
     # given a metadata.json file
-    if (file.exists(path) & endsWith(path, ".json")) {
-        return(path)
+    } else if (!dir.exists(path) && tolower(tools::file_ext(path)) == 'json') {
+        return(load_metadata(path))
     # given a dirname, try find the metadata file.
     } else if (dir.exists(path)) {
-        mdfile <- list.files(path, "*.json", full.names = TRUE)
-        if (length(mdfile) == 1) {
-            return(mdfile[[1]])
-        } else if (length(mdfile) > 1) {
-            stop("multiple JSON files found! please specify which one.")
-        } else {
-            stop(sprintf("no metadata JSON file found in %s", path))
+        mdfiles <- list.files(path, "*.json", full.names = TRUE, recursive=TRUE)
+        # limit to 10 so we don't risk loading all json files on the computer
+        for (m in head(mdfiles, 10)) {
+            try({return(load_metadata(m))}, silent = TRUE)
         }
-    } else if (!file.exists(path)) {
-        stop(sprintf("Path %s does not exist", path))
-    } else {
-        stop(
-            "Need either a metadata.json file or a directory with metadata.json"
-        )
+        stop(sprintf("no metadata JSON file found in %s", path))
     }
+    stop("Need either a metadata.json file or a directory with metadata.json")
 }
