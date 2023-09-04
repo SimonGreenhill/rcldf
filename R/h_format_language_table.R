@@ -79,11 +79,10 @@ if(all(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% co
 
 # example to step through function
 
-options(timeout = max(1000, getOption("timeout")))
-glottolog_LanguageTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/languages.csv")
-glottolog_ValueTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/values.csv") %>%   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value") %>%
-    rename(ID = Language_ID)
+# options(timeout = max(1000, getOption("timeout")))
+# glottolog_LanguageTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/languages.csv")
+# glottolog_ValueTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/values.csv") %>%   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value") %>%
+#     rename(ID = Language_ID)
 
-LanguageTable <- full_join(glottolog_LanguageTable, glottolog_ValueTable, by = "ID")
-LanguageTable_reformat <- h_format_language_table(LanguageTable)
-
+# LanguageTable <- full_join(glottolog_LanguageTable, glottolog_ValueTable, by = "ID")
+# LanguageTable_reformat <- h_format_language_table(LanguageTable, add_language_level_ID_to_languages = T, add_family_name_col = T)
