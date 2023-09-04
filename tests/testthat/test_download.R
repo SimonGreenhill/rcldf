@@ -43,7 +43,7 @@ test_that("test download", {
     expect_message(
         mockthat::with_mock(
             # mock out curl download to copy file
-            `curl::curl_download` = function(url, tmp) file.copy(fakeurl, tmp),
+            `curl::curl_download` = function(url, tmp) file.copy(zipfile, tmp),
             `is_url` = function(...) TRUE,  # and patch this to return TRUE
             staging_dir <- download(fakeurl, tmpdir)
         ), "Already downloaded")
