@@ -5,7 +5,7 @@
 #' @param add_family_name_col logical. If TRUE, a column is added with the name of the languoid that matches the Family_ID, i.e. the top-level languoid of the family.
 #' @param rename_language_level_col If there is a column called "Language_ID" in the LanguageTable, rename this to "Language_level_ID" to reduce confusion in future with other cldf-tables.
 #' @param  add_isolate_column Add a column to indicate wether a language is an isolate, or if it's a dialect of an isolate.
-#' @param set_isolates_family_as_themselves logical. If TRUE, the missing values for Family_ID for isolates is replaced with their glottocode, e.g. basq1248 gets the Family_ID basq1248. If FALSE, their Family_ID is set to "Isolate" (isolates are merged).
+#' @param set_isolates_family_as_themselves logical. If TRUE, the missing values for Family_ID for isolates is replaced with their glottocode, e.g. basq1248 gets the Family_ID basq1248. If FALSE, their Family_ID is set to "Isolate" (isolates are merged). This is done AFTER adding isolate column, so both can be set to TRUE.
 #' @return Data-frame with desired modifications.
 #' @export
 
