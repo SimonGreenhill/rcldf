@@ -9,8 +9,6 @@
 #' @return Data-frame with desired modifications.
 #' @export
 
-LanguageTable <-readr::read_tsv("../../HedvigS/personal-cookbook/R/output_tables/cldf_wide_df_glottolog_4.8.tsv")
-
 h_format_language_table <- function(LanguageTable,
          rename_language_level_col = TRUE,
          add_isolate_column = TRUE,
@@ -24,9 +22,9 @@ if(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% colnam
 }
 
     if(rename_language_level_col == TRUE) {
-        if("Language_ID" %in% colnames(LanguageTable) & !"Language_level_ID" %in% colnames(LanguageTable) ){
+        if("Glottocode" %in% colnames(LanguageTable) & !"Language_level_ID" %in% colnames(LanguageTable) ){
                 LanguageTable <-LanguageTable %>%
-            dplyr::rename(Language_level_ID = Language_ID)}}
+            dplyr::rename(Language_level_ID = Glottocode)}}
 
     if(add_isolate_column == TRUE & "Language_level_ID" %in% colnames(LanguageTable)){
         LanguageTable <- LanguageTable %>%
@@ -77,4 +75,15 @@ if(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% colnam
 }
     LanguageTable
     }
+
+
+# example to step through function
+
+options(timeout = max(1000, getOption("timeout")))
+glottolog_LanguageTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/languages.csv")
+glottolog_ValueTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/values.csv") %>%   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value")
+
+LanguageTable <- full_join(glottolog_LanguageTable, glottolog_ValueTable, by = "Language_ID")
+
+    h_format_language_table()
 
