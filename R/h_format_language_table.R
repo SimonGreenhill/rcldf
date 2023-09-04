@@ -16,8 +16,8 @@ h_format_language_table <- function(LanguageTable,
          add_family_name_col = TRUE,
          set_isolates_family_as_themselves = FALSE){
 
-if(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable))|
-        !all(c("level", "Language_level_ID", "Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable))){
+if(all(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable)),
+        !all(c("level", "Language_level_ID", "Family_ID", "Name", "Glottocode") %in% colnames(LanguageTable)))){
     stop("The LanguageTable needs to have all of these columns: Name, Level, Glottocode, Family_ID and Language_ID or Language_leveL_ID.")
 }
 
@@ -81,9 +81,9 @@ if(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% colnam
 
 options(timeout = max(1000, getOption("timeout")))
 glottolog_LanguageTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/languages.csv")
-glottolog_ValueTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/values.csv") %>%   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value")
+glottolog_ValueTable <- readr::read_csv("https://github.com/glottolog/glottolog-cldf/raw/master/cldf/values.csv") %>%   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value") %>%
+    rename(ID = Language_ID)
 
-LanguageTable <- full_join(glottolog_LanguageTable, glottolog_ValueTable, by = "Language_ID")
-
-    h_format_language_table()
+LanguageTable <- full_join(glottolog_LanguageTable, glottolog_ValueTable, by = "ID")
+LanguageTable_reformat <- h_format_language_table(LanguageTable)
 
