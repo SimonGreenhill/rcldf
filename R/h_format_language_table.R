@@ -1,6 +1,6 @@
 #' Manipulates cldf Table in a opinionated way (what Hedvig prefers).
 #'
-#' @param Table data-frame of cldf Table.
+#' @param Table data-frame of CLDF table with the columns "level", "Family_ID", "Name", "Glottocode" and "Language_ID" or "Language_level_ID".
 #' @param add_language_level_ID_to_languages For languoids that have the level "language" or "family", add their Glottocode to the Language_level_ID column. Otherwise, it may be that only dialects have values here.
 #' @param add_family_name_col logical. If TRUE, a column is added with the name of the languoid that matches the Family_ID, i.e. the top-level languoid of the family.
 #' @param rename_language_level_col If there is a column called "Language_ID" in the Table, rename this to "Language_level_ID" to reduce confusion in future with other cldf-tables.
