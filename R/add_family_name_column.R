@@ -15,12 +15,12 @@ add_family_name_column <- function(Table = NULL){
 
     Table <- Table %>%
         dplyr::distinct(Family_ID) %>%
-        filter(!is.na(Family_ID)) %>%
-        filter(Family_ID != "") %>%
+        dplyr::filter(!is.na(Family_ID)) %>%
+        dplyr::filter(Family_ID != "") %>%
         dplyr::rename(Glottocode = Family_ID) %>%
-        inner_join(Table, by = "Glottocode") %>%
+        dplyr::inner_join(Table, by = "Glottocode") %>%
         dplyr::select(Family_ID = Glottocode, Family_name = Name) %>%
-        right_join(Table, by = "Family_ID")
+        dplyr::right_join(Table, by = "Family_ID")
 
     Table
 }
