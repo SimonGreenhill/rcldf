@@ -1,3 +1,6 @@
+library(archive)
+library(openssl)
+
 mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
 
 test_that("test get_table_from", {
@@ -22,12 +25,21 @@ test_that("test get_table_from errors on invalid table", {
 
 
 test_that("test get_table_from url works", {
-    fakeurl <- "examples/wals_1A_cldf.zip"
+    fakeurl <- 'wals_1A_cldf.zip'
+
     tmpdir <- tempdir()
+
+    # create zip file
+    zipfile <- file.path(tmpdir, fakeurl)
+    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
+
+    expected_staging_dir <- file.path(tmpdir, openssl::md5(fakeurl))
+
     mockthat::with_mock(
         # mock out curl download to copy file
-        `curl::curl_download` = function(url, tmp) file.copy(fakeurl, tmp),
-        `is_url` = function(...) TRUE,  # and patch this to return TRUE
+        # and patch is_url to return TRUE
+        `curl::curl_download` = function(url, tmp) file.copy(zipfile, tmp),
+        `is_url` = function(...) TRUE,
         df <- get_table_from('ParameterTable', fakeurl)
     )
     expect_is(df, 'data.frame')
