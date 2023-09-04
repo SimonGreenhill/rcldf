@@ -22,9 +22,9 @@ if(all(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% co
 }
 
     if(rename_language_level_col == TRUE) {
-        if("Glottocode" %in% colnames(LanguageTable) & !"Language_level_ID" %in% colnames(LanguageTable) ){
+        if("Language_ID" %in% colnames(LanguageTable) & !"Language_level_ID" %in% colnames(LanguageTable) ){
                 LanguageTable <-LanguageTable %>%
-            dplyr::rename(Language_level_ID = Glottocode)}}
+            dplyr::mutate(Language_level_ID = Language_ID)}}
 
     if(add_isolate_column == TRUE & "Language_level_ID" %in% colnames(LanguageTable)){
         LanguageTable <- LanguageTable %>%
@@ -67,7 +67,7 @@ if(all(!all(c("level", "Language_ID", "Family_ID", "Name", "Glottocode") %in% co
             filter(!is.na(Family_ID)) %>%
             filter(Family_ID != "") %>%
             dplyr::rename(Glottocode = Family_ID) %>%
-            inner_join(LanguageTable, by = join_by(Glottocode)) %>%
+            inner_join(LanguageTable, by = "Glottocode") %>%
             dplyr::select(Family_ID = Glottocode, Family_name = Name) %>%
             right_join(LanguageTable, by = "Family_ID") %>%
             dplyr::mutate(Family_name = ifelse(is.na(Family_name)|
