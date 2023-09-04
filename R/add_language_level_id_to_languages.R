@@ -5,6 +5,7 @@
 #' @param rename_language_level_col If there is a column called "Language_ID" in the Table, rename this to "Language_level_ID" to reduce confusion in future with other cldf-tables.
 #' @note This function should be used on tables with either the column "Language_level_ID" or where they column "Language_ID" refers to the glottocode of the parent of a dialect which is a language.
 #' This function adds language_level_ID to languages and families. It assumes that if the info is missing but the column is there, the languoid is not a dialect.
+#' If The current LanguageTable lacks the required columns, consider using a combination of the LanguageTable and ValueTable of glottolog-cldf.
 #' @return Data-frame with desired modifications.
 #' @export
 
