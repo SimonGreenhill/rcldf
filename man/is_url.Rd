@@ -2,7 +2,7 @@
 % Please edit documentation in R/is_url.R
 \name{is_url}
 \alias{is_url}
-\title{Returns TRUE if `url` looks like a URL}
+\title{Returns TRUE if \code{url} looks like a URL}
 \usage{
 is_url(url)
 }
@@ -13,7 +13,7 @@ is_url(url)
 A boolean TRUE/FALSE
 }
 \description{
-Returns TRUE if `url` looks like a URL
+Returns TRUE if \code{url} looks like a URL
 }
 \examples{
 is_url('http://simon.net.nz')

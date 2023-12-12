@@ -7,7 +7,7 @@
 as.cldf.wide(object, table)
 }
 \arguments{
-\item{object}{the `CLDF` dataset.}
+\item{object}{the \code{CLDF} dataset.}
 
 \item{table}{the name of the table to extract.}
 }

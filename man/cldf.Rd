@@ -14,17 +14,17 @@ cldf(
 read_cldf(mdpath)
 }
 \arguments{
-\item{mdpath}{the path to the directory or metadata.json file.}
+\item{mdpath}{the path to the directory or metadata JSON file.}
 
 \item{load_bib}{a boolean flag (TRUE/FALSE, default TRUE) to load the
-sources.bib BibTex file. `load_bib=FALSE` can easily speed up loading
+sources.bib BibTeX file. \code{load_bib=FALSE} can easily speed up loading
 of a CLDF dataset by an order of magnitude or two, so consider this if
 you don't need access to the source information.}
 
 \item{cache_dir}{a directory to cache downloaded files to}
 }
 \value{
-A `cldf` object
+A \code{cldf} object
 }
 \description{
 Reads a Cross-Linguistic Data Format dataset into an object.

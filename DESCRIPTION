@@ -31,3 +31,4 @@ BugReports: https://github.com/SimonGreenhill/rcldf/issues
 Language: en-US
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
