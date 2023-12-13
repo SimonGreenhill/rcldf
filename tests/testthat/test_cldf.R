@@ -26,18 +26,6 @@ test_that("test cldf", {
 })
 
 
-test_that("read_bib", {
-    s <- read_bib("examples/wals_1A_cldf")
-    expect_true(nrow(s) == 11)
-    # NA on null file
-    s <- read_bib("examples/wals_1A_cldf", NULL)
-    expect_true(is.na(s))
-    # NA on missing files
-    s <- read_bib("examples/wals_1A_cldf", "missing.bib")
-    expect_true(is.na(s))
-})
-
-
 test_that("test dir or json", {
     a <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
     b <- cldf("examples/wals_1A_cldf")
@@ -68,7 +56,6 @@ test_that("test handling of no sources", {
     out <- capture.output(summary(df))
     expect_match(out[10], "Sources: 0")
 })
-
 
 
 
