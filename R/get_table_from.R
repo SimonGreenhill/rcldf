@@ -2,23 +2,18 @@
 #'
 #' @param table a CLDF table type
 #' @param mdpath a path to a CLDF file
+#' @param cache_dir a directory to cache downloaded files to
 #' @return a dataframe
 #' @export
 #' @examples
 #' df <- get_table_from("LanguageTable",
 #'     system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-get_table_from <- function(table, mdpath) {
-    if (is_url(mdpath)) {
-        mdpath <- download(mdpath)
-    } else {
-        mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
-    }
-    mdpath <- resolve_path(mdpath)
-    csvw <- csvwr::read_csvw(mdpath$path)
-    for (i in 1:length(csvw$tables)) {
-        if (table == get_tablename(csvw$tables[[i]]$`dc:conformsTo`, csvw$tables[[i]]$url)) {
-            return(csvw$tables[[i]]$dataframe)
-        }
+get_table_from <- function(table, mdpath, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
+    o <- cldf(mdpath, load_bib=FALSE, cache_dir)
+    if (table %in% names(o$tables)) {
+        return(o$tables[[table]])
+    } else if (table %in% names(o$resources)) {
+        return(o$resources[[table]])
     }
     stop(sprintf("Table %s not found", table))
 }

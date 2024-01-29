@@ -19,7 +19,7 @@ as.cldf.wide <- function(object, table) {
     if (table %in% names(object$tables) == FALSE) stop(paste("Invalid table", table))
     # find tables that join this one
     tbl_idx <- which(names(object$tables) == table)
-    pks <- object$metadata$tables[tbl_idx, "tableSchema"]$foreignKeys[[1]]
+    pks <- object$metadata$tables[[tbl_idx]][["tableSchema"]][["foreignKeys"]]
 
     out <- object$tables[[table]]
 
@@ -27,11 +27,11 @@ as.cldf.wide <- function(object, table) {
 
     # rename to column.table format
     out <- dplyr::rename_all(out, function(x) relabel(x, table))
-    for (p in 1:nrow(pks)) {
-        src <- pks$columnReference[[p]]
-        filename <- pks$reference$resource[[p]]  # filename.csv
+    for (p in 1:length(pks)) {
+        src <- pks[[p]]$columnReference[[1]]
+        filename <- pks[[p]]$reference$resource[[1]]  # filename.csv
         tbl <- object$resources[[filename]]
-        dest <- pks$reference$columnReference[[p]]
+        dest <- pks[[p]]$reference$columnReference[[1]]
         message(paste("Joining", src, '->', tbl, '->', dest))
 
         # rename to column.table format

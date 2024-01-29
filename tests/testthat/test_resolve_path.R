@@ -2,7 +2,7 @@ test_that("resolve_path", {
 
     path <- 'examples/wals_1A_cldf/StructureDataset-metadata.json'
 
-    expected <- jsonlite::fromJSON(path)
+    expected <- csvwr::read_metadata(path)
     # given json
     expect_equal(resolve_path(path)$metadata, expected)
 
@@ -20,7 +20,7 @@ test_that("resolve_path", {
     # give dir with multiple jsons
     expect_equal(
         resolve_path('examples/multiple_json')$metadata,
-        jsonlite::fromJSON('examples/multiple_json/valid.json')
+        csvwr::read_metadata('examples/multiple_json/valid.json')
     )
 
 

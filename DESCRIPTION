@@ -17,6 +17,8 @@ Imports:
     dplyr,
     jsonlite,
     openssl,
+    purrr,
+    rlang,
     tools,
     utils
 Suggests: 

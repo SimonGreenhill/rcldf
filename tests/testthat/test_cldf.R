@@ -3,7 +3,7 @@ test_that("test cldf", {
     df <- cldf(mdpath)
     expect_is(df, 'cldf')
     # is metadata the same
-    expect_equal(df[['metadata']], jsonlite::fromJSON(mdpath))
+    expect_equal(df[['metadata']], csvwr::read_metadata(mdpath))
     # do we have all tables loaded
     expect_equal(nrow(df$tables[['LanguageTable']]), 9)
     expect_equal(nrow(df$tables[['ParameterTable']]), 1)
@@ -62,7 +62,7 @@ test_that("test handling of no sources", {
 test_that("test handling of valid/invalid JSON files", {
     expect_error(
         cldf("examples/not_a_cldf/also_not_a_cldf/invalid.json"),
-        'Invalid CLDF JSON file'
+        "Metadata doesn't define any tables, or a url to build a table definition from"
     )
 
 })

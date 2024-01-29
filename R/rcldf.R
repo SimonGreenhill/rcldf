@@ -11,46 +11,46 @@
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
-    # is it a url?
-    if (is_url(mdpath)) {
-        mdpath <- download(mdpath, cache_dir=cache_dir)
-    } else {
-        mdpath <- base::normalizePath(mdpath, mustWork = FALSE)
-    }
+    md <- resolve_path(mdpath, cache_dir=cache_dir)
 
-    mdpath <- resolve_path(mdpath) # TODO don't load medata??
-    csvw <- csvwr::read_csvw(mdpath$path)
+    if (!startsWith(md$metadata[['dc:conformsTo']], 'http://cldf.clld.org/')) {
+        stop("Invalid CLDF JSON file - does not conform to CLDF spec")
+    }
 
     o <- structure(list(
-        base_dir = dirname(mdpath$path),
+        base_dir = dirname(md$path),
+        name = md$path,
+        metadata = md$metadata,
+        type = md$metadata[['dc:conformsTo']],
         tables = list(),  # tables by table type (e.g. "LanguageTable")
         resources = list(),  # tables by resource name (e.g. "languages.csv")
-        name = mdpath$path,
-        type = csvw$`dc:conformsTo`,
         sources = NA
     ), class = "cldf")
-    o$source_path = file.path(o$base_dir, csvw$`dc:source`)
-    o$metadata <- mdpath$metadata
 
-    # add tables
-    for (i in 1:length(csvw$tables)) {
-        table <- get_tablename(csvw$tables[[i]]$`dc:conformsTo`, csvw$tables[[i]]$url)
+    for (i in 1:length(md$metadata$tables)) {
+        table <- get_tablename(md$metadata$tables[[i]][['dc:conformsTo']], md$metadata$tables[[i]][['url']])
+        filename <- get_filename(o$base_dir, md$metadata$tables[[i]][['url']])
+
         if (table %in% names(o[["tables"]])) { stop(paste("Duplicate name: ", table)) }
-        o[["tables"]][[table]] <- csvw$tables[[i]]$dataframe
-        o[["resources"]][[basename(csvw$tables[[i]]$url)]] <- table
+
+        o[["tables"]][[table]] <- add_dataframe(md$metadata$tables[[i]], filename, md$metadata)
+        o[["resources"]][[basename(md$metadata$tables[[i]][['url']])]] <- table
+
     }
+
     # load sources
     if (load_bib) {
         # n.b. we use suppressWarnings to suppress:
         #   `as_data_frame()` was deprecated in tibble 2.0.0.
         # caused by bib2df, this has not been updated since 2020, so we should
         # replace it. See: https://github.com/SimonGreenhill/rcldf/issues/13
-        o$sources <- suppressWarnings(read_bib(o$base_dir, csvw$`dc:source`))
+        o$sources <- suppressWarnings(read_bib(get_filename(o$base_dir, md$metadata[['dc:source']])))
     }
-    rm(csvw)  # explicit clean
     o
 }
 
 #' @rdname cldf
 read_cldf <- function(mdpath) { cldf(mdpath) }
+
+
 

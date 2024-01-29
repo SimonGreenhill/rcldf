@@ -16,6 +16,7 @@ test_that("test get_table_from", {
     expect_equal(df$ID[1], '1A')
 })
 
+
 test_that("test get_table_from errors on invalid table", {
     expect_error(
         get_table_from('NotATable', mdpath),
@@ -40,7 +41,7 @@ test_that("test get_table_from url works", {
         # and patch is_url to return TRUE
         `curl::curl_download` = function(url, tmp) file.copy(zipfile, tmp),
         `is_url` = function(...) TRUE,
-        df <- get_table_from('ParameterTable', fakeurl)
+        df <- get_table_from('ParameterTable', fakeurl, cache_dir=tmpdir)
     )
     expect_is(df, 'data.frame')
     expect_equal(nrow(df), 1)
