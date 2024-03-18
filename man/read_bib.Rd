@@ -4,11 +4,9 @@
 \alias{read_bib}
 \title{Reads a BibTeX file into a dataframe}
 \usage{
-read_bib(dir, bib = "sources.bib")
+read_bib(bib = "sources.bib")
 }
 \arguments{
-\item{dir}{the directory the BibTeX file is in.}
-
 \item{bib}{the name of the BibTeX file (default="sources.bib")}
 }
 \value{

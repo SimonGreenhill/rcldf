@@ -4,10 +4,12 @@
 \alias{resolve_path}
 \title{Helper function to resolve the path (e.g. directory or md.json file)}
 \usage{
-resolve_path(path)
+resolve_path(path, cache_dir = NA)
 }
 \arguments{
 \item{path}{the path to resolve}
+
+\item{cache_dir}{a directory to cache downloaded files to}
 }
 \value{
 A string containing the path to the metadata.json file

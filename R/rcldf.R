@@ -11,7 +11,7 @@
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
-    md <- resolve_path(mdpath, cache_dir=cache_dir)
+    md <- rcldf::resolve_path(mdpath, cache_dir=cache_dir)
 
     if (!startsWith(md$metadata[['dc:conformsTo']], 'http://cldf.clld.org/')) {
         stop("Invalid CLDF JSON file - does not conform to CLDF spec")
@@ -19,7 +19,7 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
 
     o <- structure(list(
         base_dir = dirname(md$path),
-        name = md$path,
+        name = md$metadata[['dc:title']],
         metadata = md$metadata,
         type = md$metadata[['dc:conformsTo']],
         tables = list(),  # tables by table type (e.g. "LanguageTable")

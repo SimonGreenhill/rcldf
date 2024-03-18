@@ -23,7 +23,6 @@ test_that("resolve_path", {
         csvwr::read_metadata('examples/multiple_json/valid.json')
     )
 
-
     ### ERRORS
 
     # given invalid file
@@ -52,5 +51,19 @@ test_that("resolve_path", {
         resolve_path("examples/not_a_cldf/also_not_a_cldf")$metadata,
         "no metadata JSON file found"
     )
+})
+
+
+
+test_that("resolve_path is a zip", {
+
+    path <- 'examples/wals_1A_cldf/StructureDataset-metadata.json'
+    expected <- csvwr::read_metadata(path)
+
+    tmpdir <- tempdir()
+    zipfile <- file.path(tmpdir, 'wals_1A_cldf.zip')
+    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf', recursive=TRUE)
+
+    expect_equal(resolve_path(zipfile)$metadata, expected)
 })
 

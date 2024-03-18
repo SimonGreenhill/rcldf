@@ -4,12 +4,23 @@
 #' @param cache_dir a directory to cache downloaded files to
 #'
 #' @export
-#' @return A string containing the path to the metadata.json file
+#' @return A list of two items:
+#'  `path`  - string containing the path to the metadata.json file
+#'  `metadata` - a csvwr metadata object
 resolve_path <- function(path, cache_dir=NA) {
     path <- base::normalizePath(path, mustWork = FALSE)
     # given a remote file
     if (is_url(path)) {
         path <- download(path, cache_dir=cache_dir)
+        files <- list.files(path, recursive=TRUE, full.names=TRUE)
+        if (length(files) == 1) return(resolve_path(files[[1]]))  # recursive to handle embedded zips
+    }
+
+    if (tolower(tools::file_ext(path)) == 'zip') {
+        staging_dir <- file.path(tempdir(), openssl::md5(basename(path)))
+        message(sprintf("Unzipping to temporary dir: %s", staging_dir))
+        archive::archive_extract(path, staging_dir, strip_components=0)
+        path <- staging_dir  # set path to unarchived dataset in tempdir
     }
 
     # given no file
@@ -39,3 +50,5 @@ resolve_path <- function(path, cache_dir=NA) {
     # fail
     stop("Need either a metadata.json file or a directory with metadata.json")
 }
+
+
