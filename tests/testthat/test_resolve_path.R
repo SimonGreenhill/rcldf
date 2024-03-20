@@ -59,7 +59,7 @@ test_that("resolve_path handles archives (.zip)", {
     expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.zip'
-    cachedir <- tempdir()
+    cachedir <- tempdir(check=TRUE)
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
@@ -78,7 +78,7 @@ test_that("resolve_path handles archives (.tar.gz)", {
     expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.tar.gz'
-    cachedir <- tempdir()
+    cachedir <- tempdir(check=TRUE)
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
@@ -98,7 +98,7 @@ test_that("resolve_path is remote file", {
 
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.zip'
-    cachedir <- tempdir()
+    cachedir <- tempdir(check=TRUE)
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
@@ -127,7 +127,7 @@ test_that("resolve_path is github", {
 
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.tar.gz'
-    cachedir <- tempdir()
+    cachedir <- tempdir(check=TRUE)
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
     mockthat::with_mock(
