@@ -13,23 +13,15 @@ download <- function(url, cache_dir=tools::R_user_dir("rcldf", which = "cache"))
 
     # get md5 hash of url to check if we have it already. We use this rather than
     # filename as CLDF filenames in released datasets tend to be opaque ("v1.0.zip")
-    staging_dir <- file.path(cache_dir, openssl::md5(url))
+    staging_file <- file.path(cache_dir, openssl::md5(url))
 
-    if (!dir.exists(staging_dir)) {
-        # download and unpack
-        message(sprintf("Downloading to cache dir: %s", staging_dir))
-        # download to temp file
-        tmp <- tempfile()
-        curl::curl_download(url, tmp)
-        # unpack
-        x <- archive::archive_extract(tmp, staging_dir, strip_components=0)
-        # rm download
-        unlink(tmp)
+    if (!file.exists(staging_file)) {
+        message(sprintf("Downloading to cache dir: %s", staging_file))
+        curl::curl_download(url, staging_file)
     } else {
-        message(sprintf("Already downloaded, re-using from cache dir: %s", staging_dir))
+        message(sprintf("Already downloaded, re-using from cache dir: %s", staging_file))
     }
-    # finally, find the CLDF metadata file in the staging_dir
-    return(staging_dir)
+    staging_file
 }
 
 

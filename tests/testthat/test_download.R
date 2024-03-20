@@ -27,18 +27,6 @@ test_that("test download", {
 
     expect_equal(expected_staging_dir, staging_dir)
 
-    for (derived in list.files(file.path(staging_dir, 'wals_1A_cldf'), full.names=TRUE)) {
-        # these are the original ones used to make the zip file
-        original <- file.path('examples/wals_1A_cldf', basename(derived))
-        expect_equal(file.exists(original), TRUE)
-        expect_equal(file.exists(derived), TRUE)
-        expect_equal(
-            # use as.vector to lose the name
-            as.vector(tools::md5sum(original)),
-            as.vector(tools::md5sum(derived))
-        )
-    }
-
     # check that we don't redownload the file when it's cached
     expect_message(
         mockthat::with_mock(

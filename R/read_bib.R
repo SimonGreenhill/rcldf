@@ -13,5 +13,8 @@ read_bib <- function(bib="sources.bib"){
         archive::archive_extract(archive=bib, dir=tmpdir)
         bib <- file.path(tmpdir, orig)
     }
-    return(bib2df::bib2df(bib))
+
+    # we suppress the warning `Column `YEAR` contains character strings.` as it
+    # confuses users (it's actually a message not a warning)
+    return(suppressMessages(bib2df::bib2df(bib)))
 }

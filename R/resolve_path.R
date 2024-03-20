@@ -8,33 +8,34 @@
 #'  `path`  - string containing the path to the metadata.json file
 #'  `metadata` - a csvwr metadata object
 resolve_path <- function(path, cache_dir=NA) {
-    path <- base::normalizePath(path, mustWork = FALSE)
+    cache_dir <- ifelse(is.na(cache_dir), tools::R_user_dir("rcldf", which = "cache"), cache_dir)
 
-    # given a github URL
+    # given a github URL, use remotes to download to a tar.gz file
     if (is_github(path)) {
-        repo <- 'https://github.com/phlorest/birchall_et_al2016'
-        r <- remotes::github_remote(path, ref = "HEAD", subdir = 'cldf')
-        x <- remotes::remote_download(r)
-        return(resolve_path(x))
+        path <- remotes::remote_download(
+            remotes::github_remote(path, ref = "HEAD", subdir = 'cldf')
+        )
     }
-    
-    # given a remote file
+
+    # given a remote file, download to cache and keep new path
     if (is_url(path)) {
         path <- download(path, cache_dir=cache_dir)
-        files <- list.files(path, recursive=TRUE, full.names=TRUE)
-        if (length(files) == 1) return(resolve_path(files[[1]]))  # recursive to handle embedded zips
     }
 
-    if (tolower(tools::file_ext(path)) %in% c('zip', 'gz', 'bz2')) {
-        staging_dir <- file.path(tempdir(), openssl::md5(basename(path)))
-        message(sprintf("Unzipping to temporary dir: %s", staging_dir))
-        archive::archive_extract(path, staging_dir, strip_components=0)
-        path <- staging_dir  # set path to unarchived dataset in tempdir
-    }
+    # we should be local only from now on....
+    path <- base::normalizePath(path, mustWork = FALSE)
 
     # given no file
     if (!file.exists(path)) {
         stop(sprintf("Path %s does not exist", path))
+    }
+
+    # given an archive file
+    if (tolower(tools::file_ext(path)) %in% c('zip', 'gz', 'bz2')) {
+        staging_dir <- file.path(cache_dir, openssl::md5(basename(path)))
+        message(sprintf("Unzipping to: %s", staging_dir))
+        archive::archive_extract(path, staging_dir, strip_components=0)
+        path <- staging_dir  # set path to unarchived dataset
     }
 
     # given a metadata.json file

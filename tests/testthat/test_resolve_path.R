@@ -55,15 +55,94 @@ test_that("resolve_path", {
 
 
 
-test_that("resolve_path is a zip", {
+test_that("resolve_path handles archives (.zip)", {
+    expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
+    # create a new zipfile
+    fakeurl <- 'wals_1A_cldf.zip'
+    cachedir <- tempdir()
+    zipfile <- file.path(cachedir, fakeurl)
+    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
-    path <- 'examples/wals_1A_cldf/StructureDataset-metadata.json'
-    expected <- csvwr::read_metadata(path)
+    obtained <- resolve_path(zipfile)
+    expect_equal(obtained$metadata, expected)
 
-    tmpdir <- tempdir()
-    zipfile <- file.path(tmpdir, 'wals_1A_cldf.zip')
-    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf', recursive=TRUE)
-
-    expect_equal(resolve_path(zipfile)$metadata, expected)
+    # check a table at random
+    expect_equal(
+        cldf(zipfile)$tables$ValueTable,
+        cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')$tables$ValueTable
+    )
 })
 
+
+test_that("resolve_path handles archives (.tar.gz)", {
+    expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
+    # create a new zipfile
+    fakeurl <- 'wals_1A_cldf.tar.gz'
+    cachedir <- tempdir()
+    zipfile <- file.path(cachedir, fakeurl)
+    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
+
+    obtained <- resolve_path(zipfile)
+    expect_equal(obtained$metadata, expected)
+
+    # check a table at random
+    expect_equal(
+        cldf(zipfile)$tables$ValueTable,
+        cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')$tables$ValueTable
+    )
+})
+
+
+test_that("resolve_path is remote file", {
+    expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
+
+    # create a new zipfile
+    fakeurl <- 'wals_1A_cldf.zip'
+    cachedir <- tempdir()
+    zipfile <- file.path(cachedir, fakeurl)
+    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
+
+    mockthat::with_mock(
+        # mock out download to copy file and patch is_url to return TRUE
+        `download` = function(url, cache_dir) zipfile,
+        `is_url` = function(...) TRUE,
+        p <- resolve_path(zipfile)
+    )
+
+    obtained <- resolve_path(zipfile)
+    expect_equal(obtained$metadata, expected)
+
+    # check a table at random
+    expect_equal(
+        cldf(zipfile)$tables$ValueTable,
+        cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')$tables$ValueTable
+    )
+})
+
+
+test_that("resolve_path is github", {
+    # we mock remotes::remote_download to just return a path to a tar.gz file,
+    # so we don't test the downloading (which uses the `remotes` library anyway).
+    expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
+
+    # create a new zipfile
+    fakeurl <- 'wals_1A_cldf.tar.gz'
+    cachedir <- tempdir()
+    zipfile <- file.path(cachedir, fakeurl)
+    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
+    mockthat::with_mock(
+        # mock out download to copy file and patch is_github to return TRUE
+        `remotes::remote_download` = function(x) zipfile,
+        `is_github` = function(...) TRUE,
+        p <- resolve_path(zipfile)
+    )
+
+    obtained <- resolve_path(zipfile)
+    expect_equal(obtained$metadata, expected)
+
+    # check a table at random
+    expect_equal(
+        cldf(zipfile)$tables$ValueTable,
+        cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')$tables$ValueTable
+    )
+})
