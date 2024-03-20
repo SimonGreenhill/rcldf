@@ -24,6 +24,7 @@ install_github("SimonGreenhill/rcldf", dependencies = TRUE)
 > df <- cldf('/path/to/dir/wals_1a_cldf')
 > df <- cldf('/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json')
 > df <- cldf("https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
+> df <- cldf('https://github.com/phlorest/greenhill_et_al2023')
 
 # a cldf object has various bits of information
 > summary(df)

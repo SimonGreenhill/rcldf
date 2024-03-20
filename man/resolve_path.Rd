@@ -12,7 +12,9 @@ resolve_path(path, cache_dir = NA)
 \item{cache_dir}{a directory to cache downloaded files to}
 }
 \value{
-A string containing the path to the metadata.json file
+A list of two items:
+\code{path}  - string containing the path to the metadata.json file
+\code{metadata} - a csvwr metadata object
 }
 \description{
 Helper function to resolve the path (e.g. directory or md.json file)

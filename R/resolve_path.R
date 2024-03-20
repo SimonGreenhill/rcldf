@@ -9,6 +9,15 @@
 #'  `metadata` - a csvwr metadata object
 resolve_path <- function(path, cache_dir=NA) {
     path <- base::normalizePath(path, mustWork = FALSE)
+
+    # given a github URL
+    if (is_github(path)) {
+        repo <- 'https://github.com/phlorest/birchall_et_al2016'
+        r <- remotes::github_remote(path, ref = "HEAD", subdir = 'cldf')
+        x <- remotes::remote_download(r)
+        return(resolve_path(x))
+    }
+    
     # given a remote file
     if (is_url(path)) {
         path <- download(path, cache_dir=cache_dir)
