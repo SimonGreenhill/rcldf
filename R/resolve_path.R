@@ -16,7 +16,7 @@ resolve_path <- function(path, cache_dir=NA) {
         if (length(files) == 1) return(resolve_path(files[[1]]))  # recursive to handle embedded zips
     }
 
-    if (tolower(tools::file_ext(path)) == 'zip') {
+    if (tolower(tools::file_ext(path)) %in% c('zip', 'gz', 'bz2')) {
         staging_dir <- file.path(tempdir(), openssl::md5(basename(path)))
         message(sprintf("Unzipping to temporary dir: %s", staging_dir))
         archive::archive_extract(path, staging_dir, strip_components=0)
