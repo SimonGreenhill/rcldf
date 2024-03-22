@@ -25,15 +25,14 @@ get_nulls <- function(metadata) {
 
 #' Converts all values specified in the CLDF metadata as `null` to R's `NA`.
 #'
-#' Note that this is run by default on loading a dataset with cldf() unless
-#' `load_null` is set to FALSE
+#' Note that this is run by default on loading a dataset with cldf()
 #'
 #' @param cldfobj a CLDF Object
 #' @param nulls a dataframe of null values to replace (default=NULL).
 #' @return A `cldf` object
 #' @export
 #' @examples
-#' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"), load_null=FALSE)
+#' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 #' cldfobj <- nullify(cldfobj)
 nullify <- function(cldfobj, nulls=NULL) {
     if (!inherits(cldfobj, "cldf")) stop("'cldfobj' must inherit from class cldf")

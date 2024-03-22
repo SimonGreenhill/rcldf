@@ -47,7 +47,8 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         o$sources <- suppressWarnings(read_bib(get_filename(o$base_dir, md$metadata[['dc:source']])))
     }
 
-    nullify(o)
+    o <- nullify(o)  # postprocess
+    o
 }
 
 #' @rdname cldf
