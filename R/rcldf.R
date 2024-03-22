@@ -46,7 +46,8 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         # replace it. See: https://github.com/SimonGreenhill/rcldf/issues/13
         o$sources <- suppressWarnings(read_bib(get_filename(o$base_dir, md$metadata[['dc:source']])))
     }
-    o
+
+    nullify(o)
 }
 
 #' @rdname cldf
