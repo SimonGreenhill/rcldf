@@ -54,34 +54,11 @@ test_that("resolve_path", {
 })
 
 
-
 test_that("resolve_path handles archives (.zip)", {
     expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
     # create a new zipfile
-    fakeurl <- 'wals_1A_cldf.zip'
     cachedir <- tempdir(check=TRUE)
-    
-    zipfile <- file.path(cachedir, fakeurl)
-    archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
-
-    obtained <- resolve_path(zipfile, cachedir)
-    expect_equal(obtained$metadata, expected)
-
-    # check a table at random
-    expect_equal(
-        cldf(zipfile)$tables$ValueTable,
-        cldf('examples/wals_1A_cldf/StructureDataset-metadata.json')$tables$ValueTable
-    )
-})
-
-
-test_that("resolve_path handles archives (.tar.gz)", {
-    expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
-    # create a new zipfile
-    fakeurl <- 'wals_1A_cldf.tar.gz'
-    cachedir <- tempdir(check=TRUE)
-    
-    zipfile <- file.path(cachedir, fakeurl)
+    zipfile <- file.path(cachedir, 'wals_1A_cldf.zip')
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
     obtained <- resolve_path(zipfile, cachedir)
@@ -99,10 +76,8 @@ test_that("resolve_path is remote file", {
     expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
 
     # create a new zipfile
-    fakeurl <- 'wals_1A_cldf.zip'
     cachedir <- tempdir(check=TRUE)
-    
-    zipfile <- file.path(cachedir, fakeurl)
+    zipfile <- file.path(cachedir, 'wals_1A_cldf.zip')
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
     mockthat::with_mock(
@@ -129,10 +104,9 @@ test_that("resolve_path is github", {
     expected <- csvwr::read_metadata('examples/wals_1A_cldf/StructureDataset-metadata.json')
 
     # create a new zipfile
-    fakeurl <- 'wals_1A_cldf.tar.gz'
     cachedir <- tempdir(check=TRUE)
     
-    zipfile <- file.path(cachedir, fakeurl)
+    zipfile <- file.path(cachedir, 'wals_1A_cldf.tar.gz')
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
     mockthat::with_mock(
         # mock out download to copy file and patch is_github to return TRUE
