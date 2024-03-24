@@ -1,7 +1,7 @@
 Package: rcldf
 Type: Package
 Title: rcldf - Read Linguistic Data In The Cross Linguistic Data Format (CLDF)
-Version: 0.9.0
+Version: 1.0.0
 Author:
     person("Simon", "Greenhill", email = "simon@simon.net.nz", role = c("aut", "cre"))
 Maintainer: Simon J. Greenhill <simon@simon.net.nz>
