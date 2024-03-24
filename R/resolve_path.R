@@ -9,7 +9,9 @@
 #'  `metadata` - a csvwr metadata object
 resolve_path <- function(path, cache_dir=NA) {
     cache_dir <- ifelse(is.na(cache_dir), tools::R_user_dir("rcldf", which = "cache"), cache_dir)
-
+    # create cache dir if not available
+    if (dir.exists(cache_dir) == FALSE) { dir.create(cache_dir, recursive=TRUE) }
+    
     # given a github URL, use remotes to download to a tar.gz file
     if (is_github(path)) {
         path <- remotes::remote_download(
