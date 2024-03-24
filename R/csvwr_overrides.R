@@ -29,6 +29,8 @@ default_dialect <- list(
 #'
 #' @return a list with the values from the first list replacing those in the second and so on
 #' @keywords internal
+#' @importFrom purrr walk
+#' @importFrom purrr lmap
 override_defaults <- function(...) {
     dialect <- list()
 
@@ -58,6 +60,7 @@ coalesce_truth <- function(x) {
 
 #' @importFrom magrittr %>%
 #' @importFrom rlang %||%
+#' @importFrom readr read_csv
 add_dataframe <- function(table, filename, group) {
     schema <- table$tableSchema %||% group$tableSchema
     dialect <- override_defaults(table$dialect, group$dialect, default_dialect)

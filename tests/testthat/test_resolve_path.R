@@ -60,6 +60,10 @@ test_that("resolve_path handles archives (.zip)", {
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.zip'
     cachedir <- tempdir(check=TRUE)
+    
+    # create cache dir if it doesn't exist -- seems to be needed on github
+    if (!dir.exists(cachedir)) dir.create(cachedir, recursive = TRUE)
+        
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
@@ -79,6 +83,10 @@ test_that("resolve_path handles archives (.tar.gz)", {
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.tar.gz'
     cachedir <- tempdir(check=TRUE)
+    
+    # create cache dir if it doesn't exist -- seems to be needed on github
+    if (dir.exists(cachedir) == FALSE) { dir.create(cachedir, recursive = TRUE) }
+        
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
@@ -99,6 +107,10 @@ test_that("resolve_path is remote file", {
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.zip'
     cachedir <- tempdir(check=TRUE)
+    
+    # create cache dir if it doesn't exist -- seems to be needed on github
+    if (dir.exists(cachedir) == FALSE) { dir.create(cachedir, recursive = TRUE) }
+        
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
 
@@ -128,6 +140,10 @@ test_that("resolve_path is github", {
     # create a new zipfile
     fakeurl <- 'wals_1A_cldf.tar.gz'
     cachedir <- tempdir(check=TRUE)
+    
+    # create cache dir if it doesn't exist -- seems to be needed on github
+    if (dir.exists(cachedir) == FALSE) { dir.create(cachedir, recursive = TRUE) }
+        
     zipfile <- file.path(cachedir, fakeurl)
     archive::archive_write_dir(zipfile, 'examples/wals_1A_cldf')
     mockthat::with_mock(

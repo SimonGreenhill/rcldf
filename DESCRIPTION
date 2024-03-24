@@ -16,6 +16,7 @@ Imports:
     curl,
     dplyr,
     jsonlite,
+    magrittr,
     openssl,
     purrr,
     remotes,
