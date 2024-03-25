@@ -1,6 +1,5 @@
 #' @details
-#' The only function you're likely to need from roxygen2 is [roxygenize()].
-#' Otherwise refer to the vignettes to see how to format the documentation.
+#' rcldf is a library for R to read Cross-Linguistic Data files (CLDF)
 #' @keywords internal
 "_PACKAGE"
 #> [1] "_PACKAGE"

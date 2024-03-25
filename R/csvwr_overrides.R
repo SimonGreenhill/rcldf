@@ -61,6 +61,7 @@ coalesce_truth <- function(x) {
 #' @importFrom magrittr %>%
 #' @importFrom rlang %||%
 #' @importFrom readr read_csv
+#' @importFrom csvwr default_schema
 add_dataframe <- function(table, filename, group) {
     schema <- table$tableSchema %||% group$tableSchema
     dialect <- override_defaults(table$dialect, group$dialect, default_dialect)
