@@ -1,6 +1,5 @@
 # rcldf - a R library for reading CLDF files
 
-[![Travis build status](https://travis-ci.org/SimonGreenhill/rcldf.svg?branch=master)](https://travis-ci.org/SimonGreenhill/rcldf)
 [![Coverage status](https://codecov.io/gh/SimonGreenhill/rcldf/branch/master/graph/badge.svg)](https://codecov.io/github/SimonGreenhill/rcldf?branch=master)
 
 
