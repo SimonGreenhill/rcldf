@@ -8,8 +8,6 @@
 #' o <- download("https://github.com/lexibank/panobodyparts/archive/refs/tags/v1.0.zip")
 download <- function(url, cache_dir=tools::R_user_dir("rcldf", which = "cache")){
     if (!is_url(url)) { stop("Does not look like a URL") }
-    # create cache dir if it does not exist
-    if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive=TRUE)
 
     # get md5 hash of url to check if we have it already. We use this rather than
     # filename as CLDF filenames in released datasets tend to be opaque ("v1.0.zip")

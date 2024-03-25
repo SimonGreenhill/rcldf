@@ -64,5 +64,4 @@ test_that("test handling of valid/invalid JSON files", {
         cldf("examples/not_a_cldf/also_not_a_cldf/invalid.json"),
         "Metadata doesn't define any tables, or a url to build a table definition from"
     )
-
 })
