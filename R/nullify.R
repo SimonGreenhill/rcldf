@@ -38,14 +38,15 @@ nullify <- function(cldfobj, nulls=NULL) {
     if (!inherits(cldfobj, "cldf")) stop("'cldfobj' must inherit from class cldf")
 
     if (is.null(nulls)) nulls <- get_nulls(cldfobj$metadata)
-
     # loop over and nullify
-    for (i in 1:nrow(nulls)) {
-        url <- nulls[i, 'url']
-        column <- nulls[i, "name"]
-        table <- cldfobj$tables[[ cldfobj$resources[[url]] ]]  # get table
-        table[[column]] <- dplyr::na_if(table[[column]], nulls[i, 'null'])  # set to null
-        cldfobj$tables[[ cldfobj$resources[[url]] ]] <- table  # glue back
+    if (nrow(nulls)) {
+        for (i in 1:nrow(nulls)) {
+            url <- nulls[i, 'url']
+            column <- nulls[i, "name"]
+            table <- cldfobj$tables[[ cldfobj$resources[[url]] ]]  # get table
+            table[[column]] <- dplyr::na_if(table[[column]], nulls[i, 'null'])  # set to null
+            cldfobj$tables[[ cldfobj$resources[[url]] ]] <- table  # glue back
+        }
     }
     cldfobj
 }

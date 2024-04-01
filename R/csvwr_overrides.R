@@ -44,6 +44,23 @@ override_defaults <- function(...) {
 }
 
 
+#' Create a default table schema given a csv file and dialect
+#'
+#' If neither the table nor the group have a `tableSchema` annotation,
+#' then this default schema will used.
+#'
+#' @param filename a csv file
+#' @param dialect specification of the csv's dialect (default: `default_dialect`)
+#' @return a table schema
+#' @md
+default_schema <- function(filename, dialect=default_dialect) {
+  data_sample <- readr::read_csv(filename, n_max=10, col_names=dialect$header, col_types=readr::cols())
+  if(!dialect$header) {
+    names(data_sample) <- paste0("_col.", 1:ncol(data_sample))
+  }
+  derive_table_schema(data_sample)
+}
+
 #' Coalesce value to truthiness
 #'
 #' Determine whether the input is true, with missing values being interpreted as false.
@@ -61,13 +78,12 @@ coalesce_truth <- function(x) {
 #' @importFrom magrittr %>%
 #' @importFrom rlang %||%
 #' @importFrom readr read_csv
-#' @importFrom csvwr default_schema
 add_dataframe <- function(table, filename, group) {
     schema <- table$tableSchema %||% group$tableSchema
     dialect <- override_defaults(table$dialect, group$dialect, default_dialect)
     if(is.null(schema)) {
         # if we need to derive a default schema, then set this on the table itself
-        table$tableSchema <- schema <- csvwr::default_schema(filename, dialect)
+        table$tableSchema <- schema <- default_schema(filename, dialect)
     }
     table_columns <- schema$columns[!coalesce_truth(schema$columns[["virtual"]]), ]
     column_names <- table_columns$name

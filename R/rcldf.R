@@ -17,6 +17,8 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         stop("Invalid CLDF JSON file - does not conform to CLDF spec")
     }
 
+    logger::log_debug("cldf: constructing data structure", namespace="cldf")
+
     o <- structure(list(
         base_dir = dirname(md$path),
         name = md$metadata[['dc:title']],
@@ -27,7 +29,10 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         sources = NA
     ), class = "cldf")
 
+    logger::log_debug("cldf: setting base_dir: ", o$base_dir, namespace="cldf")
+
     for (i in 1:length(md$metadata$tables)) {
+        logger::log_debug("cldf: handle table ", i, namespace="cldf")
         table <- get_tablename(md$metadata$tables[[i]][['dc:conformsTo']], md$metadata$tables[[i]][['url']])
         filename <- get_filename(o$base_dir, md$metadata$tables[[i]][['url']])
 
@@ -35,18 +40,18 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
 
         o[["tables"]][[table]] <- add_dataframe(md$metadata$tables[[i]], filename, md$metadata)
         o[["resources"]][[basename(md$metadata$tables[[i]][['url']])]] <- table
-
     }
 
     # load sources
     if (load_bib) {
-        # n.b. we use suppressWarnings to suppress:
-        #   `as_data_frame()` was deprecated in tibble 2.0.0.
-        # caused by bib2df, this has not been updated since 2020, so we should
-        # replace it. See: https://github.com/SimonGreenhill/rcldf/issues/13
-        o$sources <- suppressWarnings(read_bib(get_filename(o$base_dir, md$metadata[['dc:source']])))
+        logger::log_debug("cldf: load_bib", namespace="cldf")
+        # `as_data_frame()` was deprecated in tibble 2.0.0.
+        # this has not been updated since 2020, so we should replace it.
+        # See: https://github.com/SimonGreenhill/rcldf/issues/13
+        o$sources <- read_bib(get_filename(o$base_dir, md$metadata[['dc:source']]))
     }
 
+    logger::log_debug("cldf: run nullify", namespace="cldf")
     o <- nullify(o)  # postprocess
     o
 }

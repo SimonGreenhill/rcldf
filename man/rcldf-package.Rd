@@ -9,8 +9,7 @@
 Reads Cross-Linguistic Data Files (CLDF) into R.
 }
 \details{
-The only function you're likely to need from roxygen2 is \code{\link[=roxygenize]{roxygenize()}}.
-Otherwise refer to the vignettes to see how to format the documentation.
+rcldf is a library for R to read Cross-Linguistic Data files (CLDF)
 }
 \seealso{
 Useful links:

@@ -1,21 +1,19 @@
 Package: rcldf
 Type: Package
 Title: rcldf - Read Linguistic Data In The Cross Linguistic Data Format (CLDF)
-Version: 1.0.0
+Version: 1.1.0
 Author:
     person("Simon", "Greenhill", email = "simon@simon.net.nz", role = c("aut", "cre"))
 Maintainer: Simon J. Greenhill <simon@simon.net.nz>
 Description: Reads Cross-Linguistic Data Files (CLDF) into R.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
-LazyData: true
 Imports:
     archive,
     bib2df (>= 1.1.1),
     csvwr,
     curl,
     dplyr,
-    jsonlite,
     magrittr,
     openssl,
     purrr,
@@ -23,7 +21,9 @@ Imports:
     rlang,
     readr,
     tools,
-    utils
+    utils,
+    logger,
+    urltools
 Suggests: 
     testthat,
     mockthat,
