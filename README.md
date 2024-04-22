@@ -121,3 +121,11 @@ Sources: 947
 df <- get_table_from('LanguageTable', '/path/to/dir/wals_1a_cldf')
 
 ```
+
+
+# Debugging:
+
+```r
+logger::log_threshold(DEBUG)
+o <- rcldf(...)
+```
