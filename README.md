@@ -123,6 +123,21 @@ df <- get_table_from('LanguageTable', '/path/to/dir/wals_1a_cldf')
 ```
 
 
+# Version History
+
+v1.2.0:
+  - made url handling better
+  - better handling of datatypes for CLDF
+  - fix crash when a table does not exist despite the metadata saying it does
+  - documented debugging details and added more debugging information
+  - made nullify more robust
+
+v1.1.0:
+  - fixed zip loading
+
+v1.0.0:
+  - first release
+
 # Debugging:
 
 ```r
