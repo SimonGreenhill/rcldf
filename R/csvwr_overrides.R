@@ -77,7 +77,7 @@ coalesce_truth <- function(x) {
 
 #' @importFrom magrittr %>%
 #' @importFrom rlang %||%
-#' @importFrom readr read_csv
+#' @importFrom readr read_delim
 add_dataframe <- function(table, filename, group) {
     schema <- table$tableSchema %||% group$tableSchema
     dialect <- override_defaults(table$dialect, group$dialect, default_dialect)
@@ -87,9 +87,8 @@ add_dataframe <- function(table, filename, group) {
     }
     table_columns <- schema$columns[!coalesce_truth(schema$columns[["virtual"]]), ]
     column_names <- table_columns$name
-    column_types <- csvwr::datatype_to_type(table_columns$datatype)
-
-    readr::read_csv(
+    column_types <- datatype_to_type(table_columns$datatype)
+    readr::read_delim(
         filename,
         trim_ws=TRUE,
         skip=dialect$headerRowCount,
@@ -98,3 +97,60 @@ add_dataframe <- function(table, filename, group) {
 }
 
 
+
+
+
+#' Map csvw datatypes to R types
+#'
+#' Translate [csvw datatypes](https://www.w3.org/TR/tabular-metadata/#datatypes) to R types.
+#' This implementation currently targets [readr::cols] column specifications.
+#'
+#' rcldf adds some overrides here to add e.g. anyURI etc.
+datatype_to_type <- function(datatypes) {
+
+  datatypes %>% purrr::map(function(datatype) {
+    if(is.list(datatype)) {
+      # complex types (specified with a list)
+      switch(datatype$base %||% "string",
+             integer = readr::col_integer(),
+             anyURI = readr::col_character(),
+             boolean = readr::col_character(),
+             date = readr::col_date(format=transform_datetime_format(datatype$format)),
+             datetime = readr::col_datetime(format=transform_datetime_format(datatype$format)),
+             decimal = readr::col_double(),
+             string = readr::col_character(),
+             stop("unrecognised complex datatype: ", datatype))
+    } else {
+      # simple types (specified with a string)
+      switch(datatype %||% "string",
+             integer = readr::col_integer(),
+             anyURI = readr::col_character(),
+             double = readr::col_double(),
+             float = readr::col_double(),
+             number = readr::col_double(),
+             decimal = readr::col_double(),
+             string = readr::col_character(),
+             boolean = readr::col_logical(),
+             date = readr::col_date(),
+             datetime = readr::col_datetime(),
+             time = readr::col_time(),
+             duration = readr::col_character(),
+             gDay = readr::col_character(),
+             gMonth = readr::col_character(),
+             gMonthDay = readr::col_character(),
+             gYear = readr::col_character(),
+             gYearMonth = readr::col_character(),
+             xml = readr::col_character(),
+             html = readr::col_character(),
+             json = readr::col_character(),
+             binary = readr::col_character(), # Base 64
+             hexBinary = readr::col_character(),
+             QName = readr::col_character(),
+             anyURI = readr::col_character(),
+             any = readr::col_character(),
+             normalizedString = readr::col_character(),
+             stop("unrecognised simple datatype: ", datatype))
+    }
+    # TODO: value and length constraints
+  })
+}
