@@ -24,8 +24,14 @@ resolve_path <- function(path, cache_dir=NA) {
         )
     }
 
+    # figure out the filetype, simplify urls first to remove url fragment (?download=x etc)
+    if (is_url(path)) {
+        file_ext <- tools::file_ext(urltools::url_parse(path)$path)
+    } else {
+        file_ext <- tools::file_ext(path)
+    }
+
     # given an archive file
-    file_ext <- tools::file_ext(urltools::url_parse(path)$path) # url_parse to remove ?download etc
     if (tolower(file_ext) %in% c('zip', 'gz', 'bz2')) {
         logger::log_debug("encountered archive file - decompressing")
         staging_dir <- file.path(cache_dir, openssl::md5(basename(path)))
@@ -63,7 +69,7 @@ resolve_path <- function(path, cache_dir=NA) {
         # limit to 10 so we don't risk loading all json files on the computer
         for (m in utils::head(mdfiles, 10)) {
             try({
-                logger::log_debug("passing to csvwr: ", path)
+                logger::log_debug("passing to csvwr: ", m)
                 return(list(path=m, metadata=csvwr::read_metadata(m)))
             }, silent = TRUE)
         }
