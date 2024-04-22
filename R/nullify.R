@@ -35,17 +35,28 @@ get_nulls <- function(metadata) {
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 #' cldfobj <- nullify(cldfobj)
 nullify <- function(cldfobj, nulls=NULL) {
-    if (!inherits(cldfobj, "cldf")) stop("'cldfobj' must inherit from class cldf")
+    if (!inherits(cldfobj, "cldf")) { stop("'cldfobj' must inherit from class cldf") }
 
-    if (is.null(nulls)) nulls <- get_nulls(cldfobj$metadata)
+    if (is.null(nulls)) { nulls <- get_nulls(cldfobj$metadata) }
+    
     # loop over and nullify
     if (nrow(nulls)) {
         for (i in 1:nrow(nulls)) {
             url <- nulls[i, 'url']
             column <- nulls[i, "name"]
-            table <- cldfobj$tables[[ cldfobj$resources[[url]] ]]  # get table
-            table[[column]] <- dplyr::na_if(table[[column]], nulls[i, 'null'])  # set to null
-            cldfobj$tables[[ cldfobj$resources[[url]] ]] <- table  # glue back
+            null <- nulls[i, 'null']
+            
+            # how many do we have?
+            if (null %in% cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]]) { 
+                n <- table(cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]])[[null]]
+            } else {
+                n <- 0
+            }
+            logger::log_debug("nullify: setting null value for {url}::{column} = `{null}` (n={n})", namespace="nullify")
+            if (n > 0) {
+                cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]] <- dplyr::na_if(
+                cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]], null)
+            }
         }
     }
     cldfobj
