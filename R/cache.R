@@ -30,6 +30,7 @@ get_dir_size <- function(path) {
 #' @return A dataframe of the directories
 list_cache_files <- function() {
     df <- list.files(get_cache_dir(), full.names=TRUE)
+    if (length(df) == 0) { return(data.frame()) }
     df <- df[sapply(df, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
     df <- data.frame(Path=df, Name=basename(df))
     df$Size <- sapply(df$Path, get_dir_size)

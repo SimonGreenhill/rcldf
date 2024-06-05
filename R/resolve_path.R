@@ -34,10 +34,13 @@ resolve_path <- function(path, cache_dir=NA) {
     # given an archive file
     if (tolower(file_ext) %in% c('zip', 'gz', 'bz2')) {
         logger::log_debug("encountered archive file - decompressing")
-        staging_dir <- file.path(cache_dir, openssl::md5(basename(path)))
-        if (!dir.exists(staging_dir)) {
+        staging_dir <- file.path(cache_dir, basename(tools::file_path_sans_ext(path, compression=TRUE)))
+        sentinel_file <- file.path(staging_dir, 'extracted.ok')
+        if (!file.exists(sentinel_file)) {
             message(sprintf("Unzipping to: %s", staging_dir))
             archive::archive_extract(path, staging_dir, strip_components=0)
+            # write sentinel file to say unzip was ok...
+            file.create(sentinel_file)
         } else {
             message(sprintf("Reusing cache in: %s", staging_dir))
         }
