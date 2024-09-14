@@ -91,9 +91,10 @@ add_dataframe <- function(table, filename, group) {
     readr::read_delim(
         filename,
         trim_ws=TRUE,
-        skip=dialect$headerRowCount,
+        skip=dialect$headerRowCount,  # causes more problems than it's worth? 
         col_names=column_names,
-        col_types=column_types)
+        col_types=column_types,
+        lazy=TRUE)
 }
 
 
