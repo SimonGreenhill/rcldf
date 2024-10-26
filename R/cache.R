@@ -29,14 +29,11 @@ get_dir_size <- function(path) {
 #' @export
 #' @return A dataframe of the directories
 list_cache_files <- function() {
-    df <- list.files(get_cache_dir(), full.names=TRUE)
-    if (length(df) == 0) { return(data.frame()) }
-    df <- df[sapply(df, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
-    df <- data.frame(Path=df, Name=basename(df))
-    df$Size <- sapply(df$Path, get_dir_size)
-    df
+    paths <- list.files(get_cache_dir(), full.names=TRUE)
+    if (length(paths) == 0) { return(data.frame()) }
+    paths <- paths[sapply(paths, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
+    do.call(rbind, lapply(paths, rcldf::get_details))
 }
-
 
 
 #' Removes all files in the cache directory
