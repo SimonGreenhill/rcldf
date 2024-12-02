@@ -157,8 +157,97 @@ Sometimes you just want to get one table:
 df <- get_table_from('LanguageTable', '/path/to/dir/wals_1a_cldf')
 ```
 
+### Get the citation for a dataset:
+
+```r
+print(df$citation)
+```
+
+### Quickly get information on an unloaded dataset:
+
+Sometimes you want to know which version of a dataset you have without loading 
+the whole dataset:
+
+```r
+> get_details('/path/to/examples/wals_1A_cldf')
+        Title    Path                           Size Citation    ConformsTo
+1 The Dataset    /path/to/examples/wals_1A_cldf 5432 (...)       http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+```
+
+## Cache Information
+
+When you load a dataset from a URL, rcldf downloads the dataset and unpacks it to
+a cache directory. This means you can re-use the dataset later.
+
+To see where downloads will be saved:
+
+```r
+> get_cache_dir()
+[1] "/Users/simon/Library/Caches/org.R-project.R/R/rcldf"
+```
+
+To see what datasets you've downloaded:
+
+```r
+> list_cache_files()
+
+                                               Title
+1 glottolog/glottolog: Glottolog database 5.0 as CLDF
+2                                       Grambank v1.0
+3                                    hueblerstability
+4                  McElhanon 1967 Huon Peninsula data
+5                 World Atlas of Classifier Languages
+6       The World Atlas of Language Structures Online
+                                                                      Path Size
+1   /Users/simon/Library/Caches/org.R-project.R/R/rcldf/glottolog-cldf-5.0  544
+2       /Users/simon/Library/Caches/org.R-project.R/R/rcldf/grambank-1.0.3  640
+3 /Users/simon/Library/Caches/org.R-project.R/R/rcldf/hueblerstability-1.1  512
+4                 /Users/simon/Library/Caches/org.R-project.R/R/rcldf/huon  288
+5           /Users/simon/Library/Caches/org.R-project.R/R/rcldf/wacl-1.0.0  544
+6          /Users/simon/Library/Caches/org.R-project.R/R/rcldf/wals-2020.3  608
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Citation
+1 ✂
+2 ✂
+3 ✂
+4 ✂
+5 ✂
+6 ✂
+                                            ConformsTo
+1 http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+2 http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+3 http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+4         http://cldf.clld.org/v1.0/terms.rdf#Wordlist
+5 http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+6 http://cldf.clld.org/v1.0/terms.rdf#StructureDataset
+> 
+
+```
+
+You can re-use datasets in your cache:
+```r
+cldf('/Users/simon/Library/Caches/org.R-project.R/R/rcldf/glottolog-cldf-5.0', load_bib=FALSE)
+A CLDF dataset with 7 tables (CodeTable, LanguageTable, MediaTable, names.csv, ParameterTable, TreeTable, ValueTable)
+```
+
+To remove the cache dir and cleanup:
+
+```r
+> clean_cache()
+```
+
 
 # Version History
+
+v1.3.0:
+  - implemented download cache system
+  - make `resolve_path` more reliable.
+  - added `get_details` utility.
+  - source information is no longer loaded by default, as this is error prone and slow.
+    To retrieve source information either explicitly pass the load_bib=TRUE flag to the
+    `cldf` constructor or run `o <- load_bib(o)`.
+  - removed `citation()` function as it namespace clashes with `utils::citation`, 
+    and is now added to the CLDF object as `o$citation`. 
+  - added more documentation
 
 v1.2.0:
   - made url handling better
