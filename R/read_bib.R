@@ -1,6 +1,6 @@
 #' Reads a BibTeX file into a dataframe
 #'
-#' @param bib the name of the BibTeX file (default="sources.bib")
+#' @param object A CLDF object
 #' @return A tibble dataframe
 #' @importFrom utils unzip
 read_bib <- function(object){

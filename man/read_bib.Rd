@@ -7,7 +7,7 @@
 read_bib(object)
 }
 \arguments{
-\item{bib}{the name of the BibTeX file (default="sources.bib")}
+\item{object}{A CLDF object}
 }
 \value{
 A tibble dataframe
