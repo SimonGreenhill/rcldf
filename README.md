@@ -238,6 +238,9 @@ To remove the cache dir and cleanup:
 
 # Version History
 
+v1.3.1:
+  - fixed usage documentation of `load_bib`
+
 v1.3.0:
   - implemented download cache system
   - make `resolve_path` more reliable.
