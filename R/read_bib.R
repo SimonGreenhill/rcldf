@@ -3,7 +3,11 @@
 #' @param bib the name of the BibTeX file (default="sources.bib")
 #' @return A tibble dataframe
 #' @importFrom utils unzip
-read_bib <- function(bib="sources.bib"){
+read_bib <- function(object){
+    if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
+
+    bib <- get_filename(object$base_dir, object$metadata[['dc:source']])
+
     if (is.null(bib)) { return(NA) }  # no bib defined
     if (!file.exists(bib)) { return(NA) }  # file doesn't exist
     if (tolower(tools::file_ext(bib)) == 'zip') {
