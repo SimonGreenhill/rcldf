@@ -11,13 +11,13 @@ summary.cldf <- function(object, ...) {
     if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
     cat("A Cross-Linguistic Data Format (CLDF) dataset:\n")
     if ("dc:title" %in% names(object$metadata)) {
-        cat(sprintf("Name: %s\n", object$metadata$`dc:title`))
+        cat(sprintf("Name: %s\n", object$metadata[['dc:title']]))
     } else {
         cat(sprintf("Name: %s\n", object$name))
     }
 
     if ("dc:creator" %in% names(object$metadata)) {
-        cat(sprintf("Creator: %s\n", object$metadata$`dc:creator`))
+        cat(sprintf("Creator: %s\n", object$metadata[['dc:creator']]))
     }
 
     cat(sprintf("Path: %s\n", object$base_dir))
