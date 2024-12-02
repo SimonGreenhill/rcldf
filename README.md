@@ -14,18 +14,27 @@ library(devtools)
 install_github("SimonGreenhill/rcldf", dependencies = TRUE)
 ```
 
-## Example
+## Usage
+
+### Load a CLDF dataset:
+
+You create a `cldf` object by giving either a path to the directory the CLDF
+is stored in or a URL where we can find the CLDF dataset.
+
+(i.e. where the _metadata.json_ file lives).
 
 ```r
-# create a `cldf` object giving either a path to the directory
-# or the metadata.json file, or a URL:
-
 > df <- cldf('/path/to/dir/wals_1a_cldf')
 > df <- cldf('/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json')
 > df <- cldf("https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
 > df <- cldf('https://github.com/phlorest/greenhill_et_al2023')
+```
 
-# a cldf object has various bits of information
+### Explore a CLDF dataset:
+
+A cldf object has various bits of information
+
+```r
 > summary(df)
 A Cross-Linguistic Data Format (CLDF) dataset:
 Name: My Dataset
@@ -36,13 +45,18 @@ Tables:
   3/4: ParameterTable (6 columns, 1 rows)
   4/4: ValueTable (7 columns, 563 rows)
 Sources: 947
+```
 
+Each table is attached to the _df$tables_ list:
 
-# each table is attached to the df$tables list.
+```r
 > names(df$tables)
 [1] "ValueTable"     "LanguageTable"  "ParameterTable" "CodeTable" 
+```
 
+...and we can access these tables:
 
+```r
 > df$tables$LanguageTable
 # A tibble: 563 x 9
    ID    Name   Macroarea Latitude Longitude Glottocode ISO639P3code Genus     Family   
@@ -52,12 +66,15 @@ Sources: 947
  3 ach   Aché   NA          -25.2      -55.2 ache1246   guq          Tupi-Gua… Tupian   
 
 
+# OR
 > df$tables$ParameterTable
 # A tibble: 1 x 6
   ID    Name                 Description Authors       Url                      Area    
   <chr> <chr>                <chr>       <chr>         <chr>                    <chr>   
 1 1A    Consonant Inventori… NA          Ian Maddieson http://wals.info/featur… Phonolo… 
 
+
+# OR
 > df$tables$ValueTable
 # A tibble: 563 x 7
    ID     Language_ID Parameter_ID Value Code_ID Comment Source                                       
@@ -67,20 +84,54 @@ Sources: 947
  3 1A-ach ach         1A           1     1A-1    NA      Susnik-1974                                  
  4 1A-acm acm         1A           2     1A-2    NA      Olmsted-1966;Olmsted-1964
  
- 
+```
+
+### Load all the source information
+
+CLDF datasets have sources stored in BibTeX format. We don't load them by default,
+as it can take a long time to parse the BibTeX file correctly.
+
+You can load them like this:
+
+```r
+o <- cldf('/path/to/dir/wals_1a_cldf', load_bib=TRUE)
+# or if you loaded the CLDF without sources the first time.
+o <- read_bib(o)
+```
+
+...and then access them by:
+
+```r
+o$sources
+```
+
+
+
+### Construct a 'wide' table with all foreign key entries filled in:
+
+Sometimes people want to have all the data from a CLDF dataset as one dataframe.
+
+Use `as.cldf.wide` to do this, passing it the name of a table to act as the base.
+
+This will take the base table, and resolve all foreign keys (usually `*_ID`) into
+their own columns.
+
+For example, this dataset has a `CodeTable` which connects to the `ParameterTable` 
+via `Parameter_ID`:
+
+```r
 > df$tables$CodeTable
 # A tibble: 5 x 4
   ID    Parameter_ID Name             Description
-  <chr> <chr>        <chr>            <chr>      
-1 1A-1  1A           Small            NA         
-2 1A-2  1A           Moderately small NA         
-3 1A-3  1A           Average          NA         
-4 1A-4  1A           Moderately large NA         
-5 1A-5  1A           Large            NA         
+  <chr> <chr>        <chr>            <chr>
+1 1A-1  1A           Small            NA
+2 1A-2  1A           Moderately small NA
+```
 
+Using `as.cldf.wide` we can combine all the information from `ParameterTable` into
+the `CodeTable`:
 
-
-# You can extract a "wide" table, with all foreign key entries filled in:
+```r
 > as.cldf.wide(df, 'CodeTable')
 
 # A tibble: 5 x 9
@@ -92,34 +143,18 @@ Sources: 947
 4 1A-4  1A           Moderatel… a moderately la… Consonant Inve… NA               Ian Ma…
 5 1A-5  1A           Large      a large thing    Consonant Inve… NA               Ian Ma…
 # … with 2 more variables: Url <chr>, Area <chr>
+```
+
+Note that name clashes between the two tables are resolved by appending the tablename 
+(e.g. the column `Name` in the original `CodeTable` is now `Name.CodeTable`).
 
 
+### Load just one table:
 
-# Or: 
-> as.cldf.wide(df, 'ValueTable')
+Sometimes you just want to get one table:
 
-# A tibble: 9 x 23
-  ID    Language_ID Parameter_ID.Va… Value Code_ID Comment Source Name.LanguageTable
-  <chr> <chr>       <chr>            <chr> <chr>   <chr>   <chr>  <chr>         
-1 1A-a… abi         1A               2     1A-2    NA      Najli… Abipón        
-2 1A-a… abk         1A               5     1A-5    NA      Hewit… Abkhaz        
-3 1A-a… ach         1A               1     1A-1    NA      Susni… Aché          
-4 1A-a… acm         1A               2     1A-2    NA      Olmst… Achumawi      
-5 1A-a… aco         1A               5     1A-5    NA      Mille… Acoma         
-6 1A-a… adz         1A               2     1A-2    NA      Holzk… Adzera        
-7 1A-a… agh         1A               3     1A-3    NA      Hyman… Aghem         
-8 1A-a… aht         1A               4     1A-4    NA      Kari-… Ahtna         
-9 1A-a… aik         1A               3     1A-3    NA      Hanke… Aikaná        
-# … with 15 more variables: Macroarea <chr>, Latitude <dbl>, Longitude <dbl>,
-#   Glottocode <chr>, ISO639P3code <chr>, Genus <chr>, Family <chr>,
-#   Name.parameters <chr>, Description.ParameterTable <chr>, Authors <chr>, Url <chr>,
-#   Area <chr>, Parameter_ID.CodeTable <chr>, Name.CodeTable <chr>, Description.CodeTable <chr>
-
-
-# If you just want to get one table:
-
+```r
 df <- get_table_from('LanguageTable', '/path/to/dir/wals_1a_cldf')
-
 ```
 
 

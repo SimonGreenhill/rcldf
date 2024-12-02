@@ -8,8 +8,8 @@ read_bib <- function(object){
 
     bib <- get_filename(object$base_dir, object$metadata[['dc:source']])
 
-    if (is.null(bib)) { return(NA) }  # no bib defined
-    if (!file.exists(bib)) { return(NA) }  # file doesn't exist
+    if (is.null(bib)) { return(object) }  # no bib defined
+    if (!file.exists(bib)) { return(object) }  # file doesn't exist
     if (tolower(tools::file_ext(bib)) == 'zip') {
         logger::log_debug("load_bib - encountered zip file: ", bib, namespace="load_bib")
         # get original name (probably sources.bib)
@@ -24,5 +24,6 @@ read_bib <- function(object){
 
     # we suppress the warning `Column `YEAR` contains character strings.` as it
     # confuses users (it's actually a message not a warning)
-    return(suppressMessages(bib2df::bib2df(bib)))
+    object$sources <- suppressMessages(bib2df::bib2df(bib))
+    return(object)
 }

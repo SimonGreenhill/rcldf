@@ -54,7 +54,7 @@ test_that("test handling of no sources", {
     expect_equal(is.na(df$sources), TRUE)
 
     out <- capture.output(summary(df))
-    expect_match(out[9], "Sources: 0")
+    expect_match(out[6], "Sources: 0")
 })
 
 
