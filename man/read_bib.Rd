@@ -4,7 +4,7 @@
 \alias{read_bib}
 \title{Reads a BibTeX file into a dataframe}
 \usage{
-read_bib(bib = "sources.bib")
+read_bib(object)
 }
 \arguments{
 \item{bib}{the name of the BibTeX file (default="sources.bib")}

@@ -7,7 +7,7 @@
 \usage{
 cldf(
   mdpath,
-  load_bib = TRUE,
+  load_bib = FALSE,
   cache_dir = tools::R_user_dir("rcldf", which = "cache")
 )
 
@@ -16,10 +16,10 @@ read_cldf(mdpath)
 \arguments{
 \item{mdpath}{the path to the directory or metadata JSON file.}
 
-\item{load_bib}{a boolean flag (TRUE/FALSE, default TRUE) to load the
+\item{load_bib}{a boolean flag (TRUE/FALSE, default FALSE) to load the
 sources.bib BibTeX file. \code{load_bib=FALSE} can easily speed up loading
-of a CLDF dataset by an order of magnitude or two, so consider this if
-you don't need access to the source information.}
+of a CLDF dataset by an order of magnitude or two, so we do not load
+sources by default.}
 
 \item{cache_dir}{a directory to cache downloaded files to}
 }
