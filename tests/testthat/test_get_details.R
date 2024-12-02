@@ -5,5 +5,4 @@ test_that("test get_details", {
     expect_equal(df$Size, 13696)
     expect_equal(df$Citation, 'Cite me like this!')
     expect_equal(df$ConformsTo, 'http://cldf.clld.org/v1.0/terms.rdf#StructureDataset')
-
 })

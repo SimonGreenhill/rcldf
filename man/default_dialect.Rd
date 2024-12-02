@@ -15,6 +15,6 @@ a list specifying a default csv dialect
 }
 \description{
 The \href{https://w3c.github.io/csvw/metadata/#dialect-descriptions}{CSVW Default Dialect specification}
-described in \href{http://dataprotocols.org/csv-dialect/}{CSV Dialect Description Format}.
+described in \href{https://specs.frictionlessdata.io/csv-dialect/}{CSV Dialect Description Format}.
 }
 \keyword{datasets}

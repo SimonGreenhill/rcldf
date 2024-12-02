@@ -4,7 +4,7 @@
 \name{rcldf-package}
 \alias{rcldf}
 \alias{rcldf-package}
-\title{rcldf: rcldf - Read Linguistic Data In The Cross Linguistic Data Format (CLDF)}
+\title{rcldf: RCLDF - Read Linguistic Data In The Cross Linguistic Data Format (CLDF)}
 \description{
 Reads Cross-Linguistic Data Files (CLDF) into R.
 }
@@ -17,6 +17,10 @@ Useful links:
   \item \url{https://github.com/SimonGreenhill/rcldf}
   \item Report bugs at \url{https://github.com/SimonGreenhill/rcldf/issues}
 }
+
+}
+\author{
+\strong{Maintainer}: Simon J. Greenhill \email{simon@simon.net.nz}
 
 }
 \keyword{internal}
