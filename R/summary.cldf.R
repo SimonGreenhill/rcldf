@@ -41,4 +41,8 @@ summary.cldf <- function(object, ...) {
         nsources <- 0
     }
     cat(sprintf("Sources: %d\n", nsources))
+
+    if (!is.na(object$citation)) {
+        cat(sprintf("Cite:\n\t%s\n", object$citation))
+    }
 }
