@@ -1,5 +1,4 @@
 library(archive)
-library(openssl)
 
 mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
 

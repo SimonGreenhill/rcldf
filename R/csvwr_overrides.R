@@ -58,7 +58,7 @@ default_schema <- function(filename, dialect=default_dialect) {
   if(!dialect$header) {
     names(data_sample) <- paste0("_col.", 1:ncol(data_sample))
   }
-  derive_table_schema(data_sample)
+  csvwr::derive_table_schema(data_sample)
 }
 
 #' Coalesce value to truthiness
@@ -107,6 +107,16 @@ add_dataframe <- function(table, filename, group) {
 #' This implementation currently targets [readr::cols] column specifications.
 #'
 #' rcldf adds some overrides here to add e.g. anyURI etc.
+#'
+#' @param datatypes a list of csvw datatypes
+#' @return a `readr::cols` specification - a list of collectors
+#' @examples
+#' \dontrun{
+#' cspec <- datatype_to_type(list("double", list(base="date", format="yyyy-MM-dd")))
+#' readr::read_csv(readr::readr_example("challenge.csv"), col_types=cspec)
+#' }
+#' @md
+#' @export
 datatype_to_type <- function(datatypes) {
 
   datatypes %>% purrr::map(function(datatype) {
@@ -116,8 +126,8 @@ datatype_to_type <- function(datatypes) {
              integer = readr::col_integer(),
              anyURI = readr::col_character(),
              boolean = readr::col_character(),
-             date = readr::col_date(format=transform_datetime_format(datatype$format)),
-             datetime = readr::col_datetime(format=transform_datetime_format(datatype$format)),
+             date = readr::col_date(format=csvwr::transform_datetime_format(datatype$format)),
+             datetime = readr::col_datetime(format=csvwr::transform_datetime_format(datatype$format)),
              decimal = readr::col_double(),
              string = readr::col_character(),
              stop("unrecognised complex datatype: ", datatype))

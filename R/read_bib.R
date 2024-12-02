@@ -2,6 +2,7 @@
 #'
 #' @param bib the name of the BibTeX file (default="sources.bib")
 #' @return A tibble dataframe
+#' @importFrom utils unzip
 read_bib <- function(bib="sources.bib"){
     if (is.null(bib)) { return(NA) }  # no bib defined
     if (!file.exists(bib)) { return(NA) }  # file doesn't exist

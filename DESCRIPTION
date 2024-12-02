@@ -12,10 +12,8 @@ Imports:
     archive,
     bib2df (>= 1.1.1),
     csvwr,
-    curl,
     dplyr,
     magrittr,
-    openssl,
     purrr,
     remotes,
     rlang,
@@ -29,11 +27,9 @@ Suggests:
     mockthat,
     spelling,
     covr,
-    knitr,
     rmarkdown
 URL: https://github.com/SimonGreenhill/rcldf
 BugReports: https://github.com/SimonGreenhill/rcldf/issues
 Language: en-US
 RoxygenNote: 7.2.3
-VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
