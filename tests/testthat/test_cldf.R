@@ -1,6 +1,6 @@
 test_that("test cldf", {
     mdpath <- "examples/wals_1A_cldf/StructureDataset-metadata.json"
-    df <- cldf(mdpath)
+    df <- cldf(mdpath, load_bib=TRUE)
     expect_is(df, 'cldf')
     # is metadata the same
     expect_equal(df[['metadata']], csvwr::read_metadata(mdpath))
@@ -23,6 +23,9 @@ test_that("test cldf", {
     expect_equal(df$tables[['CodeTable']]$ID[1], '1A-1')
 
     expect_equal(nrow(df$sources), 11)
+
+    # citation
+    expect_equal(df$citation, "Cite me like this!")
 })
 
 

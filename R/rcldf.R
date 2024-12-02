@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
+cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
     md <- rcldf::resolve_path(mdpath, cache_dir=cache_dir)
 
     if (!startsWith(md$metadata[['dc:conformsTo']], 'http://cldf.clld.org/')) {
@@ -26,10 +26,16 @@ cldf <- function(mdpath, load_bib=TRUE, cache_dir=tools::R_user_dir("rcldf", whi
         type = md$metadata[['dc:conformsTo']],
         tables = list(),  # tables by table type (e.g. "LanguageTable")
         resources = list(),  # tables by resource name (e.g. "languages.csv")
-        sources = NA
+        sources = NA,
+        citation = NA
     ), class = "cldf")
 
     logger::log_debug("cldf: setting base_dir: ", o$base_dir, namespace="cldf")
+
+
+    if ("dc:bibliographicCitation" %in% names(md$metadata)) {
+        o$citation <- md$metadata[['dc:bibliographicCitation']]
+    }
 
     for (i in 1:length(md$metadata$tables)) {
         tfile <- md$metadata$tables[[i]][['url']]
