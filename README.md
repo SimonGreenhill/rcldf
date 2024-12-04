@@ -1,6 +1,6 @@
 # rcldf - a R library for reading CLDF files
 
-[![codecov](https://codecov.io/gh/SimonGreenhill/rcldf/graph/badge.svg?token=H7T57lHypY)](https://codecov.io/gh/SimonGreenhill/rcldf)
+[![codecov](https://codecov.io/gh/SimonGreenhill/rcldf/graph/badge.svg?token=H7T57lHypY)](https://app.codecov.io/gh/SimonGreenhill/rcldf)
 
 # rcldf is a library for R to read Cross-Linguistic Data files (CLDF)
 
