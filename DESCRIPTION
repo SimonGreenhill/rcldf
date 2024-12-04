@@ -1,6 +1,6 @@
 Package: rcldf
 Type: Package
-Title: Read Linguistic Data In The Cross Linguistic Data Format (CLDF)
+Title: Read Linguistic Data in the Cross Linguistic Data Format (CLDF)
 Version: 1.3.1
 Authors@R: 
     person(given = c("Simon", "J."), family = "Greenhill", email = "simon@simon.net.nz", role = c("aut", "cre"))
