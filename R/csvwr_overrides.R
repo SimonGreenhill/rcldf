@@ -78,6 +78,7 @@ coalesce_truth <- function(x) {
 #' @importFrom magrittr %>%
 #' @importFrom rlang %||%
 #' @importFrom readr read_delim
+#' @return A dataframe
 add_dataframe <- function(table, filename, group) {
     schema <- table$tableSchema %||% group$tableSchema
     dialect <- override_defaults(table$dialect, group$dialect, default_dialect)
@@ -111,10 +112,8 @@ add_dataframe <- function(table, filename, group) {
 #' @param datatypes a list of csvw datatypes
 #' @return a `readr::cols` specification - a list of collectors
 #' @examples
-#' \dontrun{
 #' cspec <- datatype_to_type(list("double", list(base="date", format="yyyy-MM-dd")))
 #' readr::read_csv(readr::readr_example("challenge.csv"), col_types=cspec)
-#' }
 #' @md
 #' @export
 datatype_to_type <- function(datatypes) {

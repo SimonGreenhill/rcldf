@@ -20,8 +20,6 @@ This implementation currently targets \link[readr:cols]{readr::cols} column spec
 rcldf adds some overrides here to add e.g. anyURI etc.
 }
 \examples{
-\dontrun{
 cspec <- datatype_to_type(list("double", list(base="date", format="yyyy-MM-dd")))
 readr::read_csv(readr::readr_example("challenge.csv"), col_types=cspec)
-}
 }

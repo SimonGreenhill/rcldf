@@ -11,10 +11,11 @@
 
 \item{...}{Arguments to be passed to or from other methods. Currently not used.}
 }
-\description{
-Summarises the CLDF file
-}
-\examples{
+\value{
+NULL
 cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 print(cldfobj)
+}
+\description{
+Summarises the CLDF file
 }

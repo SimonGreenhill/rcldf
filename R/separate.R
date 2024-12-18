@@ -1,3 +1,8 @@
+#' Identifies the separator characters specified by the CLDF metadata.
+#'
+#' @param metadata - a CLDF metadata.
+#' @return A dataframe with three columns (name, separator, url).
+#' @export
 get_separators <- function(metadata) {
     find <- function(url, tableSchema) {
         seps <- data.frame()  # empty data frame to keep bind_rows happy
