@@ -75,6 +75,12 @@ coalesce_truth <- function(x) {
     }
 }
 
+#' Adds a dataframe.
+#'
+#' @param table a metadata section from the CLDF metadata.
+#' @param filename the filename.
+#' @param group a grouping from the metadata.
+
 #' @importFrom magrittr %>%
 #' @importFrom rlang %||%
 #' @importFrom readr read_delim
