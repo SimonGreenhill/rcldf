@@ -176,7 +176,11 @@ the whole dataset:
 ## Cache Information
 
 When you load a dataset from a URL, rcldf downloads the dataset and unpacks it to
-a cache directory. This means you can re-use the dataset later.
+a cache directory. By default this is a temporary directory which will be deleted when
+you close R. 
+
+However, by specifying a directory or using `tools::R_user_dir("rcldf", which = "cache")`
+you can re-use the dataset later.
 
 To see where downloads will be saved:
 

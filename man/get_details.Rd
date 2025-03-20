@@ -4,10 +4,12 @@
 \alias{get_details}
 \title{Returns a dataframe of with details on the CLDF dataset in \code{path}.}
 \usage{
-get_details(path)
+get_details(path, cache_dir = NA)
 }
 \arguments{
 \item{path}{the path to resolve}
+
+\item{cache_dir}{a directory to cache downloaded files to}
 }
 \value{
 A dataframe.
