@@ -12,10 +12,12 @@
 \item{...}{Arguments to be passed to or from other methods. Currently not used.}
 }
 \value{
-NULL
-cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-print(cldfobj)
+No return value, called for side effects.
 }
 \description{
 Summarises the CLDF file
+}
+\examples{
+cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
+print(cldfobj)
 }
