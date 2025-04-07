@@ -6,7 +6,7 @@
 \alias{rcldf-package}
 \title{rcldf: Read Linguistic Data in the Cross Linguistic Data Format (CLDF)}
 \description{
-Reads Cross-Linguistic Data Files (CLDF) into R.
+rcldf is a library designed to facilitate the manipulation and analysis of datasets in Cross-Linguistic Data Format (CLDF, see Forkel et al. (2018) \doi{10.1038/sdata.2018.205}). CLDF is a framework for storing cross-linguistic data, ensuring compatibility and ease of data exchange between different linguistic datasets. The rcldf package simplifies the loading, querying, and visualisation of CLDF datasets in R, making it easier to conduct comparative linguistic analyses, manage language data, and apply statistical methods directly within R.
 }
 \details{
 rcldf is a library for R to read Cross-Linguistic Data files (CLDF)

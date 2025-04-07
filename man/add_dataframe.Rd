@@ -2,7 +2,7 @@
 % Please edit documentation in R/csvwr_overrides.R
 \name{add_dataframe}
 \alias{add_dataframe}
-\title{Adds a dataframe to}
+\title{Adds a dataframe.}
 \usage{
 add_dataframe(table, filename, group)
 }
@@ -17,5 +17,5 @@ add_dataframe(table, filename, group)
 A dataframe
 }
 \description{
-Adds a dataframe to
+Adds a dataframe.
 }
