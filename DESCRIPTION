@@ -26,7 +26,8 @@ Imports:
     tools,
     utils,
     logger,
-    urltools
+    urltools,
+    jsonlite
 Suggests: 
     testthat,
     mockthat,

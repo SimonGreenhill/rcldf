@@ -60,11 +60,11 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", wh
         # `as_data_frame()` was deprecated in tibble 2.0.0.
         # this has not been updated since 2020, so we should replace it.
         # See: https://github.com/SimonGreenhill/rcldf/issues/13
-        o <- rcldf:::read_bib(o)
+        o <- read_bib(o)
     }
 
     logger::log_debug("cldf: run nullify", namespace="cldf")
-    o <- rcldf::nullify(o)  # postprocess
+    o <- nullify(o)  # postprocess
     o
 }
 
