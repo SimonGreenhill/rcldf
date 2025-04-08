@@ -4,7 +4,10 @@
 \alias{clean_cache}
 \title{Removes all files in the cache directory}
 \usage{
-clean_cache()
+clean_cache(cache_dir = NULL)
+}
+\arguments{
+\item{cache_dir}{the cache directory to use. If NULL then R_user_dir will be used.}
 }
 \value{
 A dataframe of the directories

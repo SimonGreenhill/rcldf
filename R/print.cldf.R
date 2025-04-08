@@ -14,4 +14,6 @@ print.cldf <- function(x, ...) {
         length(x$tables),
         paste(sort(names(x$tables)), sep=" ", collapse=", ")
     ), sep="\n")
+    cat("\n")
+    cat(x[["metadata"]][["dc:bibliographicCitation"]], "\n")
 }

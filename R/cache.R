@@ -26,10 +26,13 @@ get_dir_size <- function(path) {
 
 #' Returns a dataframe of directories in the cache dir
 #'
+#' @param cache_dir the cache directory to use. If NULL then R_user_dir will be used.
+#'
 #' @export
 #' @return A dataframe of the directories
-list_cache_files <- function() {
-    paths <- list.files(get_cache_dir(), full.names=TRUE)
+list_cache_files <- function(cache_dir=NULL) {
+    if (is.null(cache_dir)) cache_dir <- get_cache_dir()
+    paths <- list.files(cache_dir, full.names=TRUE)
     if (length(paths) == 0) { return(data.frame()) }
     paths <- paths[sapply(paths, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
     do.call(rbind, lapply(paths, rcldf::get_details))
@@ -38,10 +41,13 @@ list_cache_files <- function() {
 
 #' Removes all files in the cache directory
 #'
+#' @param cache_dir the cache directory to use. If NULL then R_user_dir will be used.
+#'
 #' @export
 #' @return A dataframe of the directories
-clean_cache <- function() {
-    cache_dir <- get_cache_dir()
+clean_cache <- function(cache_dir=NULL) {
+    if (is.null(cache_dir)) cache_dir <- get_cache_dir()
+
     if (dir.exists(cache_dir)) {
         unlink(cache_dir, recursive=TRUE)
     }

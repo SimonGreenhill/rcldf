@@ -241,6 +241,10 @@ To remove the cache dir and cleanup:
 
 # Version History
 
+v1.4.0:
+  - tweaks and changes for CRAN.
+  - print.cldf now shows citation
+
 v1.3.1:
   - fixed usage documentation of `load_bib`
 
