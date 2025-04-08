@@ -1,8 +1,10 @@
+MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
+
 test_that("test summary.cldf", {
 
     expect_error(summary.cldf('x'), "'object' must inherit from class cldf")
 
-    df <- cldf("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    df <- cldf(MD_JSON_PATH)
     out <- capture.output(summary(df))
 
     expect_match(out[1], "A Cross-Linguistic Data Format \\(CLDF\\) dataset:")

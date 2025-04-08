@@ -1,6 +1,7 @@
+MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
 
 test_that("test get_nulls", {
-    md <- resolve_path('examples/wals_1A_cldf/')
+    md <- resolve_path(MD_JSON_PATH)
     nulls <- get_nulls(md$metadata)
     expect_equal(nrow(nulls), 2)
 
@@ -21,7 +22,7 @@ test_that("test nullify", {
     expect_error(nullify('x'), "'cldfobj' must inherit from class cldf")
 
 
-    cldfobj <- cldf('examples/wals_1A_cldf/')
+    cldfobj <- cldf(MD_JSON_PATH)
     nulls <- get_nulls(cldfobj$metadata)
 
     expect_equal(nrow(nulls), 2)

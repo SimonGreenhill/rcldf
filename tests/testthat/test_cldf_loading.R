@@ -15,7 +15,7 @@ test_that("test cldf loading", {
     o3 <- cldf(system.file("extdata/huon.zip", package = "rcldf"))
     expect_equal(o, patch_base_dir(o3, o$base_dir))
 
-    # turn tests off if offline or on CRAN
+    # turn tests off from here if we are offline or on CRAN
     skip_if_offline()
     skip_on_cran()
 

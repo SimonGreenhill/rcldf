@@ -1,5 +1,7 @@
 test_that("test get_details", {
-    df <- get_details("examples/wals_1A_cldf/StructureDataset-metadata.json")
+    df <- get_details(
+        system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
+    )
     expect_is(df, 'data.frame')
     expect_equal(df$Title, 'The Dataset')
     expect_equal(df$Size, 13696)
