@@ -8,7 +8,7 @@
 #' @return A tibble dataframe
 #' @export
 #' @examples
-#' md <- system.file("huon", "cldf-metadata.json", package = "rcldf")
+#' md <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")
 #' cldfobj <- cldf(md)
 #' forms <- as.cldf.wide(cldfobj, 'FormTable')
 as.cldf.wide <- function(object, table) {
