@@ -4,7 +4,10 @@
 \alias{get_cache_dir}
 \title{Returns the cache dir.}
 \usage{
-get_cache_dir()
+get_cache_dir(cache_dir = NA)
+}
+\arguments{
+\item{cache_dir}{a directory to use}
 }
 \value{
 A string of the cache dir

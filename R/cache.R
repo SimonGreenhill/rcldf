@@ -2,11 +2,68 @@
 
 #' Returns the cache dir.
 #'
+#' @param cache_dir a directory to use
+#'
 #' @export
 #' @return A string of the cache dir
-get_cache_dir <- function() {
-    tools::R_user_dir("rcldf", which = "cache")
+get_cache_dir <- function(cache_dir=NA) {
+    # manually specified
+    if (!is.na(cache_dir) && nzchar(cache_dir)) {
+        return(normalizePath(cache_dir, mustWork=FALSE))
+    # from environment
+    } else if (!is.na(Sys.getenv("RCLDF_CACHE_DIR", unset = NA)) && nzchar(Sys.getenv("RCLDF_CACHE_DIR", unset = NA))) {
+        return(Sys.getenv("RCLDF_CACHE_DIR", unset = NA))
+    # otherwise use R cache
+    } else {
+        return(tools::R_user_dir("rcldf", which = "cache"))
+    }
 }
+
+#' Sets the cache dir for the current session.
+#'
+#' @param cache_dir a directory to use
+#'
+#' @export
+#' @return NULL. Sets an environment value.
+set_cache_dir <- function(cache_dir=NA) {
+    Sys.setenv(RCLDF_CACHE_DIR = cache_dir)
+}
+
+
+#' Returns the cachekey for the given path.
+#'
+#' @param path a path to generate the cachekey for.
+#'
+#' @importFrom urltools domain
+#' @importFrom urltools path
+#' @importFrom digest digest
+#'
+#' @export
+#' @return A string.
+make_cache_key <- function(path) {
+    # handle urls
+    if (is_url(path)) {
+        path <- paste0(urltools::domain(path), "_", urltools::path(path))
+    } else {
+        # normalise
+        path <- normalizePath(path, mustWork=FALSE)
+        path <- basename(path)
+    }
+
+    # make a hash to ensure uniqueness
+    hash <- digest::digest(path)
+
+    # Clean up the path/URL for readability
+    name <- gsub("[^A-Za-z0-9]+", "_", path)
+    name <- gsub("https_", "", name)
+    name <- gsub("_org", "", name)
+    name <- gsub("_com", "", name)
+    # limit length for filesystem safety
+    name <- substr(name, 1, 60)
+    paste0(name, "_", hash)
+}
+
+
 
 
 #' Returns the filesize in bytes of a directory.
@@ -32,24 +89,11 @@ get_dir_size <- function(path) {
 #' @return A dataframe of the directories
 list_cache_files <- function(cache_dir=NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-    paths <- list.files(cache_dir, full.names=TRUE)
+    paths <- list.files(get_cache_dir(), pattern = "-metadata\\.json$", recursive = TRUE, full.names = TRUE)
+    #paths <- list.files(cache_dir, full.names=TRUE)
     if (length(paths) == 0) { return(data.frame()) }
-    paths <- paths[sapply(paths, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
+    #paths <- paths[sapply(paths, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
+
     do.call(rbind, lapply(paths, rcldf::get_details))
-}
-
-
-#' Removes all files in the cache directory
-#'
-#' @param cache_dir the cache directory to use. If NULL then R_user_dir will be used.
-#'
-#' @export
-#' @return A dataframe of the directories
-clean_cache <- function(cache_dir=NULL) {
-    if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-
-    if (dir.exists(cache_dir)) {
-        unlink(cache_dir, recursive=TRUE)
-    }
 }
 

@@ -1,5 +1,7 @@
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
 
+# logger::log_threshold("DEBUG")
+
 test_that("resolve_path", {
 
     expected <- csvwr::read_metadata(MD_JSON_PATH)
@@ -55,4 +57,7 @@ test_that("resolve_path handles archives (.zip)", {
 
     # check a table at random
     expect_equal(cldf(zfile)$tables$ValueTable, cldf(MD_JSON_PATH)$tables$ValueTable)
+
+    # run again, should message
+    expect_message(resolve_path(zfile, tempdir()), "^Reusing cache in")
 })

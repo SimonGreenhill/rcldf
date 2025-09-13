@@ -16,35 +16,50 @@ resolve_path <- function(path, cache_dir=NA) {
         dir.create(cache_dir, recursive=TRUE)
     }
 
-    # given a github URL, use remotes to download to a tar.gz file
-    if (is_github(path)) {
-        logger::log_debug("encountered github url - passing to remotes")
-        path <- remotes::remote_download(
-            remotes::github_remote(path, ref = "HEAD", subdir = 'cldf')
-        )
+    cachekey <- file.path(cache_dir, make_cache_key(path))
+    logger::log_debug("Checking for cache key: ", cachekey)
+
+    # given a URL download to cachedir and update path
+    if (is_url(path)) {
+        logger::log_debug("encountered url")
+        if (dir.exists(cachekey)) {
+            logger::log_debug(sprintf("cache hit: %s", cachekey))
+            path <- cachekey
+        } else if (is_github(path)) {
+            # given a github URL, use remotes to download to a temporary tar.gz file
+            logger::log_debug("downloading github with remotes")
+            path <- remotes::remote_download(
+                remotes::github_remote(path, ref = "HEAD", subdir = 'cldf')
+            )
+        } else {
+            ## simplify urls first to remove url fragment (?download=x etc)
+            ## filename <- urltools::url_parse(path)$path
+            ## handle zenodo's trailing /content tag
+            ## if (endsWith(filename, '/content')) { filename <- gsub('/content$', '', filename) }
+            ## filename <- file.path(cache_dir, basename(filename))
+            dest <- tempfile(fileext=".zip")
+            logger::log_debug(sprintf("given a url - downloading to %s", dest))
+            utils::download.file(path, dest, mode="wb", method="curl", extra=c("-L"))  # -L means follow redir
+            path <- dest
+        }
     }
 
-    # figure out the filetype, simplify urls first to remove url fragment (?download=x etc)
-    if (is_url(path)) {
-        file_ext <- tools::file_ext(urltools::url_parse(path)$path)
-    } else {
-        file_ext <- tools::file_ext(path)
-    }
+    # what type of file do we have?
+    file_ext <- tools::file_ext(path)
 
     # given an archive file
     if (tolower(file_ext) %in% c('zip', 'gz', 'bz2')) {
         logger::log_debug("encountered archive file - decompressing")
-        staging_dir <- file.path(cache_dir, basename(tools::file_path_sans_ext(path, compression=TRUE)))
-        sentinel_file <- file.path(staging_dir, 'extracted.ok')
+        sentinel_file <- file.path(cachekey, 'extracted.ok')
         if (!file.exists(sentinel_file)) {
-            message(sprintf("Unzipping to: %s", staging_dir))
-            archive::archive_extract(path, staging_dir, strip_components=0)
+            message(sprintf("Unzipping to: %s", cachekey))
+            archive::archive_extract(path, cachekey, strip_components=0)
             # write sentinel file to say unzip was ok...
             file.create(sentinel_file)
         } else {
-            message(sprintf("Reusing cache in: %s", staging_dir))
+            message(sprintf("Reusing cache in: %s", cachekey))
         }
-        path <- staging_dir  # set path to unarchived dataset
+        path <- cachekey  # set path to unarchived dataset
         logger::log_debug("updating path to ", path)
     }
 
