@@ -243,7 +243,7 @@ For a full tutorial see the vignette here: [https://github.com/SimonGreenhill/rc
 
 v1.5:
   - better cache names.
-  - add `load_concepticon` to match `load_glottolog`.
+  - add `load_concepticon` and `load_clts` to match `load_glottolog`.
   - make column name clash handling better in `as.cldf.wide`.
   - documented usage in tutorial vignette.
 

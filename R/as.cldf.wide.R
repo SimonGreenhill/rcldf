@@ -6,6 +6,9 @@
 #' @param object the `CLDF` dataset.
 #' @param table the name of the table to extract.
 #' @return A tibble dataframe
+#'
+#' @importFrom stats setNames
+#'
 #' @export
 #' @examples
 #' md <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")
