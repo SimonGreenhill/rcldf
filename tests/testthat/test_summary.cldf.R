@@ -17,4 +17,9 @@ test_that("test summary.cldf", {
     expect_match(out[8], "2/4: LanguageTable \\(9 columns, 9 rows\\)")
     expect_match(out[9], "3/4: ParameterTable \\(6 columns, 1 rows\\)")
     expect_match(out[10], "4/4: ValueTable \\(7 columns, 9 rows\\)")
+    expect_match(out[11], "Sources: 0")  # no sources.
+
+    # check we display sources too
+    out <- capture.output(summary(read_bib(df)))
+    expect_match(out[11], "Sources: 1")  # now have sources.
 })
