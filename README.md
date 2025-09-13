@@ -15,6 +15,7 @@ install_github("SimonGreenhill/rcldf", dependencies = TRUE)
 
 ## Usage
 
+
 ### Load a CLDF dataset:
 
 You create a `cldf` object by giving either a path to the directory the CLDF
@@ -134,7 +135,7 @@ the `CodeTable`:
 > as.cldf.wide(df, 'CodeTable')
 
 # A tibble: 5 x 9
-  ID    Parameter_ID Name.CodeTable Description.Cod… Name.ParameterTable Description.Par… Authors
+  ID    Parameter_ID Name       Description      Name.ParameterTable Description.Par… Authors
   <chr> <chr>        <chr>      <chr>            <chr>           <chr>            <chr>  
 1 1A-1  1A           Small      A small thing    Consonant Inve… NA               Ian Ma…
 2 1A-2  1A           Moderatel… a moderately sm… Consonant Inve… NA               Ian Ma…
@@ -145,7 +146,8 @@ the `CodeTable`:
 ```
 
 Note that name clashes between the two tables are resolved by appending the tablename 
-(e.g. the column `Name` in the original `CodeTable` is now `Name.CodeTable`).
+(e.g. the column `Name` in the original `CodeTable` is still `Name` but the `Name` column from
+`ParameterTable is now `Name.ParameterTable`).
 
 
 ### Load just one table:
@@ -231,6 +233,11 @@ You can re-use datasets in your cache:
 cldf('/Users/simon/Library/Caches/org.R-project.R/R/rcldf/glottolog-cldf-5.0', load_bib=FALSE)
 A CLDF dataset with 7 tables (CodeTable, LanguageTable, MediaTable, names.csv, ParameterTable, TreeTable, ValueTable)
 ```
+
+## Tutorial
+
+For a full tutorial see the vignette here: [https://github.com/SimonGreenhill/rcldf/blob/main/vignettes/using-rcldf.Rmd](https://github.com/SimonGreenhill/rcldf/blob/main/vignettes/using-rcldf.Rmd)
+
 
 # Version History
 
