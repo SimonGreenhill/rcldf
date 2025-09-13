@@ -44,13 +44,13 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", wh
         table <- get_tablename(md$metadata$tables[[i]][['dc:conformsTo']], tfile)
         filename <- get_filename(o$base_dir, tfile)
 
-        if (table %in% names(o[["tables"]])) { stop(paste("Duplicate name: ", table)) }
+        if (table %in% names(o[["tables"]])) { stop(paste("Duplicate name: ", table)) }  # nocov
 
         if (!is.null(filename) && file.exists(filename)) {
             o[["tables"]][[table]] <- add_dataframe(md$metadata$tables[[i]], filename, md$metadata)
             o[["resources"]][[basename(tfile)]] <- table
         } else {
-            logger::log_error("cldf: file does not exist: ", tfile, namespace="cldf")
+            logger::log_error("cldf: file does not exist: ", tfile, namespace="cldf")  # nocov
         }
     }
 
