@@ -26,7 +26,7 @@ as.cldf.wide <- function(object, table) {
     if (is.null(pks)) return(out)
 
     # rename to column.table format
-    out <- dplyr::rename_all(out, function(x) relabel(x, table))
+    #out <- dplyr::rename_all(out, function(x) relabel(x, table))
     for (p in 1:length(pks)) {
         src <- pks[[p]]$columnReference[[1]]
         filename <- pks[[p]]$reference$resource[[1]]  # filename.csv
@@ -36,8 +36,7 @@ as.cldf.wide <- function(object, table) {
 
         # rename to column.table format
         t <- dplyr::rename_all(object$tables[[tbl]], function(x) relabel(x, tbl))
-        by_clause <- c(relabel(dest, tbl)) # ugh
-        names(by_clause) <- c(relabel(src, table)) # ugh
+        by_clause <- setNames(relabel(dest, tbl), src)
         out <- dplyr::left_join(out, t, by=by_clause)
     }
 
