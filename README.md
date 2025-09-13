@@ -232,14 +232,11 @@ cldf('/Users/simon/Library/Caches/org.R-project.R/R/rcldf/glottolog-cldf-5.0', l
 A CLDF dataset with 7 tables (CodeTable, LanguageTable, MediaTable, names.csv, ParameterTable, TreeTable, ValueTable)
 ```
 
-To remove the cache dir and cleanup:
-
-```r
-> clean_cache()
-```
-
-
 # Version History
+
+v1.4.1:
+  - refactored caching.
+  - removed `clean_cache` command until I can think through the security on this. 
 
 v1.4.0:
   - misc tweaks and changes for CRAN.
@@ -279,3 +276,14 @@ v1.0.0:
 logger::log_threshold(DEBUG)
 o <- rcldf(...)
 ```
+
+
+# Miscellaneous:
+
+## How can I get D-PLACE data for a variable?
+
+```r
+dplace <- cldf('https://github.com/D-PLACE/dplace-dataset-ea')
+ea66 <- dplace$tables$ValueTable |> filter(Var_ID=='EA066')
+```
+
