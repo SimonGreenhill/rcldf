@@ -241,6 +241,12 @@ For a full tutorial see the vignette here: [https://github.com/SimonGreenhill/rc
 
 # Version History
 
+v1.5:
+  - better cache names.
+  - add `load_concepticon` to match `load_glottolog`.
+  - make column name clash handling better in `as.cldf.wide`.
+  - documented usage in tutorial vignette.
+
 v1.4.1:
   - refactored caching.
   - removed `clean_cache` command until I can think through the security on this. 
@@ -251,10 +257,10 @@ v1.4.0:
   - add `load_glottolog` convenience function.
 
 v1.3.1:
-  - fixed usage documentation of `load_bib`
+  - fixed usage documentation of `load_bib`.
 
 v1.3.0:
-  - implemented download cache system
+  - implemented download cache system.
   - make `resolve_path` more reliable.
   - added `get_details` utility.
   - source information is no longer loaded by default, as this is error prone and slow.
@@ -262,20 +268,20 @@ v1.3.0:
     `cldf` constructor or run `o <- load_bib(o)`.
   - removed `citation()` function as it namespace clashes with `utils::citation`, 
     and is now added to the CLDF object as `o$citation`. 
-  - added more documentation
+  - added more documentation.
 
 v1.2.0:
-  - made url handling better
-  - better handling of datatypes for CLDF
-  - fix crash when a table does not exist despite the metadata saying it does
-  - documented debugging details and added more debugging information
-  - made nullify more robust
+  - made url handling better.
+  - better handling of datatypes for CLDF.
+  - fix crash when a table does not exist despite the metadata saying it does.
+  - documented debugging details and added more debugging information.
+  - made nullify more robust.
 
 v1.1.0:
-  - fixed zip loading
+  - fixed zip loading.
 
 v1.0.0:
-  - first release
+  - first release.
 
 # Debugging:
 

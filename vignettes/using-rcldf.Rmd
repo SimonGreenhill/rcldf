@@ -202,6 +202,16 @@ loading the whole dataset. Use `get_details`:
 get_details(system.file("extdata/huon", package="rcldf"))
 ```
 
+## Easily get reference catalogs (Glottolog, Concepticon):
+
+`rcldf` has a couple of utility functions to get the latest versions of the 
+Glottolog and Concepticon CLDF reference catalogues:
+
+```{r, eval=FALSE}
+glott <- load_glottolog()
+conc <- load_concepticon()
+```
+
 ## Cache Information
 
 When you load a dataset from a URL, `rcldf` downloads the dataset and
