@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_bib.R
 \name{read_bib}
 \alias{read_bib}
-\title{Reads a BibTeX file into a dataframe}
+\title{Adds BibTeX source information into a CLDF dataset}
 \usage{
 read_bib(object)
 }
@@ -13,5 +13,5 @@ read_bib(object)
 A tibble dataframe
 }
 \description{
-Reads a BibTeX file into a dataframe
+Adds BibTeX source information into a CLDF dataset
 }
