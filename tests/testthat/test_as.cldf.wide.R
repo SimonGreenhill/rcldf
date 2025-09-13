@@ -40,9 +40,6 @@ test_that("test as.cldf.wide", {
     # now test CodeTable joining ParameterTable:
     df$tables$ParameterTable$Description <- 'PD'  # set this so it's not NA
 
-
-
-
     # codes joins parameters
     df.codes <- as.cldf.wide(df, 'CodeTable')
     # should have all codes rows

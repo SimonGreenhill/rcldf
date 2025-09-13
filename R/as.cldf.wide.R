@@ -26,7 +26,6 @@ as.cldf.wide <- function(object, table) {
     if (is.null(pks)) return(out)
 
     # rename to column.table format
-    #out <- dplyr::rename_all(out, function(x) relabel(x, table))
     for (p in 1:length(pks)) {
         src <- pks[[p]]$columnReference[[1]]
         filename <- pks[[p]]$reference$resource[[1]]  # filename.csv
