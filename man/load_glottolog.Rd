@@ -4,11 +4,9 @@
 \alias{load_glottolog}
 \title{Returns a CLDF dataset object of the latest glottolog version.}
 \usage{
-load_glottolog(path, load_bib = FALSE, cache_dir = NULL)
+load_glottolog(load_bib = FALSE, cache_dir = NULL)
 }
 \arguments{
-\item{path}{the path to resolve}
-
 \item{load_bib}{load sources (TRUE/FALSE, default FALSE)}
 
 \item{cache_dir}{A cache_dir to use. If NULL it will use get_cache_dir}

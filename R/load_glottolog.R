@@ -1,6 +1,5 @@
 #' Returns a CLDF dataset object of the latest glottolog version.
 #'
-#' @param path the path to resolve
 #' @param load_bib load sources (TRUE/FALSE, default FALSE)
 #' @param cache_dir A cache_dir to use. If NULL it will use get_cache_dir
 #'
@@ -8,18 +7,14 @@
 #'
 #' @export
 #' @return A `cldf` object
-load_glottolog <- function(path, load_bib=FALSE, cache_dir=NULL) {
+load_glottolog <- function(load_bib=FALSE, cache_dir=NULL) {
     # look at json endpoint and find conceptid -> = 3260727
-    if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-    o <- jsonlite::fromJSON('https://zenodo.org/api/records/3260727')
-    o <- jsonlite::fromJSON(paste0("https://zenodo.org/api/records/", o[['id']]))
-    cldf(o$files[1,]$links$self, load_bib=load_bib, cache_dir=cache_dir)
+    get_from_zenodo('3260727', load_bib=load_bib, cache_dir=cache_dir)
 }
 
 
-#' Returns a CLDF dataset object of the latest concepticon version.
+#' Returns a CLDF dataset object of the latest Concepticon version.
 #'
-#' @param path the path to resolve
 #' @param load_bib load sources (TRUE/FALSE, default FALSE)
 #' @param cache_dir A cache_dir to use. If NULL it will use get_cache_dir
 #'
@@ -27,10 +22,37 @@ load_glottolog <- function(path, load_bib=FALSE, cache_dir=NULL) {
 #'
 #' @export
 #' @return A `cldf` object
-load_concepticon <- function(path, load_bib=FALSE, cache_dir=NULL) {
+load_concepticon <- function(load_bib=FALSE, cache_dir=NULL) {
+    get_from_zenodo('7298022', load_bib=load_bib, cache_dir=cache_dir)
+}
+
+
+#' Returns a CLDF dataset object of the latest CLTS version.
+#'
+#' @param load_bib load sources (TRUE/FALSE, default FALSE)
+#' @param cache_dir A cache_dir to use. If NULL it will use get_cache_dir
+#'
+#' @importFrom jsonlite fromJSON
+#'
+#' @export
+#' @return A `cldf` object
+load_clts <- function(load_bib=FALSE, cache_dir=NULL) {
+    get_from_zenodo('10997741', load_bib=load_bib, cache_dir=cache_dir)
+}
+
+
+#' Downloads and installs a CLDF dataset from a Zenodo endpoint
+#'
+#' @param zid Zenodo endpoint `conceptid`
+#' @param load_bib load sources (TRUE/FALSE, default FALSE)
+#' @param cache_dir A cache_dir to use. If NULL it will use get_cache_dir
+#'
+#' @importFrom jsonlite fromJSON
+#'
+#' @return A `cldf` object
+get_from_zenodo <- function(zid, load_bib=FALSE, cache_dir=NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-    o <- jsonlite::fromJSON('https://zenodo.org/api/records/7298022')
+    o <- jsonlite::fromJSON(paste0('https://zenodo.org/api/records/', zid))
     o <- jsonlite::fromJSON(paste0("https://zenodo.org/api/records/", o[['id']]))
     cldf(o$files[1,]$links$self, load_bib=load_bib, cache_dir=cache_dir)
 }
-
