@@ -7,7 +7,8 @@
 list_cache_files(cache_dir = NULL)
 }
 \arguments{
-\item{cache_dir}{the cache directory to use. If NULL then R_user_dir will be used.}
+\item{cache_dir}{the cache directory to use.
+If NULL then R_user_dir will be used.}
 }
 \value{
 A dataframe of the directories

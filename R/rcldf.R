@@ -37,21 +37,29 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", wh
         o$citation <- md$metadata[['dc:bibliographicCitation']]
     }
 
-    for (i in 1:length(md$metadata$tables)) {
-        tfile <- md$metadata$tables[[i]][['url']]
+    tables <- md$metadata$tables
+    existing_names <- names(o[["tables"]])
+
+    for (i in seq_along(tables)) {
+        tbl <- tables[[i]]
+        tfile <- tbl[["url"]]
 
         logger::log_debug("cldf: handle table ", tfile, namespace="cldf")
-        table <- get_tablename(md$metadata$tables[[i]][['dc:conformsTo']], tfile)
+
+        table <- get_tablename(tbl[["dc:conformsTo"]], tfile)
         filename <- get_filename(o$base_dir, tfile)
 
-        if (table %in% names(o[["tables"]])) { stop(paste("Duplicate name: ", table)) }  # nocov
-
-        if (!is.null(filename) && file.exists(filename)) {
-            o[["tables"]][[table]] <- add_dataframe(md$metadata$tables[[i]], filename, md$metadata)
-            o[["resources"]][[basename(tfile)]] <- table
-        } else {
-            logger::log_error("cldf: file does not exist: ", tfile, namespace="cldf")  # nocov
+        if (table %in% existing_names) {
+            stop(paste("Duplicate name: ", table))  # nocov
         }
+
+        if (is.null(filename) || !file.exists(filename)) {
+            logger::log_error("cldf: file does not exist: ", tfile, namespace = "cldf")  # nocov
+            next
+        }
+
+        o[["tables"]][[table]] <- add_dataframe(tbl, filename, md$metadata)
+        o[["resources"]][[basename(tfile)]] <- table
     }
 
     # load sources

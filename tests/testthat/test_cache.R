@@ -51,21 +51,31 @@ test_that("test get_cache_dir", {
     if (!is.na(old_env) & nzchar(old_env)) {
         Sys.unsetenv("RCLDF_CACHE_DIR")
     }
-
+    
+    tmpdir <- file.path("/", "tmp", "rcldf")
+    
     expect_equal(get_cache_dir(), tools::R_user_dir("rcldf", which = "cache"))
+    expect_equal(get_cache_dir(tmpdir), tmpdir)
 
-    expect_equal(get_cache_dir('/tmp/rcldf'), '/tmp/rcldf')
-
-    Sys.setenv(RCLDF_CACHE_DIR="/tmp/rcldf2")
-    expect_equal(get_cache_dir(), '/tmp/rcldf2')
+    Sys.setenv(RCLDF_CACHE_DIR=tmpdir)
+    expect_equal(get_cache_dir(), tmpdir)
 
     # use set_cache_dir
     Sys.unsetenv("RCLDF_CACHE_DIR")
-    set_cache_dir('/tmp/rcldf3')
-    expect_equal(get_cache_dir(), '/tmp/rcldf3')
+    tmpdir <- file.path("/", "tmp", "rcldf2")
+    set_cache_dir(tmpdir)
+    expect_equal(get_cache_dir(), tmpdir)
 
     expect_equal(nrow(list_cache_files()), 0)
 
     # cleanup
     Sys.setenv(RCLDF_CACHE_DIR=old_env)
+})
+
+
+test_that("test list_cache_dir", {
+    # use the package inst/extdata as example
+    files <- list_cache_files(cache_dir=system.file("extdata/examples", package = "rcldf"))
+    # should be 4 cldf's in here
+    expect_equal(nrow(files), 4)
 })

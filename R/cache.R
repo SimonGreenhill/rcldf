@@ -7,12 +7,13 @@
 #' @export
 #' @return A string of the cache dir
 get_cache_dir <- function(cache_dir=NA) {
+    env_var <- Sys.getenv("RCLDF_CACHE_DIR", unset = NA)
     # manually specified
     if (!is.na(cache_dir) && nzchar(cache_dir)) {
         return(normalizePath(cache_dir, mustWork=FALSE))
     # from environment
-    } else if (!is.na(Sys.getenv("RCLDF_CACHE_DIR", unset = NA)) && nzchar(Sys.getenv("RCLDF_CACHE_DIR", unset = NA))) {
-        return(Sys.getenv("RCLDF_CACHE_DIR", unset = NA))
+    } else if (!is.na(env_var) && nzchar(env_var)) {
+        return(env_var)
     # otherwise use R cache
     } else {
         return(tools::R_user_dir("rcldf", which = "cache"))
@@ -55,9 +56,9 @@ make_cache_key <- function(path) {
 
     # Clean up the path/URL for readability
     name <- gsub("[^A-Za-z0-9]+", "_", path)
-    name <- gsub("https_", "", name)
-    name <- gsub("_org", "", name)
-    name <- gsub("_com", "", name)
+    name <- sub("https_", "", name)
+    name <- sub("_org", "", name)
+    name <- sub("_com", "", name)
     # limit length for filesystem safety
     name <- substr(name, 1, 60)
     paste0(name, "_", hash)
@@ -75,7 +76,8 @@ make_cache_key <- function(path) {
 get_dir_size <- function(path) {
     files <- list.files(path, full.names = TRUE)
     if (length(files) > 0) {
-        return(sum(sapply(files, function(x) file.size(x))))
+        sizes <- vapply(files, FUN.VALUE=numeric(1), function(x) file.size(x))
+        return(sum(sizes))
     }
     return(0)
 }
@@ -83,17 +85,17 @@ get_dir_size <- function(path) {
 
 #' Returns a dataframe of directories in the cache dir
 #'
-#' @param cache_dir the cache directory to use. If NULL then R_user_dir will be used.
+#' @param cache_dir the cache directory to use. 
+#'    If NULL then R_user_dir will be used.
 #'
 #' @export
 #' @return A dataframe of the directories
 list_cache_files <- function(cache_dir=NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-    paths <- list.files(get_cache_dir(), pattern = "-metadata\\.json$", recursive = TRUE, full.names = TRUE)
-    #paths <- list.files(cache_dir, full.names=TRUE)
+    paths <- list.files(
+        cache_dir, pattern = "-metadata\\.json$",
+        recursive = TRUE, full.names = TRUE)
     if (length(paths) == 0) { return(data.frame()) }
-    #paths <- paths[sapply(paths, dir.exists, USE.NAMES=FALSE)]  # keep dirs only
-
     do.call(rbind, lapply(paths, rcldf::get_details))
 }
 

@@ -1,7 +1,8 @@
 
 `:=` <- rlang::`:=`   # hack to shut up R CMD check
 
-#' Extracts a CLDF table as a 'wide' dataframe by resolving all foreign key links
+#' Extracts a CLDF table as a 'wide' dataframe by resolving all foreign
+#'  key links
 #'
 #' @param object the `CLDF` dataset.
 #' @param table the name of the table to extract.
@@ -19,7 +20,9 @@ as.cldf.wide <- function(object, table) {
     # error on no table
     if (is.na(table)) stop("Need a table to expand")
     # error on bad table
-    if (table %in% names(object$tables) == FALSE) stop(paste("Invalid table", table))
+    if (table %in% names(object$tables) == FALSE) {
+        stop(paste("Invalid table", table))
+    }
     # find tables that join this one
     tbl_idx <- which(names(object$tables) == table)
     pks <- object$metadata$tables[[tbl_idx]][["tableSchema"]][["foreignKeys"]]
@@ -28,26 +31,29 @@ as.cldf.wide <- function(object, table) {
 
     if (is.null(pks)) return(out)
 
-    # rename to column.table format
-    for (p in 1:length(pks)) {
-        src <- pks[[p]]$columnReference[[1]]
-        filename <- pks[[p]]$reference$resource[[1]]  # filename.csv
-        tbl <- object$resources[[filename]]
-        dest <- pks[[p]]$reference$columnReference[[1]]
-        message(paste("Joining", src, '->', tbl, '->', dest))
+    for (p in seq_along(pks)) {
+      pk       <- pks[[p]]
+      src      <- pk$columnReference[[1]]
+      filename <- pk$reference$resource[[1]]  # filename.csv
+      tbl      <- object$resources[[filename]]
+      dest     <- pk$reference$columnReference[[1]]
 
-        # rename to column.table format
-        t <- dplyr::rename_all(object$tables[[tbl]], function(x) relabel(x, tbl))
-        by_clause <- setNames(relabel(dest, tbl), src)
-        out <- dplyr::left_join(out, t, by=by_clause)
+      message("Joining ", src, " -> ", tbl, " -> ", dest)
+
+      # rename columns to column.table format
+      t <- dplyr::rename_with(object$tables[[tbl]], ~ relabel(.x, tbl))
+      by_clause <- setNames(relabel(dest, tbl), src)
+
+      out <- dplyr::left_join(out, t, by = by_clause)
     }
-
+    
     # and now tidy up by renaming unique columns (i.e. remove excess ".table")
     shortnames <- gsub('\\..*$', '', colnames(out))
-    for (i in 1:length(colnames(out))) {
-        if (length(which(shortnames == shortnames[i])) == 1) {
-            out <- dplyr::rename(out, !!shortnames[i] := colnames(out)[i])
-        }
+    for (i in seq_along(colnames(out))) {
+      if (sum(shortnames == shortnames[i]) == 1) {
+        out <- dplyr::rename(out, !!shortnames[i] := dplyr::all_of(colnames(out)[i]))
+      }
     }
+    
     out
 }

@@ -5,11 +5,7 @@ get_nulls <- function(metadata) {
             nulls <- tableSchema$columns[c('name', 'null')]
             # remove non-nullable fields
             nulls <- nulls[!is.na(nulls$null),]
-            nulls <- data.frame(
-                url=url,
-                name=nulls$name,
-                null=unlist(nulls$null)
-            )
+            nulls <- data.frame(url=url, name=nulls$name, null=unlist(nulls$null))
         }
         nulls
     }
@@ -38,16 +34,16 @@ nullify <- function(cldfobj, nulls=NULL) {
     if (!inherits(cldfobj, "cldf")) { stop("'cldfobj' must inherit from class cldf") }
 
     if (is.null(nulls)) { nulls <- get_nulls(cldfobj$metadata) }
-    
+
     # loop over and nullify
     if (nrow(nulls)) {
-        for (i in 1:nrow(nulls)) {
+        for (i in seq_len(nrow(nulls))) {
             url <- nulls[i, 'url']
             column <- nulls[i, "name"]
             null <- nulls[i, 'null']
-            
+
             # how many do we have?
-            if (null %in% cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]]) { 
+            if (null %in% cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]]) {
                 n <- table(cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]])[[null]]
             } else {
                 n <- 0

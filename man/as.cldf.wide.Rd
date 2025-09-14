@@ -2,7 +2,8 @@
 % Please edit documentation in R/as.cldf.wide.R
 \name{as.cldf.wide}
 \alias{as.cldf.wide}
-\title{Extracts a CLDF table as a 'wide' dataframe by resolving all foreign key links}
+\title{Extracts a CLDF table as a 'wide' dataframe by resolving all foreign
+key links}
 \usage{
 as.cldf.wide(object, table)
 }
@@ -15,7 +16,8 @@ as.cldf.wide(object, table)
 A tibble dataframe
 }
 \description{
-Extracts a CLDF table as a 'wide' dataframe by resolving all foreign key links
+Extracts a CLDF table as a 'wide' dataframe by resolving all foreign
+key links
 }
 \examples{
 md <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")

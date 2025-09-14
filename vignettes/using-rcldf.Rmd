@@ -4,7 +4,7 @@ author: "Simon J. Greenhill"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{using-rcldf}
+  %\VignetteIndexEntry{Using rcldf to work with Cross-Linguistic Data Format datasets}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -50,7 +50,7 @@ available](https://zenodo.org/search?q=CLDF&f=resource_type%3Adataset&l=list&p=1
 containing data from the world's languages and cultures including
 everything from catalogues of linguistic metadata (e.g.
 [Glottolog](https://glottolog.org)),
-[EndangeredLanguages.com](http://www.endangeredlanguages.com)), to word
+[EndangeredLanguages.com](https://www.endangeredlanguages.com)), to word
 lists of lexical data (e.g. [Lexibank](https://lexibank.clld.org/)),
 grammatical features (e.g. [WALS](https://wals.info) and
 [Grambank](https://grambank.clld.info)), phonetic information (e.g.
@@ -399,7 +399,7 @@ Looking good for our hypothesis, but let's test it formally to make sure we're
 not seeing a chance pattern:
 
 ```{r}
-table(df$GB028, df$EA113) -> tab
+tab <- table(df$GB028, df$EA113)
 tab
 
 chisq.test(tab)

@@ -241,7 +241,10 @@ For a full tutorial see the vignette here: [https://github.com/SimonGreenhill/rc
 
 # Version History
 
-v1.5:
+v1.5.1-dev:
+  - code optimisation. CLDF loading is now abou 40% faster.
+  
+v1.5.0:
   - better cache names.
   - add `load_concepticon` and `load_clts` to match `load_glottolog`.
   - make column name clash handling better in `as.cldf.wide`.

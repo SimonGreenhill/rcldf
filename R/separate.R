@@ -4,22 +4,21 @@
 #' @return A dataframe with three columns (name, separator, url).
 #' @export
 get_separators <- function(metadata) {
-    find <- function(url, tableSchema) {
-        seps <- data.frame()  # empty data frame to keep bind_rows happy
-        if ('separator' %in% colnames(tableSchema$columns)) {
-            seps <- tableSchema$columns[c('name', 'separator')]
-            # remove unseparated fields
-            seps <- seps[!is.na(seps$separator),]
-            seps$url <- url
-        }
-        seps
+    tables <- metadata$tables
+    out <- vector("list", length(tables))
+
+    for (i in seq_along(tables)) {
+        cols <- tables[[i]]$tableSchema$columns
+        if (!"separator" %in% names(cols)) next
+
+        seps <- cols[!is.na(cols$separator), c("name", "separator"), drop = FALSE]
+        if (nrow(seps) == 0) next
+
+        seps$url <- tables[[i]]$url
+        out[[i]] <- seps
     }
-    dplyr::bind_rows(
-        lapply(
-            1:length(metadata$tables),
-            function(i) find(metadata$tables[[i]]$url, metadata$tables[[i]]$tableSchema)
-        )
-    )
+
+    do.call(rbind, out[!vapply(out, is.null, logical(1))])
 }
 
 
@@ -35,18 +34,30 @@ get_separators <- function(metadata) {
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 #' cldfobj <- separate(cldfobj)
-separate <- function(cldfobj, separators=NULL) {
-    if (!inherits(cldfobj, "cldf")) stop("'cldfobj' must inherit from class cldf")
-
-    if (is.null(separators)) separators <- get_separators(cldfobj$metadata)
-
-    # loop over and nullify
-    for (i in 1:nrow(separators)) {
-        url <- separators[i, 'url']
-        column <- separators[i, "name"]
-        table <- cldfobj$tables[[ cldfobj$resources[[url]] ]]  # get table
-        table[[column]] <- strsplit(table[[column]], separators[i, "separator"])
-        cldfobj$tables[[ cldfobj$resources[[url]] ]] <- table  # glue back
+separate <- function(cldfobj, separators = NULL) {
+    if (!inherits(cldfobj, "cldf")) {
+        stop("'cldfobj' must inherit from class cldf")
     }
+
+    if (is.null(separators)) {
+        separators <- get_separators(cldfobj$metadata)
+    }
+    if (nrow(separators) == 0) {
+        return(cldfobj)
+    }
+
+    for (i in seq_len(nrow(separators))) {
+        url      <- separators$url[[i]]
+        column   <- separators$name[[i]]
+        sep_char <- separators$separator[[i]]
+        res_name <- cldfobj$resources[[url]]
+
+        # update in place
+        cldfobj$tables[[res_name]][[column]] <- strsplit(
+            cldfobj$tables[[res_name]][[column]],
+            sep_char
+        )
+    }
+
     cldfobj
 }
