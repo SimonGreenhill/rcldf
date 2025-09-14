@@ -53,7 +53,7 @@ everything from catalogues of linguistic metadata (e.g.
 [EndangeredLanguages.com](https://www.endangeredlanguages.com)), to word
 lists of lexical data (e.g. [Lexibank](https://lexibank.clld.org/)),
 grammatical features (e.g. [WALS](https://wals.info) and
-[Grambank](https://grambank.clld.info)), phonetic information (e.g.
+[Grambank](https://grambank.clld.org)), phonetic information (e.g.
 [Phoible](https://phoible.org/)), geographic informations (e.g. [Wurm &
 Hattori 1981/1983](https://doi.org/10.5281/zenodo.15183865)), and
 religious and cultural databases (e.g. [D-PLACE](https://d-place.org/)

@@ -37,7 +37,8 @@ Suggests:
     spelling,
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    qpdf
 URL: https://github.com/SimonGreenhill/rcldf
 BugReports: https://github.com/SimonGreenhill/rcldf/issues
 Language: en-US
