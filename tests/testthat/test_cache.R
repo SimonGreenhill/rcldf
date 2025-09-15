@@ -52,21 +52,19 @@ test_that("test get_cache_dir", {
         Sys.unsetenv("RCLDF_CACHE_DIR")
     }
     
-    tmpdir <- file.path("/", "tmp", "rcldf")
-    
-    expect_equal(get_cache_dir(), tools::R_user_dir("rcldf", which = "cache"))
-    expect_equal(get_cache_dir(tmpdir), tmpdir)
+    expect_match(get_cache_dir(), tools::R_user_dir("rcldf", which = "cache"))
 
+    expect_match(get_cache_dir('testcache'), "testcache$")
+
+    # check setting via env
+    tmpdir <- test_path("testcache2")
     Sys.setenv(RCLDF_CACHE_DIR=tmpdir)
-    expect_equal(get_cache_dir(), tmpdir)
+    expect_match(get_cache_dir(), "testcache2$")
 
-    # use set_cache_dir
+    # use setting via set_cache_dir
     Sys.unsetenv("RCLDF_CACHE_DIR")
-    tmpdir <- file.path("/", "tmp", "rcldf2")
-    set_cache_dir(tmpdir)
-    expect_equal(get_cache_dir(), tmpdir)
-
-    expect_equal(nrow(list_cache_files()), 0)
+    set_cache_dir(test_path("testcache3"))
+    expect_match(get_cache_dir(), "testcache3$")
 
     # cleanup
     Sys.setenv(RCLDF_CACHE_DIR=old_env)

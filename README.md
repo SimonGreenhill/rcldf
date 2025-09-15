@@ -241,8 +241,9 @@ For a full tutorial see the vignette here: [https://github.com/SimonGreenhill/rc
 
 # Version History
 
-v1.5.1-dev:
+v1.5.1:
   - code optimisation. CLDF loading is now abou 40% faster.
+  - misc changes for CRAN compliance.
   
 v1.5.0:
   - better cache names.
