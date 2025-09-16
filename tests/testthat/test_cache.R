@@ -51,7 +51,7 @@ test_that("test get_cache_dir", {
     if (!is.na(old_env) & nzchar(old_env)) {
         Sys.unsetenv("RCLDF_CACHE_DIR")
     }
-    
+
     # test path wrapper to normalise across platforms
     TP <- function(a, b) {
         expect_equal(
@@ -59,7 +59,7 @@ test_that("test get_cache_dir", {
             normalizePath(b,  winslash = "/", mustWork = FALSE)
         )
     }
-    
+
     TP(get_cache_dir(), tools::R_user_dir("rcldf", which = "cache"))
     TP(get_cache_dir('testcache'), 'testcache')
 
@@ -79,6 +79,13 @@ test_that("test get_cache_dir", {
 
 
 test_that("test list_cache_dir", {
+
+    # use set_cache_dir to a tempdir, so we can check (a) calling list_cache_files
+    # with NA, and (b) the code for an empty dir
+    set_cache_dir(tempdir())
+    files <- list_cache_files()
+    expect_equal(nrow(files), 0)
+
     # use the package inst/extdata as example
     files <- list_cache_files(cache_dir=system.file("extdata/examples", package = "rcldf"))
     # should be 4 cldf's in here

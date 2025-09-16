@@ -23,6 +23,8 @@ test_that("read_bib", {
 
     df <- read_bib(df)
     expect_true(nrow(df$sources) == 11)
+
+    expect_error(read_bib(data.frame()), "'object' must inherit from class cldf")
 })
 
 

@@ -32,6 +32,13 @@ test_that("test cldf", {
 })
 
 
+test_that("test invalid CLDF JSON", {
+    MD_JSON_PATH <- system.file("extdata/examples/incorrect_conformsTo.json", package = "rcldf")
+    expect_error(cldf(MD_JSON_PATH), "Invalid CLDF JSON file - does not conform to CLDF spec")
+})
+
+
+
 test_that("test dir or json", {
     expect_equal(
         CLDF_OBJ, # load direct from JSON
