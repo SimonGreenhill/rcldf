@@ -55,7 +55,7 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", wh
 
         if (is.null(filename) || !file.exists(filename)) {
             logger::log_error("cldf: file does not exist: ", tfile, namespace = "cldf")  # nocov
-            next
+            next  # nocov
         }
 
         o[["tables"]][[table]] <- add_dataframe(tbl, filename, md$metadata)

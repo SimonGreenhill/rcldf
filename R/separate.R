@@ -12,7 +12,7 @@ get_separators <- function(metadata) {
         if (!"separator" %in% names(cols)) next
 
         seps <- cols[!is.na(cols$separator), c("name", "separator"), drop = FALSE]
-        if (nrow(seps) == 0) next
+        if (nrow(seps) == 0) next  # no cov
 
         seps$url <- tables[[i]]$url
         out[[i]] <- seps
