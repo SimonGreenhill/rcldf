@@ -52,7 +52,10 @@ load_clts <- function(load_bib=FALSE, cache_dir=NULL) {
 #' @return A `cldf` object
 get_from_zenodo <- function(zid, load_bib=FALSE, cache_dir=NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-    o <- jsonlite::fromJSON(paste0('https://zenodo.org/api/records/', zid))
-    o <- jsonlite::fromJSON(paste0("https://zenodo.org/api/records/", o[['id']]))
+    o <- fetch_json(paste0('https://zenodo.org/api/records/', zid))
+    o <- fetch_json(paste0("https://zenodo.org/api/records/", o[['id']]))
     cldf(o$files[1,]$links$self, load_bib=load_bib, cache_dir=cache_dir)
 }
+
+# extracted so we can monkeypatch/mock tests
+fetch_json <- function(url) { jsonlite::fromJSON(url) }
