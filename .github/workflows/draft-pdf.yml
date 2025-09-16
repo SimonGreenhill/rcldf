@@ -1,8 +1,5 @@
 name: Draft PDF
-on:
-  paths:
-    - paper/**
-
+on: [push]
 jobs:
   paper:
     runs-on: ubuntu-latest
