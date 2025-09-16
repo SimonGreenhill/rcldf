@@ -1,6 +1,6 @@
 # borrowed from csvwr
 
-
+# nocov start
 
 #' CSVW default dialect
 #'
