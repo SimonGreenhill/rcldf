@@ -51,6 +51,15 @@ test_that("load_glottolog", {
 })
 
 
+test_that("load_glottolog - with NULL cache", {
+    with_mocked_bindings({
+        result <- load_glottolog()
+        expect_is(result, 'cldf')
+        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+    }, fetch_json = fake_json)
+})
+
+
 test_that("load_concepticon", {
     with_mocked_bindings({
         result <- load_concepticon(cache_dir = tempdir())

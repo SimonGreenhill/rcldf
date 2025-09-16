@@ -58,4 +58,4 @@ get_from_zenodo <- function(zid, load_bib=FALSE, cache_dir=NULL) {
 }
 
 # extracted so we can monkeypatch/mock tests
-fetch_json <- function(url) { jsonlite::fromJSON(url) }
+fetch_json <- function(url) { jsonlite::fromJSON(url) }  # nocov
