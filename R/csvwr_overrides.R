@@ -1,4 +1,7 @@
 # borrowed from csvwr
+
+
+
 #' CSVW default dialect
 #'
 #' The [CSVW Default Dialect specification](https://w3c.github.io/csvw/metadata/#dialect-descriptions)
@@ -170,3 +173,6 @@ datatype_to_type <- function(datatypes) {
     # TODO: value and length constraints
   })
 }
+
+# nocov end
+
