@@ -300,7 +300,8 @@ o <- rcldf(...)
 ## How can I get D-PLACE data for a variable?
 
 ```r
+library(dplyr)
 dplace <- cldf('https://github.com/D-PLACE/dplace-dataset-ea')
-ea66 <- dplace$tables$ValueTable |> filter(Var_ID=='EA066')
+ea66 <- dplace$tables$ValueTable %>% filter(Var_ID=='EA066')
 ```
 

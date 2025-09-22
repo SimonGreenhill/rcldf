@@ -76,3 +76,12 @@ test_that("load_clts", {
         expect_equal(nrow(result$tables[['LanguageTable']]), 9)
     }, fetch_json = fake_json)
 })
+
+
+test_that("load_dplace", {
+    with_mocked_bindings({
+        result <- load_dplace(cache_dir = tempdir())
+        expect_is(result, 'cldf')
+        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+    }, fetch_json = fake_json)
+})

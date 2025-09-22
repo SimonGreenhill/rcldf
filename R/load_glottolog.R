@@ -1,3 +1,12 @@
+# These should possibly be refactored to something like
+# > load_dataset('glottolog', ...)
+#
+# and I can just maintain a df of relevant catalogues, but
+# I also like the fact that these are exposed as top-level
+# functions which will help users..
+
+
+
 #' Returns a CLDF dataset object of the latest glottolog version.
 #'
 #' @param load_bib load sources (TRUE/FALSE, default FALSE)
@@ -38,6 +47,21 @@ load_concepticon <- function(load_bib=FALSE, cache_dir=NULL) {
 #' @return A `cldf` object
 load_clts <- function(load_bib=FALSE, cache_dir=NULL) {
     get_from_zenodo('10997741', load_bib=load_bib, cache_dir=cache_dir)
+}
+
+
+
+#' Returns a CLDF dataset object of the latest D-PLACE version.
+#'
+#' @param load_bib load sources (TRUE/FALSE, default FALSE)
+#' @param cache_dir A cache_dir to use. If NULL it will use get_cache_dir
+#'
+#' @importFrom jsonlite fromJSON
+#'
+#' @export
+#' @return A `cldf` object
+load_dplace <- function(load_bib=FALSE, cache_dir=NULL) {
+    get_from_zenodo('3935419', load_bib=load_bib, cache_dir=cache_dir)
 }
 
 
