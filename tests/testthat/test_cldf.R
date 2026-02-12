@@ -1,4 +1,4 @@
-
+library(vroom)
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
 CLDF_OBJ <- cldf(MD_JSON_PATH, load_bib=TRUE)
 

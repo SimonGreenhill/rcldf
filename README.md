@@ -86,6 +86,52 @@ Each table is attached to the _df$tables_ list:
  
 ```
 
+### Viewing the schema:
+
+```r
+> schema(df)
+
+values.csv 
+---------- 
+          name              link                property
+1      Code_ID      codes.csv:ID      CLDF:codeReference
+2      Comment                              CLDF:comment
+3           ID                                   CLDF:id
+4  Language_ID  languages.csv:ID  CLDF:languageReference
+5 Parameter_ID parameters.csv:ID CLDF:parameterReference
+6       Source                               CLDF:source
+7        Value                                CLDF:value
+languages.csv 
+------------- 
+          name link          property
+1           ID                CLDF:id
+2         Name              CLDF:name
+3    Macroarea         CLDF:macroarea
+4     Latitude          CLDF:latitude
+5    Longitude         CLDF:longitude
+6   Glottocode        CLDF:glottocode
+7 ISO639P3code      CLDF:iso639P3code
+8        Genus                   <NA>
+9       Family                   <NA>
+parameters.csv 
+-------------- 
+         name link         property
+1          ID               CLDF:id
+2        Name             CLDF:name
+3 Description      CLDF:description
+4     Authors                  <NA>
+5         Url                  <NA>
+6        Area                  <NA>
+codes.csv 
+--------- 
+          name              link                property
+1  Description                          CLDF:description
+2           ID                                   CLDF:id
+3         Name                                 CLDF:name
+4 Parameter_ID parameters.csv:ID CLDF:parameterReference
+```
+
+
 ### Load all the source information
 
 CLDF datasets have sources stored in BibTeX format. We don't load them by default,

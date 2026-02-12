@@ -81,6 +81,10 @@ in a single `S3` object which incorporates each table, metadata, and source info
 Second, `rcldf` supports loading CLDF files from not just local sources but websites and remote archives as well. Third, there are functions for automatically loading the CLDF reference catalogs that describe the languages [Glottolog @Glottolog], lexical concepts [Concepticon @Concepticon] and phonetic transcriptions [Cross Linguistic Transcription Systems, @CLTSDS, @Anderson_2018]. Finally, `rcldf` contains tools to convert the 'long' CLDF tables into 'wide' formats while resolving the foreign keys into expanded columns into one data frame for easier analysis.
 
 
+# AI usage disclosure:
+
+No AI tools were used in the software creation, documentation, or paper authoring process. ChatGPT was used to review the code for potential bugs but was not found to be particularly helpful.
+
 # Acknowledgements
 
 I thank Robert Forkel, Sam Passmore, and Hedvig Skirgård for feedback on rcldf.
