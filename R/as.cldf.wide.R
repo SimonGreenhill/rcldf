@@ -43,13 +43,11 @@ as.cldf.wide <- function(object, table) {
     }
 
     # and now tidy up by renaming unique columns (i.e. remove excess ".table")
-    original_colnames <- colnames(out)
-    shortnames <- gsub("\\..*$", "", original_colnames)
-    for (i in seq_along(original_colnames)) {
-        if (sum(shortnames == shortnames[i]) == 1) {
-            out <- dplyr::rename(out, !!shortnames[i] := !!original_colnames[i])
-        }
-    }
+    shortnames  <- gsub("\\..*$", "", colnames(out))
+    unique_cols <- shortnames[!duplicated(shortnames) & !duplicated(shortnames, fromLast=TRUE)]
+    colnames(out)[colnames(out) != shortnames & shortnames %in% unique_cols] <-
+        shortnames[colnames(out) != shortnames & shortnames %in% unique_cols]
+
 
     out
 }
