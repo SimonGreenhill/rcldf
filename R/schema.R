@@ -19,30 +19,21 @@
 schema <- function(cldf_obj) {
     if (!inherits(cldf_obj, "cldf")) stop("'object' must inherit from class cldf")
 
-    s <- structure(list(tables = list(), relations = list()), class = "cldf_schema")
 
+    fkeys <- get_foreign_keys(cldf_obj)
+    fkeys$FK <- sapply(seq_along(1:nrow(fkeys)), function(i) {
+        sprintf("%s:%s", fkeys[i, 'DestinationURL'], fkeys[i, 'DestinationColumn'])
+    })
+
+    s <- structure(list(tables = list(), relations = fkeys), class = "cldf_schema")
     for (tbl in cldf_obj$metadata$tables) {
         url <- tbl[['url']]
         s$tables[[url]] <- tbl[['tableSchema']]$columns
+        s$tables[[url]][['url']] <- tbl[['url']]
 
-        fks_list <- tbl[["tableSchema"]][["foreignKeys"]]
-        if (!is.null(fks_list) && length(fks_list) > 0) {
-            fks <- lapply(fks_list, function(fk) {
-                data.frame(
-                    name = fk$columnReference[[1]], # Changed to 'name' to match col_df for merging
-                    FK = sprintf("%s:%s", fk$reference$resource, fk$reference$columnReference[[1]]),
-                    stringsAsFactors = FALSE
-                )
-            })
-            rel_df <- do.call(rbind, fks)
-            s$relations[[url]] <- rel_df
-
-            # 3. Merge FK info back into the columns table
-            s$tables[[url]] <- merge(s$tables[[url]], rel_df, by = "name", all.x = TRUE)
-        } else {
-            s$relations[[url]] <- data.frame(name=character(), FK=character())
-            s$tables[[url]]$FK <- NA  # Fill with NA if no FKs exist
-        }
+        # add relevant FKs
+        f <- subset(fkeys, SourceTable == url)[c("SourceColumn", "FK")]
+        s$tables[[url]] <- merge(s$tables[[url]], f, by.x = "name", by.y = "SourceColumn", all.x = TRUE)
     }
     return(s)
 }
@@ -65,10 +56,14 @@ print.cldf_schema <- function(x, ...) {
     for (tbl in names(x$tables)) {
         cat(tbl, "\n")
         cat(paste0(rep('-', nchar(tbl)), collapse=""), "\n")
+        x$tables[[tbl]]$propertyUrl <- x$tables[[tbl]]$propertyUrl
         out <- data.frame(
             name=x$tables[[tbl]][['name']],
             link=ifelse(is.na(x$tables[[tbl]][['FK']]), '', x$tables[[tbl]][['FK']]),
-            property=sub("http://cldf.clld.org/v1.0/terms.rdf#", "CLDF:", x$tables[[tbl]]$propertyUrl)
+            property=ifelse(
+                is.null(x$tables[[tbl]]$propertyUrl),
+                NA,
+                sub("http://cldf.clld.org/v1.0/terms.rdf#", "CLDF:", x$tables[[tbl]]$propertyUrl))
         )
         print(out)
     }
