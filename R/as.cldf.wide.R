@@ -1,4 +1,3 @@
-
 `:=` <- rlang::`:=`   # hack to shut up R CMD check
 
 #' Extracts a CLDF table as a 'wide' dataframe by resolving all foreign
@@ -20,13 +19,9 @@ as.cldf.wide <- function(object, table) {
     # error on no table
     if (is.na(table)) stop("Need a table to expand")
     # error on bad table
-    if (table %in% names(object$tables) == FALSE) {
-        stop(paste("Invalid table", table))
-    }
+    if (table %in% names(object$tables) == FALSE) stop(paste("Invalid table", table))
     # find tables that join this one
-    tbl_idx <- which(names(object$tables) == table)
-    pks <- object$metadata$tables[[tbl_idx]][["tableSchema"]][["foreignKeys"]]
-
+    pks <- object$metadata$tables[[which(names(object$tables) == table)]][["tableSchema"]][["foreignKeys"]]
     out <- object$tables[[table]]
 
     if (is.null(pks)) return(out)
@@ -46,14 +41,15 @@ as.cldf.wide <- function(object, table) {
 
       out <- dplyr::left_join(out, t, by = by_clause)
     }
-    
+
     # and now tidy up by renaming unique columns (i.e. remove excess ".table")
-    shortnames <- gsub('\\..*$', '', colnames(out))
-    for (i in seq_along(colnames(out))) {
-      if (sum(shortnames == shortnames[i]) == 1) {
-        out <- dplyr::rename(out, !!shortnames[i] := dplyr::all_of(colnames(out)[i]))
-      }
+    original_colnames <- colnames(out)
+    shortnames <- gsub("\\..*$", "", original_colnames)
+    for (i in seq_along(original_colnames)) {
+        if (sum(shortnames == shortnames[i]) == 1) {
+            out <- dplyr::rename(out, !!shortnames[i] := !!original_colnames[i])
+        }
     }
-    
+
     out
 }
