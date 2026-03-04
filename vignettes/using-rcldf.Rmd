@@ -406,9 +406,6 @@ tab
 chisq.test(tab)
 ```
 
-....and the probability here is 1.0 of getting a result like this due to chance. 
-So yes, this is just a chance result and there is no evidence in these data that
-languages which distinguish inclusive from exclusive also tend to be those that
-have rigid social structures. There goes our big paper in Nature/Science.
+....and the probability here is 1.0 of getting a result like this due to chance. So yes, this is just a chance result and there is no evidence in these data that languages which distinguish inclusive from exclusive also tend to be those that have rigid social structures. There goes our big paper in Nature/Science.
 
 ## References:
