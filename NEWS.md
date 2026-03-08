@@ -7,6 +7,7 @@
 
 ## v1.6.0:
 
+- add `subset_cldf` to subset CLDF datasets
 - add `load_dplace` helper function.
 - add `schema` function to display schema.
 - add `datasets` and `load_dataset()` functionality.
