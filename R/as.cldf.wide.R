@@ -48,6 +48,5 @@ as.cldf.wide <- function(object, table) {
     colnames(out)[colnames(out) != shortnames & shortnames %in% unique_cols] <-
         shortnames[colnames(out) != shortnames & shortnames %in% unique_cols]
 
-
     out
 }

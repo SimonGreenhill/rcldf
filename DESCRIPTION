@@ -30,6 +30,7 @@ Imports:
     tools,
     urltools,
     utils,
+    versionsort,
     vroom
 Suggests: 
     ggplot2,

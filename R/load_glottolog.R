@@ -76,8 +76,13 @@ load_dplace <- function(load_bib=FALSE, cache_dir=NULL) {
 #' @return A `cldf` object
 get_from_zenodo <- function(zid, load_bib=FALSE, cache_dir=NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
+    logger::log_debug("get_from_zenodo: ", paste0('https://zenodo.org/api/records/', zid), namespace="get_from_zenodo")
     o <- fetch_json(paste0('https://zenodo.org/api/records/', zid))
-    o <- fetch_json(paste0("https://zenodo.org/api/records/", o[['id']]))
+    if (!is.null(o[["id"]]) | zid != o[["id"]]) {
+        logger::log_debug("get_from_zenodo: ", paste0('https://zenodo.org/api/records/', o[['id']]), namespace="get_from_zenodo")
+        o <- fetch_json(paste0("https://zenodo.org/api/records/", o[['id']]))
+    }
+    logger::log_debug("get_from_zenodo: ", o$files[1,]$links$self, namespace="get_from_zenodo")
     cldf(o$files[1,]$links$self, load_bib=load_bib, cache_dir=cache_dir)
 }
 

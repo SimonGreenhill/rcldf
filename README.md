@@ -30,6 +30,19 @@ is stored in or a URL where we can find the CLDF dataset.
 > df <- cldf('https://github.com/phlorest/greenhill_et_al2023')
 ```
 
+Or you can use the `datasets` functionality to browse available datasets:
+
+```r
+datasets()
+```
+
+...and load them:
+
+```r
+wals <- load_dataset('wals')
+```
+
+
 ### Explore a CLDF dataset:
 
 A cldf object has various bits of information
@@ -129,6 +142,14 @@ codes.csv
 2           ID                                   CLDF:id
 3         Name                                 CLDF:name
 4 Parameter_ID parameters.csv:ID CLDF:parameterReference
+```
+
+### Subsetting a dataset
+
+You can extract subset of a dataset (which deletes all non-relevant rows)
+
+```r
+cldf.small <- subset_cldf(df, Glottocode=='chem1251')
 ```
 
 
@@ -284,54 +305,6 @@ A CLDF dataset with 7 tables (CodeTable, LanguageTable, MediaTable, names.csv, P
 
 For a full tutorial see the vignette here: [https://github.com/SimonGreenhill/rcldf/blob/main/vignettes/using-rcldf.Rmd](https://github.com/SimonGreenhill/rcldf/blob/main/vignettes/using-rcldf.Rmd)
 
-
-# Version History
-
-v1.5.1:
-  - code optimisation. CLDF loading is now abou 40% faster.
-  - misc changes for CRAN compliance.
-  
-v1.5.0:
-  - better cache names.
-  - add `load_concepticon` and `load_clts` to match `load_glottolog`.
-  - make column name clash handling better in `as.cldf.wide`.
-  - documented usage in tutorial vignette.
-
-v1.4.1:
-  - refactored caching.
-  - removed `clean_cache` command until I can think through the security on this. 
-
-v1.4.0:
-  - misc tweaks and changes for CRAN.
-  - `print.cldf` now shows citation.
-  - add `load_glottolog` convenience function.
-
-v1.3.1:
-  - fixed usage documentation of `load_bib`.
-
-v1.3.0:
-  - implemented download cache system.
-  - make `resolve_path` more reliable.
-  - added `get_details` utility.
-  - source information is no longer loaded by default, as this is error prone and slow.
-    To retrieve source information either explicitly pass the load_bib=TRUE flag to the
-    `cldf` constructor or run `o <- load_bib(o)`.
-  - removed `citation()` function as it namespace clashes with `utils::citation`, 
-    and is now added to the CLDF object as `o$citation`. 
-  - added more documentation.
-
-v1.2.0:
-  - made url handling better.
-  - better handling of datatypes for CLDF.
-  - fix crash when a table does not exist despite the metadata saying it does.
-  - documented debugging details and added more debugging information.
-  - made nullify more robust.
-
-v1.1.0:
-  - fixed zip loading.
-
-v1.0.0:
-  - first release.
 
 # Debugging:
 
