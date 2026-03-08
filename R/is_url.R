@@ -6,5 +6,5 @@
 #' @examples
 #' is_url('http://simon.net.nz')
 is_url <- function(url) {
-    grepl("://", url)  # too simplistic?
+    grepl("://", url, ignore.case=TRUE)  # too simplistic?
 }
