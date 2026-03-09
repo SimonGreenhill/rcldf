@@ -1,10 +1,31 @@
-#' Adds BibTeX source information into a CLDF dataset
+#' Load and access bibliographic sources from a CLDF dataset
 #'
-#' @param object A CLDF object
+#' Reads and parses the BibTeX sources file from a CLDF dataset, making
+#' bibliographic references available in bibtex format. By default, sources
+#' are not loaded automatically when using [cldf()] as BibTeX parsing can be
+#' time-consuming. Use this function to load them, or pass `load_bib=TRUE` to
+#' [cldf()] when loading the dataset.
 #'
+#' @param object A cldf object containing the dataset
+#' @return The cldf object, modified to include a `sources` list with
+#'   parsed BibTeX data
 #' @export
-#' @return A tibble dataframe
 #' @importFrom utils unzip
+#'
+#' @examples
+#' \donttest{
+#' # Load a dataset with sources
+#' ds <- cldf(system.file("extdata/huon", "cldf-metadata.json",
+#'                        package="rcldf"), load_bib=TRUE)
+#'
+#' # Or load without sources first, then add them
+#' ds_no_bib <- cldf(system.file("extdata/huon", "cldf-metadata.json",
+#'                              package="rcldf"))
+#' ds <- read_bib(ds_no_bib)
+#'
+#' # View the sources
+#' ds$sources
+#' }
 read_bib <- function(object){
     if (!inherits(object, "cldf")) stop("'object' must inherit from class cldf")
 
