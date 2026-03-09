@@ -1,16 +1,12 @@
 # rcldf development version
-
-
-# Version History
-
-
-
+  
 ## v1.6.0:
 
+- add mapping tools
 - add `subset_cldf` to subset CLDF datasets
 - add `load_dplace` helper function.
 - add `schema` function to display schema.
-- add `datasets` and `load_dataset()` functionality.
+- add `datasets` and `load_dataset()` functionality
 
 ## v1.5.1:
   
