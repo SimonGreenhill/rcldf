@@ -2,16 +2,36 @@
 % Please edit documentation in R/read_bib.R
 \name{read_bib}
 \alias{read_bib}
-\title{Adds BibTeX source information into a CLDF dataset}
+\title{Load and access bibliographic sources from a CLDF dataset}
 \usage{
 read_bib(object)
 }
 \arguments{
-\item{object}{A CLDF object}
+\item{object}{A cldf object containing the dataset}
 }
 \value{
-A tibble dataframe
+The cldf object, modified to include a \code{sources} list with
+parsed BibTeX data
 }
 \description{
-Adds BibTeX source information into a CLDF dataset
+Reads and parses the BibTeX sources file from a CLDF dataset, making
+bibliographic references available in bibtex format. By default, sources
+are not loaded automatically when using \code{\link[=cldf]{cldf()}} as BibTeX parsing can be
+time-consuming. Use this function to load them, or pass \code{load_bib=TRUE} to
+\code{\link[=cldf]{cldf()}} when loading the dataset.
+}
+\examples{
+\donttest{
+# Load a dataset with sources
+ds <- cldf(system.file("extdata/huon", "cldf-metadata.json",
+                       package="rcldf"), load_bib=TRUE)
+
+# Or load without sources first, then add them
+ds_no_bib <- cldf(system.file("extdata/huon", "cldf-metadata.json",
+                             package="rcldf"))
+ds <- read_bib(ds_no_bib)
+
+# View the sources
+ds$sources
+}
 }
