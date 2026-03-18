@@ -1,7 +1,14 @@
-#' Interactive Leaflet Map for CLDF
+#' Plot CLDF Languages on an Interactive Map
+#'
+#' @description
+#' Creates a leaflet map showing all languages in the CLDF dataset that have geographic coordinates.
+#' Longitudes are standardized to a 0-360 range to ensure a continuous Pacific-centered view.
 #'
 #' @param x A cldf object.
-#' @param color_by Column to color by (e.g., "Family").
+#' @param color_by Character string specifying the column in `LanguageTable` to use for marker coloring.
+#' Default is "ID".
+#'
+#' @return A leaflet map object.
 #' @export
 plot_languages <- function(x, color_by = "ID") {
     if (!requireNamespace("leaflet", quietly = TRUE)) {
@@ -32,8 +39,19 @@ plot_languages <- function(x, color_by = "ID") {
 }
 
 
-
-
+#' Plot Distribution of a Specific Parameter
+#'
+#' @description
+#' Filters the dataset for a specific Parameter ID and maps the values across languages.
+#' This function automatically resolves whether the data is in a Form or Value table
+#' and joins it with geographic data.
+#'
+#' @param x A cldf object.
+#' @param parameter Character string. The ID of the parameter to plot (e.g., "1sg_a").
+#' @param color_by Character string. The column to use for the color scale (e.g., "Value").
+#'
+#' @return A leaflet map object.
+#' @export
 plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
     if (!requireNamespace("leaflet", quietly = TRUE)) {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
@@ -73,8 +91,19 @@ plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
 
 
 
-
-
+#' Plot Words/Forms as Text Labels on a Map
+#'
+#' @description
+#' Similar to \code{plot_parameter}, but instead of circles, this function renders the
+#' actual phonetic forms (Value) as text labels directly on the map. Labels are
+#' color-coded based on the \code{color_by} column (e.g., Cognacy).
+#'
+#' @param x A cldf object.
+#' @param parameter Character string. The ID of the parameter (word) to plot.
+#' @param color_by Character string. Column used to categorize and color the text labels.
+#'
+#' @return A leaflet map object.
+#' @export
 plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
     if (!requireNamespace("leaflet", quietly = TRUE)) {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
