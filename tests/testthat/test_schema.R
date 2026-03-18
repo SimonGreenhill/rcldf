@@ -20,6 +20,9 @@ EXPECTED_KEYS = list(
 )
 
 test_that("test schema", {
+
+    expect_error(schema('x'), "'object' must inherit from class cldf")
+
     cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"))
     s <- schema(cldf_obj)
 
@@ -53,7 +56,13 @@ test_that("test schema", {
             )
         }
     }
+})
 
 
+test_that("test print.cldf_schema", {
+    expect_error(print.cldf_schema('x'), "'x' must inherit from class cldf")
+    cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"))
+    out <- capture.output(print.cldf_schema(cldf_obj))
+    expect_match(out[1], "values.csv")
 })
 
