@@ -35,3 +35,13 @@ test_that("read_bib with zipped", {
     expect_true(nrow(s$sources) == 11)
 })
 
+
+
+test_that("read_bib with missing file", {
+    df <- cldf(system.file("extdata/examples/zipped_bib", package = "rcldf"))
+    df$metadata[['dc:source']] <- 'Does Not Exist'
+
+    s <- read_bib(df)
+    expect_true(is.na(s$sources))
+})
+

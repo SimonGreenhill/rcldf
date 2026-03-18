@@ -3,6 +3,7 @@
 # subset(obj, Latitude > 0)
 
 test_that("test Language_ID", {
+    expect_error(subset_cldf('x', Language_ID == 'kate'), "'x' must inherit from class cldf")
 
     o <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 
