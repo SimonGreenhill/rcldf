@@ -122,6 +122,17 @@ here, e.g. the `citation` for where the dataset came from, the `path`
 where the dataset is stored, and which `Type` of CLDF specificiation
 this dataset adheres to.
 
+We can get full schema information too:
+
+```{r}
+get_foreign_keys(ds)
+
+
+schema(ds)
+```
+
+
+
 ## Accessing the data.
 
 Each table is attached to the *df\$tables* list, so to access them you
@@ -152,6 +163,7 @@ available in `ds$sources` in `bib2df` format:
 
 ```{r}
 ds <- cldf(system.file("extdata/huon", package="rcldf"), load_bib=TRUE)
+
 # or if you loaded the CLDF without sources the first time you can add them now:
 ds <- read_bib(ds)
 
@@ -206,13 +218,28 @@ get_details(system.file("extdata/huon", package="rcldf"))
 ## Easily get reference catalogs (Glottolog, Concepticon):
 
 `rcldf` has a couple of utility functions to get the latest versions of the 
-Glottolog and Concepticon CLDF reference catalogues:
+Glottolog, Concepticon, CLTS, and D-PLACE CLDF reference catalogues:
 
 ```{r, eval=FALSE}
 glott <- load_glottolog()
 conc <- load_concepticon()
+clts <- load_clts()
+dplace <- load_dplace()
 ```
 
+## Finding Datasets
+
+`rcldf` has functions to find other datasets and load them easily using the CLDF-META project:
+
+```{r}
+datasets()
+```
+
+And too easily install one, find the Dataset name:
+
+```{r}
+semitic <- load_dataset('kitchensemitic')
+```
 ## Cache Information
 
 When you load a dataset from a URL, `rcldf` downloads the dataset and
@@ -289,6 +316,9 @@ It will look like this <https://zenodo.org/records/7844558/files/grambank/gramba
 ```{r}
 grambank <- cldf("https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
 grambank
+
+# or: 
+# grambank <- load_dataset('grambank')
 ```
 
 Now, let's use `dplyr` to get the variable we want from grambank. We use
@@ -299,7 +329,17 @@ Dataset with six tables:
 summary(grambank)
 ```
 
-Let's start by extracting a list of languages in this dataset:
+
+
+To see what languages we have, let's use `rcldf`'s plotting functionality:
+
+```{r}
+plot_languages(grambank, color_by='Macroarea')
+```
+
+
+
+Ok, let's start by extracting a list of languages in this dataset:
 
 ```{r}
 languages <- grambank$tables$LanguageTable |>
@@ -308,6 +348,8 @@ languages <- grambank$tables$LanguageTable |>
 languages    
 ```
 
+
+
 We can also look at the `ParameterTable` to see information on our parameter
 of interest: "GB028: Is there a distinction between inclusive and exclusive?". 
 The `ID` of this feature is "GB028", so let's just see that one:
@@ -315,6 +357,13 @@ The `ID` of this feature is "GB028", so let's just see that one:
 ```{r}
 grambank$tables$ParameterTable |> filter(ID=='GB028')
 ```
+
+Plot it:
+
+```{r}
+plot_parameter(grambank, parameter='GB028')
+```
+
 
 Ok, now let's get all the Values for this Parameter in `ValueTable`. 
 Following the `cldf` standard means that the Parameter will be mapped
