@@ -2,15 +2,20 @@
 % Please edit documentation in R/leaflet.R
 \name{plot_languages}
 \alias{plot_languages}
-\title{Interactive Leaflet Map for CLDF}
+\title{Plot CLDF Languages on an Interactive Map}
 \usage{
 plot_languages(x, color_by = "ID")
 }
 \arguments{
 \item{x}{A cldf object.}
 
-\item{color_by}{Column to color by (e.g., "Family").}
+\item{color_by}{Character string specifying the column in \code{LanguageTable} to use for marker coloring.
+Default is "ID".}
+}
+\value{
+A leaflet map object.
 }
 \description{
-Interactive Leaflet Map for CLDF
+Creates a leaflet map showing all languages in the CLDF dataset that have geographic coordinates.
+Longitudes are standardized to a 0-360 range to ensure a continuous Pacific-centered view.
 }

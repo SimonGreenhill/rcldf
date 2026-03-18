@@ -8,14 +8,14 @@ load_dataset(dataset, version = NULL, source = "Zenodo")
 }
 \arguments{
 \item{dataset}{a character string naming the dataset (must match the
-\code{Dataset} column in \code{\link{datasets}}).}
+\code{Dataset} column in \code{datasets()}).}
 
 \item{version}{a character string specifying the version to load (e.g.
 \code{"v1.4.1"}). Defaults to \code{NULL}, which selects the latest
 available version.}
 
-\item{source}{a character string, either \code{"Zenodo"} (default) or
-\code{"GitHub"}, specifying where to download the dataset from.
+\item{source}{a character string, either \code{Zenodo} (default) or
+\code{GitHub}, specifying where to download the dataset from.
 Zenodo downloads are recommended as they are archival and stable.}
 }
 \value{
@@ -39,5 +39,5 @@ ds <- load_dataset("vanuatuvoices", source = "GitHub")
 }
 }
 \seealso{
-\code{\link{datasets}}, \code{\link{cldf}}
+\code{datasets}.
 }
