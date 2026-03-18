@@ -31,8 +31,11 @@ read_bib <- function(object){
 
     bib <- get_filename(object$base_dir, object$metadata[['dc:source']])
 
-    if (is.null(bib)) { return(object) }  # no bib defined
-    if (!file.exists(bib)) { return(object) }  # file doesn't exist
+    # no bib defined
+    if (is.null(bib)) { return(object) }
+    # file doesn't exist
+    if (!file.exists(bib)) { return(object) }  # nocov
+    # got a zip file
     if (tolower(tools::file_ext(bib)) == 'zip') {
         logger::log_debug("load_bib - encountered zip file: ", bib, namespace="load_bib")
         # get original name (probably sources.bib)

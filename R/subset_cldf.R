@@ -1,4 +1,3 @@
-
 #' Updates a table `tbl` based on expression `e`.
 #'
 #' Helper function to filter a table  based on a logical expression.
@@ -23,7 +22,7 @@ update_table <- function(e, tbl) {
 #' @param expr A logical expression (e.g., Language_ID == 'kate')
 #' @export
 subset_cldf <- function(x, expr) {
-    if (!inherits(x, "cldf")) stop("Object is not a cldf dataset")
+    if (!inherits(x, "cldf")) stop("'x' must inherit from class cldf")
     e <- substitute(expr)
     s <- rcldf::schema(x)
 
@@ -32,10 +31,10 @@ subset_cldf <- function(x, expr) {
         if (ref %in% names(x$resources)) return(x$resources[[ref]])
         # If it's already a key in tables, return it
         if (ref %in% names(x$tables)) return(ref)
-        return(NULL)
+        return(NULL)  # nocov
     }
 
-    # --- PHASE 1: Direct Table Filtering ---
+    # Direct Table Filtering
     vars_in_e <- all.vars(e)
 
     for (res_name in names(x$tables)) {
@@ -64,8 +63,6 @@ subset_cldf <- function(x, expr) {
     }
 
     # Relational Cascade
-    # This ensures CognateTable follows FormTable follows LanguageTable
-
     changed <- TRUE
     while (changed) {
         changed <- FALSE
@@ -75,7 +72,7 @@ subset_cldf <- function(x, expr) {
             src_key <- get_tbl_key(rel$SourceTable)
             dst_key <- get_tbl_key(rel$DestinationTable)
 
-            if (is.null(src_key) || is.null(dst_key)) next
+            if (is.null(src_key) || is.null(dst_key)) next  # nocov
 
             src_tbl <- x$tables[[src_key]]
             dst_tbl <- x$tables[[dst_key]]

@@ -12,7 +12,7 @@ get_separators <- function(metadata) {
         if (!"separator" %in% names(cols)) next
 
         seps <- cols[!is.na(cols$separator), c("name", "separator"), drop = FALSE]
-        if (nrow(seps) == 0) next  # no cov
+        if (nrow(seps) == 0) next  # nocov
 
         seps$url <- tables[[i]]$url
         out[[i]] <- seps
@@ -42,9 +42,8 @@ separate <- function(cldfobj, separators = NULL) {
     if (is.null(separators)) {
         separators <- get_separators(cldfobj$metadata)
     }
-    if (nrow(separators) == 0) {
-        return(cldfobj)
-    }
+
+    if (nrow(separators) == 0) { return(cldfobj) }  # nocov
 
     for (i in seq_len(nrow(separators))) {
         url      <- separators$url[[i]]
