@@ -1,12 +1,12 @@
-
 #' Returns a table of datasets available in cldf_meta
 #'
+#' @param url a character string of the URL to cldf_meta.
 #' @importFrom urltools path
 #' @export
 #' @return A dataframe of available dataset.
 #'
 datasets <- function() {
-    ds <- cldf('https://github.com/cldf-datasets/cldf_meta')[['tables']][['ContributionTable']]
+    ds <- get_table_from('ContributionTable', 'https://github.com/cldf-datasets/cldf_meta')
 
     # tidy up some things
     labels <- strsplit(urltools::path(ds[['GitHub_Link']]), '/')
@@ -26,17 +26,17 @@ datasets <- function() {
 #' GitHub.
 #'
 #' @param dataset a character string naming the dataset (must match the
-#'     \code{Dataset} column in \code{\link{datasets}}).
+#'     `Dataset` column in `datasets()`).
 #' @param version a character string specifying the version to load (e.g.
-#'     \code{"v1.4.1"}). Defaults to \code{NULL}, which selects the latest
+#'     `"v1.4.1"`). Defaults to `NULL`, which selects the latest
 #'     available version.
-#' @param source a character string, either \code{"Zenodo"} (default) or
-#'     \code{"GitHub"}, specifying where to download the dataset from.
+#' @param source a character string, either `Zenodo` (default) or
+#'     `GitHub`, specifying where to download the dataset from.
 #'     Zenodo downloads are recommended as they are archival and stable.
 #'
-#' @return A \code{cldf} object.
+#' @return A `cldf` object.
 #'
-#' @seealso \code{\link{datasets}}, \code{\link{cldf}}
+#' @seealso `datasets`.
 #'
 #' @importFrom versionsort ver_latest
 #' @export

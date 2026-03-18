@@ -1,8 +1,10 @@
 mock_ds <- data.frame(
-    Dataset     = c("mydata", "mydata", "mydata"),
-    Version     = c("v1.0",   "v1.1",   "v1.2"),
-    Zenodo_ID   = c(111,      222,      333),
-    GitHub_Link = c(
+    ID           = c(1,        2,        3),
+    Dataset      = c("mydata", "mydata", "mydata"),
+    Organisation = c("org",    "org",    "org"),
+    Version      = c("v1.0",   "v1.1",   "v1.2"),
+    Zenodo_ID    = c(111,      222,      333),
+    GitHub_Link  = c(
         "https://github.com/org/mydata/v1.0",
         "https://github.com/org/mydata/v1.1",
         "https://github.com/org/mydata/v1.2"
@@ -10,15 +12,24 @@ mock_ds <- data.frame(
     stringsAsFactors = FALSE
 )
 
+test_that("datasets works", {
+    with_mocked_bindings({
+        expect_equal(datasets(), mock_ds)
+    },
+    get_table_from = function(table, url) mock_ds
+    )
+})
+
 
 test_that("load_dataset loads latest version by default", {
     with_mocked_bindings({
-        expect_equal(load_dataset("mydata"), 333)
+            expect_equal(load_dataset("mydata"), 333)
         },
-        datasets = function() mock_ds,
+        get_table_from = function(table, url) mock_ds,
         get_from_zenodo = function(id) id,
     )
 })
+
 
 test_that("load_dataset loads a specific version", {
     with_mocked_bindings({
