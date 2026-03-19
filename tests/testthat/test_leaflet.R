@@ -1,5 +1,5 @@
 
-cldf_obj <- cldf(system.file("extdata/examples/wals_1a_cldf/StructureDataset-metadata.json", package = "rcldf"))
+cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf"))
 
 
 test_that("plot_languages returns a leaflet object and processes data", {
