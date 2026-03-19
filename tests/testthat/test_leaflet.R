@@ -1,5 +1,5 @@
 
-cldf_obj <- cldf(system.file("extdata/examples/wals_1a_cldfStructureDataset-metadata.json", package = "rcldf"))
+cldf_obj <- cldf(system.file("extdata/examples/wals_1a_cldf/StructureDataset-metadata.json", package = "rcldf"))
 
 
 test_that("plot_functions throw error if leaflet is missing", {
