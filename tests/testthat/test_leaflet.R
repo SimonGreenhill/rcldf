@@ -1,14 +1,14 @@
 
+cldf_obj <- cldf(system.file("extdata/examples/wals_1a_cldf", "StructureDataset-metadata.json", package = "rcldf"))
+
+
 test_that("plot_functions throw error if leaflet is missing", {
-
-    o <- cldf(system.file("extdata/examples/wals_1a_cldf", "StructureDataset-metadata.json", package = "rcldf"))
-
     # Mock requireNamespace to return FALSE for leaflet
     with_mocked_bindings(
         {
-            expect_error(plot_languages(o), "Package 'leaflet' is required")
-            expect_error(plot_parameter(o), "Package 'leaflet' is required")
-            expect_error(plot_word(o), "Package 'leaflet' is required")
+            expect_error(plot_languages(cldf_obj), "Package 'leaflet' is required")
+            expect_error(plot_parameter(cldf_obj), "Package 'leaflet' is required")
+            expect_error(plot_word(cldf_obj), "Package 'leaflet' is required")
         },
         requireNamespace = function(package, ...) {
             if (package == "leaflet") return(FALSE)
@@ -26,24 +26,13 @@ test_that("plot_functions throw error if leaflet is missing", {
 test_that("plot_languages returns a leaflet object and processes data", {
     skip_if_not_installed("leaflet")
 
-    # Create a dummy CLDF object
-    df <- list(
-        tables = list(
-            LanguageTable = data.frame(
-                ID = c("L1", "L2"),
-                Name = c("Lang1", "Lang2"),
-                Latitude = c(0, 10),
-                Longitude = c(-170, 20), # -170 should become 190
-                stringsAsFactors = FALSE
-            )
-        )
-    )
+    result <- plot_languages(cldf_obj)
 
-    result <- plot_languages(df)
+    # 1 is 1 abi   Abipón  South Am…   -29        -61   abip1241   axb          Sout… Guaic…
 
     expect_s3_class(result, "leaflet")
     # Verify longitude normalization logic inside the leaflet object's data
-    expect_equal(result$x$calls[[2]]$args[[2]][[1]], 190)
+    expect_equal(result$x$calls[[2]]$args[[2]][[1]], -61 + 360)
 })
 
 
@@ -52,11 +41,9 @@ test_that("plot_languages returns a leaflet object and processes data", {
 test_that("plot_parameter returns a leaflet object", {
     skip_if_not_installed("leaflet")
 
-    df <- cldf(system.file("extdata/examples/wals_1a_cldf", "StructureDataset-metadata.json", package = "rcldf"))
+    expect_error(plot_parameter(cldf_obj, '1sg_a'), 'Invalid Parameter_ID')  # does not exist
 
-    expect_error(plot_parameter(df, '1sg_a'), 'Invalid Parameter_ID')  # does not exist
-
-    result <- plot_parameter(df, '1A')
+    result <- plot_parameter(cldf_obj, '1A')
 
     expect_s3_class(result, "leaflet")
 })
