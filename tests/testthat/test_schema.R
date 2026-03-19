@@ -1,5 +1,5 @@
 
-EXPECTED_COLS = list(
+EXPECTED_COLS <- list(
     "values.csv" = c(
         "ID", "Language_ID", "Parameter_ID", "Value", "Code_ID", "Comment", "Source"),
     "languages.csv" = c(
@@ -10,7 +10,7 @@ EXPECTED_COLS = list(
         "ID", "Parameter_ID", "Name", "Description")
 )
 
-EXPECTED_KEYS = list(
+EXPECTED_KEYS <- list(
     "values.csv" = c(
         "Language_ID" = "languages.csv:ID",
         "Parameter_ID" = "parameters.csv:ID",

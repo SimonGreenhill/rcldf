@@ -26,7 +26,7 @@ fake_json <- function(url) {
             stringsAsFactors = FALSE
         )
     )
-    j$files$links$self = system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
+    j$files$links$self <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
     j
 }
 

@@ -64,8 +64,8 @@ test_that("plot_word returns a leaflet object", {
 
     df <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
     # this dataset has no lat and long, so fix that
-    df$tables$LanguageTable[df$tables$LanguageTable$ID == 'borong', ]$Latitude = -6.56688
-    df$tables$LanguageTable[df$tables$LanguageTable$ID == 'borong', ]$Longitude = 147.511
+    df$tables$LanguageTable[df$tables$LanguageTable$ID == 'borong', ]$Latitude <- -6.56688
+    df$tables$LanguageTable[df$tables$LanguageTable$ID == 'borong', ]$Longitude <- 147.511
 
     expect_error(plot_word(df, '1sg_a'), 'Invalid Parameter_ID')  # does not exist
 

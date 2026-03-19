@@ -11,7 +11,7 @@ get_nulls <- function(metadata) {
     }
     dplyr::bind_rows(
         lapply(
-            1:length(metadata$tables),
+            seq_along(metadata$tables),
             function(i) find(metadata$tables[[i]]$url, metadata$tables[[i]]$tableSchema)
         )
     )

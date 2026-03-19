@@ -21,9 +21,9 @@ schema <- function(cldf_obj) {
 
 
     fkeys <- get_foreign_keys(cldf_obj)
-    fkeys$FK <- sapply(seq_along(1:nrow(fkeys)), function(i) {
-        sprintf("%s:%s", fkeys[i, 'DestinationURL'], fkeys[i, 'DestinationColumn'])
-    })
+    fkeys$FK <- unlist(lapply(seq_len(nrow(fkeys)), function(i) {
+        sprintf("%s:%s", fkeys[i, "DestinationURL"], fkeys[i, "DestinationColumn"])
+    }))
 
     s <- structure(list(tables = list(), relations = fkeys), class = "cldf_schema")
     for (tbl in cldf_obj$metadata$tables) {
@@ -32,7 +32,7 @@ schema <- function(cldf_obj) {
         s$tables[[url]][['url']] <- tbl[['url']]
 
         # add relevant FKs
-        f <- subset(fkeys, SourceTable == url)[c("SourceColumn", "FK")]
+        f <- fkeys[fkeys$SourceTable == url, ][c("SourceColumn", "FK")]
         s$tables[[url]] <- merge(s$tables[[url]], f, by.x = "name", by.y = "SourceColumn", all.x = TRUE)
     }
     return(s)

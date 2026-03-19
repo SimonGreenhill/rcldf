@@ -62,7 +62,7 @@ plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
         stop("Invalid Parameter_ID")
     }
     # do we have form table or value table
-    fk <- rcldf:::get_foreign_keys(x)
+    fk <- rcldf::get_foreign_keys(x)
     fk <- fk[fk$SourceColumn == 'Parameter_ID', ]
 
     df <- as.cldf.wide(x, x$resources[[ fk[['SourceTable']][[1]] ]])
@@ -114,8 +114,8 @@ plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
         stop("Invalid Parameter_ID")
     }
     # do we have form table or value table
-    fk <- rcldf:::get_foreign_keys(x) |>
-        dplyr::filter(SourceColumn == 'Parameter_ID')
+    fk <- rcldf::get_foreign_keys(x)
+    fk <- fk[fk$SourceColumn == 'Parameter_ID', ]
 
     df <- as.cldf.wide(x, x$resources[[ fk[['SourceTable']][[1]] ]])
     df <- df[df$Parameter_ID == parameter,]

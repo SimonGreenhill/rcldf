@@ -30,15 +30,16 @@ Imports:
     tools,
     urltools,
     utils,
-    versionsort,
-    vroom
+    versionsort
 Suggests: 
     ggplot2,
     patchwork,
+    leaflet,
+    htmltools,
     testthat,
     mockthat,
-    spelling,
     covr,
+    spelling,
     knitr,
     rmarkdown,
     qpdf

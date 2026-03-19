@@ -72,7 +72,7 @@ test_that("resolve_path creates cache dir", {
 
 
 test_that("resolve_path handles cache hit", {
-    path = "https://example.com/test"
+    path <- "https://example.com/test"
     tmp <- tempdir()
     cache_key_dir <- file.path(tmp, make_cache_key(path))
     # Create the folder that make_cache_key would point to

@@ -1,4 +1,3 @@
-library(vroom)
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
 CLDF_OBJ <- cldf(MD_JSON_PATH, load_bib=TRUE)
 
@@ -85,14 +84,9 @@ test_that("test handling of valid/invalid JSON files", {
 })
 
 
-
-
-
-#skip=dialect$headerRowCount,  # causes more problems than it's worth?
-#col_names=column_names,
 test_that("Error with dialect$headerRowCount and skip", {
     o <- cldf('datasets/barlownumerals')
-    p <- vroom::problems(o$tables$ParameterTable, "problems")
+    p <- readr::problems(o$tables$ParameterTable)
     expect_equal(nrow(p), 0)
     # first row should NOT be the header row repeated ("ID", "Name", ...)
     expect_equal(as.character(o$tables$ParameterTable[1, 'ID']), 'numeral-system')
