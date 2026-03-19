@@ -21,6 +21,7 @@ Imports:
     digest,
     dplyr,
     jsonlite,
+    leaflet,
     logger,
     magrittr,
     purrr,
@@ -34,7 +35,6 @@ Imports:
 Suggests: 
     ggplot2,
     patchwork,
-    leaflet,
     htmltools,
     testthat,
     mockthat,
