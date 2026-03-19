@@ -1,11 +1,14 @@
 
 test_that("plot_functions throw error if leaflet is missing", {
+
+    o <- cldf(system.file("extdata/examples/wals_1a_cldf", "StructureDataset-metadata.json", package = "rcldf"))
+
     # Mock requireNamespace to return FALSE for leaflet
     with_mocked_bindings(
         {
-            expect_error(plot_languages(list()), "Package 'leaflet' is required")
-            expect_error(plot_parameter(list()), "Package 'leaflet' is required")
-            expect_error(plot_word(list()), "Package 'leaflet' is required")
+            expect_error(plot_languages(o), "Package 'leaflet' is required")
+            expect_error(plot_parameter(o), "Package 'leaflet' is required")
+            expect_error(plot_word(o), "Package 'leaflet' is required")
         },
         requireNamespace = function(package, ...) {
             if (package == "leaflet") return(FALSE)
