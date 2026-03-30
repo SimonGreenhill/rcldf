@@ -23,9 +23,8 @@ plot_languages <- function(x, color_by = "ID") {
     # Define a vibrant color palette
     pal_fn <- leaflet::colorFactor(palette = "Set1", domain = lt[[color_by]])
 
-    leaflet::leaflet(lt, options = leaflet::leafletOptions(worldCopyJump = TRUE)) %>%
-        # Use the "Positron" theme for a clean, pure-white background
-        leaflet::addProviderTiles("CartoDB.Positron") %>%
+    leaflet::leaflet(lt, options = leaflet::leafletOptions(worldCopyJump = TRUE)) |>
+        leaflet::addProviderTiles("CartoDB.Positron") |>
         leaflet::addCircleMarkers(
             lng = ~Longitude, lat = ~Latitude,
             color = "white", weight = 1,
@@ -34,7 +33,7 @@ plot_languages <- function(x, color_by = "ID") {
             radius = 6,
             popup = ~paste0("<b>", Name, "</b><br>", color_by, ": ", lt[[color_by]]),
             label = ~Name
-        ) %>%
+        ) |>
         leaflet::addLegend(pal = pal_fn, values = ~lt[[color_by]], title = color_by)
 }
 

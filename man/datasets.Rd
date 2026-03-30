@@ -6,9 +6,6 @@
 \usage{
 datasets()
 }
-\arguments{
-\item{url}{a character string of the URL to cldf_meta.}
-}
 \value{
 A dataframe of available dataset.
 }

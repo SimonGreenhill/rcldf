@@ -7,3 +7,5 @@
 ^doc$
 ^Meta$
 ^paper$
+^CRAN-SUBMISSION$
+^cran-comments\.md$

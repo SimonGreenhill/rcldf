@@ -1,6 +1,5 @@
 #' Returns a table of datasets available in cldf_meta
 #'
-#' @param url a character string of the URL to cldf_meta.
 #' @importFrom urltools path
 #' @export
 #' @return A dataframe of available dataset.
