@@ -14,9 +14,9 @@ get_cache_dir <- function(cache_dir=NA) {
     # from environment
     } else if (!is.na(env_var) && nzchar(env_var)) {
         return(env_var)
-    # otherwise use R cache
+    # otherwise use session temp dir
     } else {
-        return(tools::R_user_dir("rcldf", which = "cache"))
+        return(tempdir())
     }
 }
 

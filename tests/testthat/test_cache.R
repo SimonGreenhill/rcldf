@@ -60,7 +60,7 @@ test_that("test get_cache_dir", {
         )
     }
 
-    TP(get_cache_dir(), tools::R_user_dir("rcldf", which = "cache"))
+    TP(get_cache_dir(), tempdir())
     TP(get_cache_dir('testcache'), 'testcache')
 
     # check setting via env

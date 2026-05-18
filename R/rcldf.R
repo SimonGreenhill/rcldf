@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
+cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
     md <- rcldf::resolve_path(mdpath, cache_dir=cache_dir)
 
     if (!startsWith(md$metadata[['dc:conformsTo']], 'http://cldf.clld.org/')) {
@@ -76,7 +76,7 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", wh
 
 #' included here to match people expecting e.g. readr::read_csv etc
 #' @rdname cldf
-read_cldf <- function(mdpath, load_bib=FALSE, cache_dir=tools::R_user_dir("rcldf", which = "cache")) {
+read_cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
     cldf(mdpath, load_bib=load_bib, cache_dir=cache_dir)
 }
 
