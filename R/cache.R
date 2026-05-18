@@ -85,7 +85,7 @@ get_dir_size <- function(path) {
 
 #' Returns a dataframe of directories in the cache dir
 #'
-#' @param cache_dir the cache directory to use. 
+#' @param cache_dir the cache directory to use.
 #'    If NULL then R_user_dir will be used.
 #'
 #' @export
@@ -96,6 +96,11 @@ list_cache_files <- function(cache_dir=NULL) {
         cache_dir, pattern = "-metadata\\.json$",
         recursive = TRUE, full.names = TRUE)
     if (length(paths) == 0) { return(data.frame()) }
-    do.call(rbind, lapply(paths, rcldf::get_details))
+    results <- lapply(paths, function(p) {
+        tryCatch(rcldf::get_details(p), error = function(e) NULL)
+    })
+    results <- Filter(Negate(is.null), results)
+    if (length(results) == 0) { return(data.frame()) }
+    do.call(rbind, results)
 }
 

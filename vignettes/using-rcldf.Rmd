@@ -279,7 +279,7 @@ list_cache_files()
 
 You can re-use datasets in your cache:
 
-```{r}
+```{r, eval=FALSE}
 cldf(list_cache_files()[1, 'Path'])
 ```
 
