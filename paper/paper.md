@@ -86,9 +86,20 @@ A full `vignette` is provided with the R package showing an example analysis and
 
 Table 1: Examples of CLDF Datasets showing the dataset, the type of data it contains, the source, and a link to the dataset.
 
+## State of the field
+
+Recently a number of _R_ packages have emerged to support analysis of cross-linguistic and cross-cultural data indicating a growing need for R infrastructure for comparative analysis.
+For example, `lingtypology` [@lingtypology] provides an interface to Glottolog and a handful of other CLDF datasets, 
+`glottospace` [@glottospace] provides geographical mapping tools, and `glottoTrees` [@glottoTrees] provides the taxonomic trees frol [@Glottolog].
+
+However, these packages have two important limitations. First, they typically bundle a fixed set of pre-processed datasets, with ad-hoc parsing code tailored to each release. This limitation means they do not generalise to the broader ecosystem of CLDF datasets. More critically, they require ongoing manual maintenance every time an upstream dataset is updated or restructured or else risk distributing stale out-of-date data.
+
+Second, because these packages largely bypass the CSVW/JSON metadata in a CLDF package, they do not reliably parse the column types, missing-data sentinels, foreign keys, and reference catalogues that the CLDF specification uses [@Forkel2018]. As a result, users of these packages are restricted to whichever subset and version of data the package author chose to process, and downstream analyses inherit any silent parsing errors introduced along the way.
+
+The rcldf package provides the missing link that solves these issues: A general-purpose package for loading and parsing any CLDF dataset. Dataset-specific metadata is incorporated and handled correctly, and the dataset is exposed in a form ready for easy analysis in R. This package should help shift the maintenance burden from per-dataset wrappers to a single shared layer, and open the full CLDF ecosystem to _R_ users.
 
 
-## Software Design:
+# Software Design:
 
 The decision to build a bespoke package for CLDF datasets rather than reuse existing packages was driven by a number of key friction points in the existing functionality in R [@R]. `rcldf` builds on existing R packages [e.g. @csvwr, @jsonlite, @readr, @vroom, @bib2df] and extends them to reduce the risk of analysis bugs and enhance the findability, re-use, and aggregation of CLDF datasets.
 
@@ -113,7 +124,7 @@ Second, `rcldf` contains  functions for automatically loading the CLDF reference
 Third, CLDF datasets are normally stored in a 'long' format where multiple variables are included in the same column matching common database normalisation practices [@Forkel2018]. However, often in statistical analysis users prefer a 'wide' or 'tidy' format [@TidyData] where each variable is contained in its own column, and each observation is a row. To facilitate this, `rcldf` contains tools to convert the 'long' CLDF tables into 'wide' formats while resolving the foreign keys into expanded columns into one data frame.
 
 
-## Research Impact Statement: 
+# Research Impact Statement: 
 
 Recent years have seen a major `quantitative turn` towards large-scale quantitative analysis in linguistics [@Kortmann2021] and humanities [@McGillivray2022]. Cross-Linguistic Data Formats [CLDF, @Forkel2018] has rapidly become a very common standard for producing, releasing, and distributing a rich array of cultural data. CLDF has been suggested as a best-practice approach for distributing data alongside research publications [e.g. @Tresoldi2022]. Publically available datasets in this format have rapidly increased with currently around 300 datasets online. However, the archival database nature of CLDF is often at conflict with how users want to interact with and analyse data, and the flexibility of CSV formats means that there are many potential bugs waiting to happen with naïve parsing and loading of data. In addition, CLDF datasets are scattered across various websites, dataset repositories, and in journal supplementary materials, requiring users to know how to find, download, unarchive, and load these datasets.
 
@@ -123,7 +134,7 @@ To make the package usable and community ready, the package is fully documented 
 
 # AI usage disclosure:
 
-No AI tools were used in the software creation, documentation, or paper authoring process. ChatGPT, Claude, and Google Gemini were used to review and critique the code for potential bugs, and provide documentation templates for some functions.
+No AI tools were used in the software creation, documentation, or paper drafting process. ChatGPT, Claude, and Google Gemini were used to review and critique the code for potential bugs, provide documentation templates for some functions, and suggest improvements to the manuscript.
 
 # Acknowledgements
 
