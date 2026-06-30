@@ -59,6 +59,14 @@ test_that("test schema", {
 })
 
 
+test_that("schema works for datasets with no foreign keys", {
+    cldf_obj <- cldf(system.file("extdata/examples/no_sources", "StructureDataset-metadata.json", package = "rcldf"))
+    s <- schema(cldf_obj)
+    expect_s3_class(s, "cldf_schema")
+    expect_equal(nrow(s$relations), 0)
+    expect_true("languages.csv" %in% names(s$tables))
+})
+
 test_that("test print.cldf_schema", {
     expect_error(print.cldf_schema('x'), "'x' must inherit from class cldf")
     cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"))

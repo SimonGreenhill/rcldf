@@ -9,3 +9,4 @@
 ^paper$
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
+^\.claude$
