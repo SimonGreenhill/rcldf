@@ -1,0 +1,47 @@
+{
+    "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+    "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#Wordlist",
+    "tables": [
+        {
+            "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#FormTable",
+            "url": "forms.csv",
+            "tableSchema": {
+                "columns": [
+                    {
+                        "name": "ID",
+                        "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#id",
+                        "datatype": "string"
+                    },
+                    {
+                        "name": "Language_ID",
+                        "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#languageReference",
+                        "datatype": "string"
+                    },
+                    {
+                        "name": "Form",
+                        "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#form",
+                        "datatype": "string"
+                    }
+                ]
+            }
+        },
+        {
+            "dc:conformsTo": "http://cldf.clld.org/v1.0/terms.rdf#LanguageTable",
+            "url": "languages.csv",
+            "tableSchema": {
+                "columns": [
+                    {
+                        "name": "ID",
+                        "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#id",
+                        "datatype": "string"
+                    },
+                    {
+                        "name": "Name",
+                        "propertyUrl": "http://cldf.clld.org/v1.0/terms.rdf#name",
+                        "datatype": "string"
+                    }
+                ]
+            }
+        }
+    ]
+}
