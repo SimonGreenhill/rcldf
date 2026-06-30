@@ -15,24 +15,27 @@ plot_languages <- function(x, color_by = "ID") {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
     }
 
+    lat_col <- get_cldf_colname(x, "LanguageTable", "latitude")
+    lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
+    name_col <- get_cldf_colname(x, "LanguageTable", "name")
+    if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
+
     lt <- x$tables$LanguageTable
-    lt <- lt[!is.na(lt$Latitude) & !is.na(lt$Longitude), ]
-    lt$Longitude[lt$Longitude < 0] <- lt$Longitude[lt$Longitude < 0] + 360
+    lt <- lt[!is.na(lt[[lat_col]]) & !is.na(lt[[lon_col]]), ]
+    lt[[lon_col]][lt[[lon_col]] < 0] <- lt[[lon_col]][lt[[lon_col]] < 0] + 360
 
-
-    # Define a vibrant color palette
     pal_fn <- leaflet::colorFactor(palette = "Set1", domain = lt[[color_by]])
 
     leaflet::leaflet(lt, options = leaflet::leafletOptions(worldCopyJump = TRUE)) |>
         leaflet::addProviderTiles("CartoDB.Positron") |>
         leaflet::addCircleMarkers(
-            lng = ~Longitude, lat = ~Latitude,
+            lng = lt[[lon_col]], lat = lt[[lat_col]],
             color = "white", weight = 1,
             fillColor = ~pal_fn(lt[[color_by]]),
             fillOpacity = 0.8,
             radius = 6,
-            popup = ~paste0("<b>", Name, "</b><br>", color_by, ": ", lt[[color_by]]),
-            label = ~Name
+            popup = ~paste0("<b>", lt[[name_col]], "</b><br>", color_by, ": ", lt[[color_by]]),
+            label = lt[[name_col]]
         ) |>
         leaflet::addLegend(pal = pal_fn, values = ~lt[[color_by]], title = color_by)
 }
@@ -64,26 +67,31 @@ plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
     fk <- rcldf::get_foreign_keys(x)
     fk <- fk[fk$SourceColumn == 'Parameter_ID', ]
 
+    lat_col <- get_cldf_colname(x, "LanguageTable", "latitude")
+    lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
+    name_col <- get_cldf_colname(x, "LanguageTable", "name")
+    if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
+
     df <- as.cldf.wide(x, x$resources[[ fk[['SourceTable']][[1]] ]])
     df <- df[df$Parameter_ID == parameter,]
 
     # remove no locations and standardise
-    df <- df[! is.na(df$Longitude) & ! is.na(df$Latitude), ]
-    df$Longitude[df$Longitude < 0] <- df$Longitude[df$Longitude < 0] + 360
+    df <- df[! is.na(df[[lat_col]]) & ! is.na(df[[lon_col]]), ]
+    df[[lon_col]][df[[lon_col]] < 0] <- df[[lon_col]][df[[lon_col]] < 0] + 360
 
     pal_fn <- leaflet::colorFactor(palette = "Set1", domain = df[[color_by]])
 
     leaflet::leaflet(df, options = leaflet::leafletOptions(worldCopyJump = TRUE)) |>
         leaflet::addProviderTiles("CartoDB.Positron") |>
         leaflet::addCircleMarkers(
-            lng = ~Longitude, lat = ~Latitude,
+            lng = df[[lon_col]], lat = df[[lat_col]],
             color = "white", weight = 1,
             fillColor = ~pal_fn(df[[color_by]]),
             fillOpacity = 0.8,
             radius = 6,
-            popup = ~paste0("<b>", Name.LanguageTable, "</b><br>", color_by, ": ", df[[color_by]]),
-            label = ~Name.LanguageTable
-        ) %>%
+            popup = ~paste0("<b>", df[[name_col]], "</b><br>", color_by, ": ", df[[color_by]]),
+            label = df[[name_col]]
+        ) |>
         leaflet::addLegend(pal = pal_fn, values = ~df[[color_by]], title = color_by)
 
 }
@@ -116,12 +124,16 @@ plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
     fk <- rcldf::get_foreign_keys(x)
     fk <- fk[fk$SourceColumn == 'Parameter_ID', ]
 
+    lat_col <- get_cldf_colname(x, "LanguageTable", "latitude")
+    lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
+    if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
+
     df <- as.cldf.wide(x, x$resources[[ fk[['SourceTable']][[1]] ]])
     df <- df[df$Parameter_ID == parameter,]
 
     # remove no locations and standardise
-    df <- df[! is.na(df$Longitude) & ! is.na(df$Latitude), ]
-    df$Longitude[df$Longitude < 0] <- df$Longitude[df$Longitude < 0] + 360
+    df <- df[! is.na(df[[lat_col]]) & ! is.na(df[[lon_col]]), ]
+    df[[lon_col]][df[[lon_col]] < 0] <- df[[lon_col]][df[[lon_col]] < 0] + 360
 
     # Define colors for each row
     pal_fn <- leaflet::colorFactor(palette = "Set1", domain = df[[color_by]])
@@ -137,7 +149,7 @@ plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
     leaflet::leaflet(df, options = leaflet::leafletOptions(worldCopyJump = TRUE)) |>
         leaflet::addProviderTiles("CartoDB.Positron") |>
         leaflet::addLabelOnlyMarkers(
-            lng = ~Longitude, lat = ~Latitude,
+            lng = df[[lon_col]], lat = df[[lat_col]],
             label = lapply(df$html_label, htmltools::HTML),
             labelOptions = leaflet::labelOptions(
                 noHide = TRUE,
