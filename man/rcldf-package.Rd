@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Simon J. Greenhill \email{simon@simon.net.nz}
 
+Authors:
+\itemize{
+  \item Simon J. Greenhill \email{simon@simon.net.nz}
+}
+
 }
 \keyword{internal}

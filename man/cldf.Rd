@@ -5,17 +5,9 @@
 \alias{read_cldf}
 \title{Reads a Cross-Linguistic Data Format dataset into an object.}
 \usage{
-cldf(
-  mdpath,
-  load_bib = FALSE,
-  cache_dir = tools::R_user_dir("rcldf", which = "cache")
-)
+cldf(mdpath, load_bib = FALSE, cache_dir = tempdir())
 
-read_cldf(
-  mdpath,
-  load_bib = FALSE,
-  cache_dir = tools::R_user_dir("rcldf", which = "cache")
-)
+read_cldf(mdpath, load_bib = FALSE, cache_dir = tempdir())
 }
 \arguments{
 \item{mdpath}{the path to the directory or metadata JSON file.}

@@ -4,11 +4,7 @@
 \alias{get_table_from}
 \title{Extracts a single table from a CLDF dataset.}
 \usage{
-get_table_from(
-  table,
-  mdpath,
-  cache_dir = tools::R_user_dir("rcldf", which = "cache")
-)
+get_table_from(table, mdpath, cache_dir = tempdir())
 }
 \arguments{
 \item{table}{a CLDF table type}
