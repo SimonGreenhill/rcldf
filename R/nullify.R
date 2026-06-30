@@ -1,13 +1,14 @@
 get_nulls <- function(metadata) {
     find <- function(url, tableSchema) {
-        nulls <- data.frame()  # empty data frame to keep bind_rows happy
-        if ('null' %in% colnames(tableSchema$columns)) {
-            nulls <- tableSchema$columns[c('name', 'null')]
-            # remove non-nullable fields
-            nulls <- nulls[!is.na(nulls$null),]
-            nulls <- data.frame(url=url, name=nulls$name, null=unlist(nulls$null))
-        }
-        nulls
+        if (!('null' %in% colnames(tableSchema$columns))) return(data.frame())
+        cols <- tableSchema$columns[c('name', 'null')]
+        dplyr::bind_rows(lapply(seq_len(nrow(cols)), function(i) {
+            n <- cols$null[[i]]
+            if (is.null(n) || length(n) == 0) return(NULL)
+            n <- n[!is.na(n)]
+            if (length(n) == 0) return(NULL)
+            data.frame(url=url, name=cols$name[[i]], null=as.character(n), stringsAsFactors=FALSE)
+        }))
     }
     dplyr::bind_rows(
         lapply(

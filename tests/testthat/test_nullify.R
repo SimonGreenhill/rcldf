@@ -1,4 +1,5 @@
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
+NULL_ARRAY_PATH <- system.file("extdata/examples/null_empty_array/StructureDataset-metadata.json", package = "rcldf")
 
 test_that("test get_nulls", {
     md <- resolve_path(MD_JSON_PATH)
@@ -68,3 +69,17 @@ test_that("test nullify", {
 })
 
 
+test_that("get_nulls handles empty null arrays without error", {
+    # Reproduces #52: columns with "null": [] caused a row-count mismatch error
+    md <- resolve_path(NULL_ARRAY_PATH)
+    nulls <- get_nulls(md$metadata)
+    # "Name" and "Family" have null:[] and should be skipped entirely
+    # "Value" has null:["","?"] and should produce 2 rows
+    expect_equal(nrow(nulls), 2)
+    expect_equal(nulls$name, c("Value", "Value"))
+    expect_equal(nulls$null, c("", "?"))
+})
+
+test_that("cldf load succeeds when metadata has empty null arrays", {
+    expect_no_error(cldf(NULL_ARRAY_PATH))
+})
