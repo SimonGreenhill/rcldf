@@ -73,6 +73,7 @@ subset_cldf <- function(x, expr) {
             dst_key <- get_tbl_key(rel$DestinationTable)
 
             if (is.null(src_key) || is.null(dst_key)) next  # nocov
+            if (src_key == dst_key) next  # skip self-referential FKs
 
             src_tbl <- x$tables[[src_key]]
             dst_tbl <- x$tables[[dst_key]]
