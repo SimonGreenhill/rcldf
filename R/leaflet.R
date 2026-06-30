@@ -6,11 +6,11 @@
 #'
 #' @param x A cldf object.
 #' @param color_by Character string specifying the column in `LanguageTable` to use for marker coloring.
-#' Default is "ID".
+#' Defaults to the first column of `LanguageTable`.
 #'
 #' @return A leaflet map object.
 #' @export
-plot_languages <- function(x, color_by = "ID") {
+plot_languages <- function(x, color_by = NULL) {
     if (!requireNamespace("leaflet", quietly = TRUE)) {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
     }
@@ -19,6 +19,7 @@ plot_languages <- function(x, color_by = "ID") {
     lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
     name_col <- get_cldf_colname(x, "LanguageTable", "name")
     if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
+    if (is.null(color_by)) color_by <- colnames(x$tables$LanguageTable)[[1]]
 
     lt <- x$tables$LanguageTable
     lt <- lt[!is.na(lt[[lat_col]]) & !is.na(lt[[lon_col]]), ]
