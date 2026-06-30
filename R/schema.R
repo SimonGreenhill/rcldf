@@ -54,14 +54,16 @@ print.cldf_schema <- function(x, ...) {
     for (tbl in names(x$tables)) {
         cat(tbl, "\n")
         cat(paste0(rep('-', nchar(tbl)), collapse=""), "\n")
-        x$tables[[tbl]]$propertyUrl <- x$tables[[tbl]]$propertyUrl
+        pu <- x$tables[[tbl]]$propertyUrl
+        property <- if (is.null(pu)) {
+            rep(NA_character_, nrow(x$tables[[tbl]]))
+        } else {
+            sub("http://cldf.clld.org/v1.0/terms.rdf#", "CLDF:", pu)
+        }
         out <- data.frame(
             name=x$tables[[tbl]][['name']],
             link=ifelse(is.na(x$tables[[tbl]][['FK']]), '', x$tables[[tbl]][['FK']]),
-            property=ifelse(
-                is.null(x$tables[[tbl]]$propertyUrl),
-                NA,
-                sub("http://cldf.clld.org/v1.0/terms.rdf#", "CLDF:", x$tables[[tbl]]$propertyUrl))
+            property=property
         )
         print(out)
     }

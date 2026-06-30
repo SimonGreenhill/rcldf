@@ -74,3 +74,14 @@ test_that("test print.cldf_schema", {
     expect_match(out[1], "values.csv")
 })
 
+test_that("schema property extraction returns correct property per column", {
+    cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"))
+    s <- schema(cldf_obj)
+    values <- s$tables[["values.csv"]]
+    props <- setNames(values$propertyUrl, values$name)
+    expect_equal(props[["Code_ID"]], "http://cldf.clld.org/v1.0/terms.rdf#codeReference")
+    expect_equal(props[["Value"]], "http://cldf.clld.org/v1.0/terms.rdf#value")
+    expect_equal(props[["Language_ID"]], "http://cldf.clld.org/v1.0/terms.rdf#languageReference")
+    expect_gt(length(unique(props[!is.na(props)])), 1)
+})
+
