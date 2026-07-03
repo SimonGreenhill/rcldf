@@ -43,6 +43,32 @@ test_that("get_from_zenodo", {
 })
 
 
+test_that("get_from_zenodo - concept record without files follows links$latest", {
+    # Simulates the case where the API returns a concept record (no files) and
+    # the code must follow links$latest to reach the actual versioned record.
+    local_path <- system.file(
+        "extdata/examples/wals_1A_cldf/StructureDataset-metadata.json",
+        package = "rcldf"
+    )
+    call_count <- 0L
+    fake_json_concept <- function(url) {
+        call_count <<- call_count + 1L
+        if (call_count == 1L) {
+            # concept record: no files, but has links$latest
+            list(id = 99L, files = NULL, links = list(latest = "https://zenodo.org/api/records/1"))
+        } else {
+            fake_json(url)
+        }
+    }
+    with_mocked_bindings({
+        result <- get_from_zenodo("99", cache_dir = tempdir())
+        expect_is(result, 'cldf')
+        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_equal(call_count, 2L)
+    }, fetch_json = fake_json_concept)
+})
+
+
 test_that("load_glottolog", {
     with_mocked_bindings({
         result <- load_glottolog(cache_dir = tempdir())

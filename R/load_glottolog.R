@@ -78,9 +78,16 @@ get_from_zenodo <- function(zid, load_bib=FALSE, cache_dir=NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
     logger::log_debug("get_from_zenodo: ", paste0('https://zenodo.org/api/records/', zid), namespace="get_from_zenodo")
     o <- fetch_json(paste0('https://zenodo.org/api/records/', zid))
-    if (!is.null(o[["id"]]) | zid != o[["id"]]) {
-        logger::log_debug("get_from_zenodo: ", paste0('https://zenodo.org/api/records/', o[['id']]), namespace="get_from_zenodo")
-        o <- fetch_json(paste0("https://zenodo.org/api/records/", o[['id']]))
+    # If the response has no files, the API returned a concept record rather than
+    # the latest specific version. Follow links$latest to navigate to the true
+    # latest version (which provides an absolute-URL redirect, more robust than
+    # the concept-ID endpoint's relative redirect).
+    if (is.null(o$files) || nrow(o$files) == 0) {
+        latest_url <- o$links$latest
+        if (!is.null(latest_url)) {
+            logger::log_debug("get_from_zenodo: following latest: ", latest_url, namespace="get_from_zenodo")
+            o <- fetch_json(latest_url)
+        }
     }
     logger::log_debug("get_from_zenodo: ", o$files[1,]$links$self, namespace="get_from_zenodo")
     cldf(o$files[1,]$links$self, load_bib=load_bib, cache_dir=cache_dir)
