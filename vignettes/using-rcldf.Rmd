@@ -209,6 +209,18 @@ Sometimes you just want to get one table. To do this call
 get_table_from('LanguageTable', system.file("extdata/huon", package="rcldf"))
 ```
 
+Unlike `read.csv()`, `get_table_from` (and `cldf()` generally) gives you three
+things for free:
+
+- **Correct column types** — column types (integer, date, boolean, …) are read
+  from the dataset's `tableSchema`, not guessed from the data.
+- **Proper `NA` values** — each CLDF dataset declares its own null markers
+  (e.g. `""`, `"?"`) in the metadata; these are automatically converted to R
+  `NA`.
+- **Stable table names** — you refer to tables by their CLDF role
+  (`"LanguageTable"`) rather than the underlying filename (`languages.csv`,
+  `Languages.csv`, …), which differs across datasets.
+
 ### Get the citation for a dataset:
 
 ```{r}
