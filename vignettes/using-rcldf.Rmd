@@ -148,9 +148,18 @@ head(ds$tables$LanguageTable)
 # and the parameters - in this case the words in the wordlist
 head(ds$tables$ParameterTable)
 
-# and finally, the lexical items themselves:
-ds$tables$ValueTable
+# and finally, the lexical items (forms) themselves:
+head(ds$tables$FormTable)
+
+# and the cognate judgements:
+head(ds$tables$CognateTable)
 ```
+
+Note: the table name depends on the dataset type. `ValueTable` is used in
+**StructureDatasets** (e.g. WALS, Grambank), whereas **Wordlists** store lexical
+items in `FormTable` and cognacy information in `CognateTable`. If
+`ds$tables$ValueTable` returns `NULL`, check `ds$type` and `names(ds$tables)` to
+find the right table name.
 
 ## Load all the source information
 
