@@ -17,8 +17,8 @@ language data, and apply statistical methods directly within R.
 You can install rcldf directly from [GitHub](https://github.com/SimonGreenhill/rcldf) using `devtools`:
 
 ```r
-library(devtools)
-install_github("SimonGreenhill/rcldf", dependencies = TRUE)
+library(pak)
+pak::pak("SimonGreenhill/rcldf")
 ```
 
 ## Usage
