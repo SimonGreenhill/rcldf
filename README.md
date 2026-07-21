@@ -4,6 +4,14 @@
 
 # rcldf is a library for R to read Cross-Linguistic Data files (CLDF)
 
+Cross-Linguistic Data Format (CLDF) is a framework for storing 
+cross-linguistic data, ensuring compatibility and ease of data exchange between
+different linguistic datasets see [Forkel et al. (2018)](https://doi.org/10.1038/sdata.2018.205). 
+The 'rcldf' package is designed to facilitate the manipulation and analysis of 
+these datasets by simplifying the loading, querying, and visualisation of CLDF
+datasets making it easier to conduct comparative linguistic analyses, manage 
+language data, and apply statistical methods directly within R.
+
 ## Installation
 
 You can install rcldf directly from [GitHub](https://github.com/SimonGreenhill/rcldf) using `devtools`:
