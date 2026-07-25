@@ -10,7 +10,7 @@
 #' @return a list specifying a default csv dialect
 default_dialect <- list(
     encoding="utf-8",
-    lineTerminators=c("\r\n","\n"),
+    lineTerminators=c("\r\n", "\n"),
     quoteChar="\"",
     doubleQuote=TRUE,
     skipRows=0,
@@ -96,7 +96,6 @@ add_dataframe <- function(table, filename, group) {
         table$tableSchema <- schema <- default_schema(filename, dialect)
     }
     table_columns <- schema$columns[!coalesce_truth(schema$columns[["virtual"]]), ]
-    column_names <- table_columns$name
     column_types <- datatype_to_type(table_columns$datatype)
     readr::read_delim(
         filename,
