@@ -1,13 +1,17 @@
 
 EXPECTED_COLS <- list(
     "values.csv" = c(
-        "ID", "Language_ID", "Parameter_ID", "Value", "Code_ID", "Comment", "Source"),
+        "ID", "Language_ID", "Parameter_ID", "Value", "Code_ID", "Comment", "Source"
+    ),
     "languages.csv" = c(
-        "ID", "Name", "Macroarea", "Latitude", "Longitude", "Glottocode", "ISO639P3code", "Family", "Genus"),
+        "ID", "Name", "Macroarea", "Latitude", "Longitude", "Glottocode", "ISO639P3code", "Family", "Genus"
+    ),
     "parameters.csv" = c(
-        "ID", "Name", "Description", "Authors", "Url", "Area"),
+        "ID", "Name", "Description", "Authors", "Url", "Area"
+    ),
     "codes.csv" = c(
-        "ID", "Parameter_ID", "Name", "Description")
+        "ID", "Parameter_ID", "Name", "Description"
+    )
 )
 
 EXPECTED_KEYS <- list(
@@ -21,29 +25,29 @@ EXPECTED_KEYS <- list(
 
 test_that("test schema", {
 
-    expect_error(schema('x'), "'object' must inherit from class cldf")
+    expect_error(schema("x"), "'object' must inherit from class cldf")
 
     cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"))
     s <- schema(cldf_obj)
 
     expect_equal(
-        sort(EXPECTED_COLS[['values.csv']]),
-        sort(s$tables[['values.csv']][['name']])
+        sort(EXPECTED_COLS[["values.csv"]]),
+        sort(s$tables[["values.csv"]][["name"]])
     )
 
     expect_equal(
-        sort(EXPECTED_COLS[['parameters.csv']]),
-        sort(s$tables[['parameters.csv']][['name']])
+        sort(EXPECTED_COLS[["parameters.csv"]]),
+        sort(s$tables[["parameters.csv"]][["name"]])
     )
 
     expect_equal(
-        sort(EXPECTED_COLS[['codes.csv']]),
-        sort(s$tables[['codes.csv']][['name']])
+        sort(EXPECTED_COLS[["codes.csv"]]),
+        sort(s$tables[["codes.csv"]][["name"]])
     )
 
     expect_equal(
-        sort(EXPECTED_COLS[['languages.csv']]),
-        sort(s$tables[['languages.csv']][['name']])
+        sort(EXPECTED_COLS[["languages.csv"]]),
+        sort(s$tables[["languages.csv"]][["name"]])
     )
 
     # keys
@@ -51,7 +55,7 @@ test_that("test schema", {
         for (src in names(EXPECTED_KEYS[[tbl]])) {
             dest <- EXPECTED_KEYS[[tbl]][[src]]
             expect_equal(
-                s$tables[[tbl]][which(s$tables[[tbl]][['name']] == src), 'FK'],
+                s$tables[[tbl]][which(s$tables[[tbl]][["name"]] == src), "FK"],
                 dest
             )
         }
@@ -68,7 +72,7 @@ test_that("schema works for datasets with no foreign keys", {
 })
 
 test_that("test print.cldf_schema", {
-    expect_error(print.cldf_schema('x'), "'x' must inherit from class cldf")
+    expect_error(print.cldf_schema("x"), "'x' must inherit from class cldf")
     cldf_obj <- cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"))
     out <- capture.output(print.cldf_schema(cldf_obj))
     expect_match(out[1], "values.csv")
@@ -84,4 +88,3 @@ test_that("schema property extraction returns correct property per column", {
     expect_equal(props[["Language_ID"]], "http://cldf.clld.org/v1.0/terms.rdf#languageReference")
     expect_gt(length(unique(props[!is.na(props)])), 1)
 })
-

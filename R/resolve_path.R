@@ -7,13 +7,13 @@
 #' @return A list of two items:
 #'  `path`  - string containing the path to the metadata.json file
 #'  `metadata` - a csvwr metadata object
-resolve_path <- function(path, cache_dir=NA) {
+resolve_path <- function(path, cache_dir =  NA) {
     cache_dir <- ifelse(is.na(cache_dir), tempdir(), cache_dir)
-    logger::log_debug("setting cache_dir to ", cache_dir, namespace='resolve_path')
+    logger::log_debug("setting cache_dir to ", cache_dir, namespace = "resolve_path")
     # create cache dir if not available
     if (dir.exists(cache_dir) == FALSE) {
         logger::log_debug("cache_dir does not exist, creating")
-        dir.create(cache_dir, recursive=TRUE)
+        dir.create(cache_dir, recursive = TRUE)
     }
 
     cachekey <- file.path(cache_dir, make_cache_key(path))
@@ -29,7 +29,7 @@ resolve_path <- function(path, cache_dir=NA) {
             # given a github URL, use remotes to download to a temporary tar.gz file
             logger::log_debug("downloading github with remotes")
             path <- remotes::remote_download(
-                remotes::github_remote(path, ref = "HEAD", subdir = 'cldf')
+                remotes::github_remote(path, ref = "HEAD", subdir = "cldf")
             )
         } else {
             ## simplify urls first to remove url fragment (?download=x etc)
@@ -37,9 +37,9 @@ resolve_path <- function(path, cache_dir=NA) {
             ## handle zenodo's trailing /content tag
             ## if (endsWith(filename, '/content')) { filename <- gsub('/content$', '', filename) }
             ## filename <- file.path(cache_dir, basename(filename))
-            dest <- tempfile(fileext=".zip")
+            dest <- tempfile(fileext = ".zip")
             logger::log_debug(sprintf("given a url - downloading to %s", dest))
-            utils::download.file(path, dest, mode="wb", method="curl", extra=c("-L"))  # -L means follow redir
+            utils::download.file(path, dest, mode = "wb", method = "curl", extra = c("-L"))  # -L means follow redir
             path <- dest
         }
     }
@@ -48,12 +48,12 @@ resolve_path <- function(path, cache_dir=NA) {
     file_ext <- tools::file_ext(path)
 
     # given an archive file
-    if (tolower(file_ext) %in% c('zip', 'gz', 'bz2')) {
+    if (tolower(file_ext) %in% c("zip", "gz", "bz2")) {
         logger::log_debug("encountered archive file - decompressing")
-        sentinel_file <- file.path(cachekey, 'extracted.ok')
+        sentinel_file <- file.path(cachekey, "extracted.ok")
         if (!file.exists(sentinel_file)) {
             message(sprintf("Unzipping to: %s", cachekey))
-            archive::archive_extract(path, cachekey, strip_components=0)
+            archive::archive_extract(path, cachekey, strip_components = 0)
             # write sentinel file to say unzip was ok...
             file.create(sentinel_file)
         } else {
@@ -73,22 +73,20 @@ resolve_path <- function(path, cache_dir=NA) {
     }
 
     # given a metadata.json file
-    if (!dir.exists(path) && tolower(tools::file_ext(path)) == 'json') {
+    if (!dir.exists(path) && tolower(tools::file_ext(path)) == "json") {
         logger::log_debug("passing to csvwr: ", path)
-        return(list(
-            path=path, metadata=csvwr::read_metadata(path)
-        ))
+        return(list(path = path, metadata = csvwr::read_metadata(path)))
     }
 
     # given a dirname, try find the metadata file.
     if (dir.exists(path)) {
         logger::log_debug("given directory - searching for metadata")
-        mdfiles <- list.files(path, "*.json", full.names = TRUE, recursive=TRUE)
+        mdfiles <- list.files(path, "*.json", full.names = TRUE, recursive = TRUE)
         # limit to 10 so we don't risk loading all json files on the computer
         for (m in utils::head(mdfiles, 10)) {
             try({
                 logger::log_debug("passing to csvwr: ", m)
-                return(list(path=m, metadata=csvwr::read_metadata(m)))
+                return(list(path = m, metadata = csvwr::read_metadata(m)))
             }, silent = TRUE)
         }
         stop(sprintf("no metadata JSON file found in %s", path))
@@ -98,5 +96,3 @@ resolve_path <- function(path, cache_dir=NA) {
     logger::log_debug("failed to find metadata.json")
     stop("Need either a metadata.json file or a directory with metadata.json")
 }
-
-

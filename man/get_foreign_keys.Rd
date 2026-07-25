@@ -13,7 +13,10 @@ get_foreign_keys(cldf_obj)
 a dataframe
 }
 \description{
-Returns a table of the foreign keys in a CLDF dataset.
+Returns both explicit CSVW \code{foreignKeys} and implicit foreign keys
+derived from CLDF reference properties (e.g. \code{languageReference}).
+Per the CLDF specification, a column whose \code{propertyUrl} is a CLDF
+reference property is equivalent to an explicit foreign key constraint.
 }
 \examples{
 o <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))

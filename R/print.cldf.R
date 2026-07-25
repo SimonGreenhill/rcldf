@@ -12,8 +12,8 @@ print.cldf <- function(x, ...) {
     cat(sprintf(
         "A CLDF dataset with %d tables (%s)",
         length(x$tables),
-        paste(sort(names(x$tables)), sep=" ", collapse=", ")
-    ), sep="\n")
+        paste(sort(names(x$tables)), sep = " ", collapse = ", ")
+    ), sep = "\n")
     cat("\n")
     cat(x[["metadata"]][["dc:bibliographicCitation"]], "\n")
 }

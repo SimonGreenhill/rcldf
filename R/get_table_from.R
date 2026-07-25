@@ -8,8 +8,8 @@
 #' @examples
 #' md_json <- system.file("extdata/huon", "cldf-metadata.json", package = "rcldf")
 #' df <- get_table_from("LanguageTable", md_json)
-get_table_from <- function(table, mdpath, cache_dir=tempdir()) {
-    o <- cldf(mdpath, load_bib=FALSE, cache_dir)
+get_table_from <- function(table, mdpath, cache_dir = tempdir()) {
+    o <- cldf(mdpath, load_bib = FALSE, cache_dir)
     if (table %in% names(o$resources)) {
         table <- o$resources[[table]]
     }

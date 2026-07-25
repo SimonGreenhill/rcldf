@@ -10,31 +10,31 @@
 #' @export
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
-cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
-    md <- rcldf::resolve_path(mdpath, cache_dir=cache_dir)
+cldf <- function(mdpath, load_bib = FALSE, cache_dir = tempdir()) {
+    md <- rcldf::resolve_path(mdpath, cache_dir = cache_dir)
 
-    if (!startsWith(md$metadata[['dc:conformsTo']], 'http://cldf.clld.org/')) {
+    if (!startsWith(md$metadata[["dc:conformsTo"]], "http://cldf.clld.org/")) {
         stop("Invalid CLDF JSON file - does not conform to CLDF spec")
     }
 
-    logger::log_debug("cldf: constructing data structure", namespace="cldf")
+    logger::log_debug("cldf: constructing data structure", namespace = "cldf")
 
     o <- structure(list(
         base_dir = dirname(md$path),
-        name = md$metadata[['dc:title']],
+        name = md$metadata[["dc:title"]],
         metadata = md$metadata,
-        type = md$metadata[['dc:conformsTo']],
+        type = md$metadata[["dc:conformsTo"]],
         tables = list(),  # tables by table type (e.g. "LanguageTable")
         resources = list(),  # tables by resource name (e.g. "languages.csv")
         sources = NA,
         citation = NA
     ), class = "cldf")
 
-    logger::log_debug("cldf: setting base_dir: ", o$base_dir, namespace="cldf")
+    logger::log_debug("cldf: setting base_dir: ", o$base_dir, namespace = "cldf")
 
 
     if ("dc:bibliographicCitation" %in% names(md$metadata)) {
-        o$citation <- md$metadata[['dc:bibliographicCitation']]
+        o$citation <- md$metadata[["dc:bibliographicCitation"]]
     }
 
     tables <- md$metadata$tables
@@ -44,7 +44,7 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
         tbl <- tables[[i]]
         tfile <- tbl[["url"]]
 
-        logger::log_debug("cldf: handle table ", tfile, namespace="cldf")
+        logger::log_debug("cldf: handle table ", tfile, namespace = "cldf")
 
         table <- get_tablename(tbl[["dc:conformsTo"]], tfile)
         filename <- get_filename(o$base_dir, tfile)
@@ -64,11 +64,11 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
 
     # load sources
     if (load_bib) {
-        logger::log_debug("cldf: load_bib", namespace="cldf")
+        logger::log_debug("cldf: load_bib", namespace = "cldf")
         o <- read_bib(o)
     }
 
-    logger::log_debug("cldf: run nullify", namespace="cldf")
+    logger::log_debug("cldf: run nullify", namespace = "cldf")
     o <- nullify(o)  # postprocess
     o
 }
@@ -76,9 +76,6 @@ cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
 
 #' included here to match people expecting e.g. readr::read_csv etc
 #' @rdname cldf
-read_cldf <- function(mdpath, load_bib=FALSE, cache_dir=tempdir()) {
-    cldf(mdpath, load_bib=load_bib, cache_dir=cache_dir)
+read_cldf <- function(mdpath, load_bib = FALSE, cache_dir = tempdir()) {
+    cldf(mdpath, load_bib = load_bib, cache_dir = cache_dir)
 }
-
-
-

@@ -3,22 +3,22 @@ MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-meta
 
 
 test_that("load_bib=TRUE", {
-    df1 <- cldf(MD_JSON_PATH, load_bib=TRUE)
+    df1 <- cldf(MD_JSON_PATH, load_bib = TRUE)
     expect_true(nrow(df1$sources) == 11)
 
-    df2 <- read_bib(cldf(MD_JSON_PATH, load_bib=FALSE))
+    df2 <- read_bib(cldf(MD_JSON_PATH, load_bib = FALSE))
     expect_true(nrow(df2$sources) == 11)
 
     expect_equal(df1$sources, df2$sources)
 
     # no sources
-    df <- cldf(system.file("extdata/examples/no_sources", package = "rcldf"), load_bib=TRUE)
+    df <- cldf(system.file("extdata/examples/no_sources", package = "rcldf"), load_bib = TRUE)
     expect_equal(is.na(df$sources), TRUE)
 })
 
 
 test_that("read_bib", {
-    df <- cldf(MD_JSON_PATH, load_bib=FALSE)
+    df <- cldf(MD_JSON_PATH, load_bib = FALSE)
     expect_true(is.na(df$sources))
 
     df <- read_bib(df)
@@ -39,9 +39,8 @@ test_that("read_bib with zipped", {
 
 test_that("read_bib with missing file", {
     df <- cldf(system.file("extdata/examples/zipped_bib", package = "rcldf"))
-    df$metadata[['dc:source']] <- 'Does Not Exist'
+    df$metadata[["dc:source"]] <- "Does Not Exist"
 
     s <- read_bib(df)
     expect_true(is.na(s$sources))
 })
-

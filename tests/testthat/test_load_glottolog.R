@@ -31,14 +31,11 @@ fake_json <- function(url) {
 }
 
 
-
-
-
 test_that("get_from_zenodo", {
     with_mocked_bindings({
         result <- get_from_zenodo("1", cache_dir = tempdir())
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
     }, fetch_json = fake_json)
 })
 
@@ -62,8 +59,8 @@ test_that("get_from_zenodo - concept record without files follows links$latest",
     }
     with_mocked_bindings({
         result <- get_from_zenodo("99", cache_dir = tempdir())
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
         expect_equal(call_count, 2L)
     }, fetch_json = fake_json_concept)
 })
@@ -72,8 +69,8 @@ test_that("get_from_zenodo - concept record without files follows links$latest",
 test_that("load_glottolog", {
     with_mocked_bindings({
         result <- load_glottolog(cache_dir = tempdir())
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
     }, fetch_json = fake_json)
 })
 
@@ -81,8 +78,8 @@ test_that("load_glottolog", {
 test_that("load_glottolog - with NULL cache", {
     with_mocked_bindings({
         result <- load_glottolog()
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
     }, fetch_json = fake_json)
 })
 
@@ -90,8 +87,8 @@ test_that("load_glottolog - with NULL cache", {
 test_that("load_concepticon", {
     with_mocked_bindings({
         result <- load_concepticon(cache_dir = tempdir())
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
     }, fetch_json = fake_json)
 })
 
@@ -99,8 +96,8 @@ test_that("load_concepticon", {
 test_that("load_clts", {
     with_mocked_bindings({
         result <- load_clts(cache_dir = tempdir())
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
     }, fetch_json = fake_json)
 })
 
@@ -108,7 +105,7 @@ test_that("load_clts", {
 test_that("load_dplace", {
     with_mocked_bindings({
         result <- load_dplace(cache_dir = tempdir())
-        expect_is(result, 'cldf')
-        expect_equal(nrow(result$tables[['LanguageTable']]), 9)
+        expect_is(result, "cldf")
+        expect_equal(nrow(result$tables[["LanguageTable"]]), 9)
     }, fetch_json = fake_json)
 })

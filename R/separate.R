@@ -43,7 +43,7 @@ separate <- function(cldfobj, separators = NULL) {
         separators <- get_separators(cldfobj$metadata)
     }
 
-    if (nrow(separators) == 0) { return(cldfobj) }  # nocov
+    if (nrow(separators) == 0) return(cldfobj)  # nocov
 
     for (i in seq_len(nrow(separators))) {
         url      <- separators$url[[i]]

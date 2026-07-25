@@ -9,48 +9,37 @@ test_that("resolve_path", {
     expect_equal(resolve_path(MD_JSON_PATH, tempdir())$metadata, expected)
 
     # given dir
-    expect_equal(
-        resolve_path(system.file("extdata/examples/wals_1A_cldf", package="rcldf"), tempdir())$metadata,
-        expected)
+    p <- resolve_path(system.file("extdata/examples/wals_1A_cldf", package = "rcldf"), tempdir())
+    expect_equal(p$metadata, expected)
+
     # dir with trailing slash
-    expect_equal(
-        resolve_path(system.file("extdata/examples/wals_1A_cldf/", package="rcldf"), tempdir())$metadata,
-        expected)
+    p <- resolve_path(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"), tempdir())
+    expect_equal(p$metadata, expected)
 
     # given dir with multiple jsons
-    expect_equal(
-        resolve_path(
-            system.file("extdata/examples/multiple_json/", package="rcldf"), tempdir())$metadata,
-        csvwr::read_metadata(
-            system.file("extdata/examples/multiple_json/valid.json", package="rcldf"))
-    )
+    p <- resolve_path(system.file("extdata/examples/multiple_json/", package = "rcldf"), tempdir())
+    q <- csvwr::read_metadata(system.file("extdata/examples/multiple_json/valid.json", package = "rcldf"))
+    expect_equal(p$metadata, q)
 
     ### ERRORS
 
     # given invalid file
     expect_error(resolve_path("", tempdir())$metadata, "does not exist")
-
-    expect_error(
-        resolve_path(system.file("extdata/examples/wals_1A_cldf/values.csv", package="rcldf"), tempdir())$metadata,
-        "Need either"
-    )
+    sf <- system.file("extdata/examples/wals_1A_cldf/values.csv", package = "rcldf")
+    expect_error(resolve_path(sf, tempdir()), "Need either")
 
     # no metadata JSON file
-    expect_error(
-        resolve_path(system.file("extdata/examples/not_a_cldf/", package="rcldf"), tempdir())$metadata,
-        "no metadata JSON file found"
-    )
+    sf <- system.file("extdata/examples/not_a_cldf/", package = "rcldf")
+    expect_error(resolve_path(sf, tempdir()), "no metadata JSON file found")
 
     # multiple JSON files found
-    expect_error(
-        resolve_path(system.file("extdata/examples/not_a_cldf/also_not_a_cldf", package="rcldf"), tempdir())$metadata,
-        "no metadata JSON file found"
-    )
+    sf <- system.file("extdata/examples/not_a_cldf/also_not_a_cldf", package = "rcldf")
+    expect_error(resolve_path(sf, tempdir()), "no metadata JSON file found")
 })
 
 
 test_that("resolve_path handles archives (.zip)", {
-    zfile <- system.file("extdata/examples/wals_1A_cldf.zip", package="rcldf")
+    zfile <- system.file("extdata/examples/wals_1A_cldf.zip", package = "rcldf")
     expected <- csvwr::read_metadata(MD_JSON_PATH)
     obtained <- resolve_path(zfile, tempdir())
     expect_equal(obtained$metadata, expected)
@@ -65,7 +54,7 @@ test_that("resolve_path handles archives (.zip)", {
 
 test_that("resolve_path creates cache dir", {
     expected <- csvwr::read_metadata(MD_JSON_PATH)
-    tmp <- file.path(tempdir(), 'resolve_path_creates_cache_dir')
+    tmp <- file.path(tempdir(), "resolve_path_creates_cache_dir")
     obtained <- resolve_path(MD_JSON_PATH, tmp)
     expect_equal(obtained$metadata, expected)
 })
@@ -105,8 +94,8 @@ test_that("resolve_path handles generic zip files", {
     },
     download.file = function(url, dest, ...) {
         file.create(dest)
-        return(0)
+        0
     },
-    .package = 'utils'
+    .package = "utils"
     )
 })

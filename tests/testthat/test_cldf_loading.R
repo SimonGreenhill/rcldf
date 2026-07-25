@@ -3,7 +3,10 @@ test_that("test cldf loading", {
     #logger::log_threshold(DEBUG)
 
     # n.b. we need to take base_dir out of the comparison
-    patch_base_dir <- function(o, base_dir) { o$base_dir <- base_dir; return(o) }
+    patch_base_dir <- function(o, base_dir) {
+        o$base_dir <- base_dir
+        o
+    }
 
     # direct link to metadata
     o <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))

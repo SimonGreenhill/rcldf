@@ -15,9 +15,9 @@ get_foreign_keys <- function(cldf_obj) {
     CLDF_BASE <- "http://cldf.clld.org/v1.0/terms.rdf#"
 
     empty <- data.frame(
-        SourceTable=character(), SourceColumn=character(),
-        DestinationURL=character(), DestinationTable=character(),
-        DestinationColumn=character(), stringsAsFactors=FALSE
+        SourceTable = character(), SourceColumn = character(),
+        DestinationURL = character(), DestinationTable = character(),
+        DestinationColumn = character(), stringsAsFactors = FALSE
     )
 
     # --- Explicit CSVW foreignKeys ---
@@ -41,7 +41,7 @@ get_foreign_keys <- function(cldf_obj) {
             )
         })
     })
-    explicit <- do.call(rbind, unlist(explicit_results, recursive=FALSE))
+    explicit <- do.call(rbind, unlist(explicit_results, recursive = FALSE))
     if (is.null(explicit)) explicit <- empty
 
     # --- Implicit foreign keys from CLDF reference properties ---
@@ -67,14 +67,14 @@ get_foreign_keys <- function(cldf_obj) {
     for (t in cldf_obj$metadata$tables) {
         conformsto <- t[["dc:conformsTo"]]
         if (is.null(conformsto) || !startsWith(conformsto, CLDF_BASE)) next
-        ttype <- sub(CLDF_BASE, "", conformsto, fixed=TRUE)
+        ttype <- sub(CLDF_BASE, "", conformsto, fixed = TRUE)
         cols <- t$tableSchema$columns
         id_col <- "ID"
         if (!is.null(cols) && !is.null(cols$propertyUrl)) {
             id_match <- cols$name[!is.na(cols$propertyUrl) & cols$propertyUrl == paste0(CLDF_BASE, "id")]
             if (length(id_match) > 0) id_col <- id_match[[1]]
         }
-        table_info[[ttype]] <- list(url=t$url, id_col=id_col)
+        table_info[[ttype]] <- list(url = t$url, id_col = id_col)
     }
 
     implicit_results <- lapply(cldf_obj$metadata$tables, function(table) {
@@ -85,11 +85,15 @@ get_foreign_keys <- function(cldf_obj) {
             prop_url <- cols$propertyUrl[[i]]
             if (!is.character(prop_url) || length(prop_url) != 1 || is.na(prop_url)) return(NULL)
             if (!startsWith(prop_url, CLDF_BASE)) return(NULL)
-            prop_name <- sub(CLDF_BASE, "", prop_url, fixed=TRUE)
+            prop_name <- sub(CLDF_BASE, "", prop_url, fixed = TRUE)
             if (!prop_name %in% names(REF_TO_TABLE)) return(NULL)
             col_name <- cols$name[[i]]
+
             # Skip if already covered by an explicit FK on this column
-            if (nrow(explicit) > 0 && any(explicit$SourceTable == source_url & explicit$SourceColumn == col_name)) return(NULL)
+            if (nrow(explicit) > 0 && any(explicit$SourceTable == source_url & explicit$SourceColumn == col_name)) {
+                return(NULL)
+            }
+
             target_type <- REF_TO_TABLE[[prop_name]]
             dest <- table_info[[target_type]]
             if (is.null(dest)) return(NULL)
@@ -103,7 +107,7 @@ get_foreign_keys <- function(cldf_obj) {
             )
         })
     })
-    implicit <- do.call(rbind, unlist(implicit_results, recursive=FALSE))
+    implicit <- do.call(rbind, unlist(implicit_results, recursive = FALSE))
 
     result <- rbind(explicit, implicit)
     if (is.null(result)) empty else result

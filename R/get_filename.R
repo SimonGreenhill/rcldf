@@ -5,8 +5,10 @@
 #' @return A string
 #' @export
 get_filename <- function(base_dir, url) {
-    for (url in c(url, paste0(url, '.zip'))) {
+    for (url in c(url, paste0(url, ".zip"))) {
         furl <- file.path(base_dir, url)
-        if (file.exists(furl)) { return(furl) }
+        if (file.exists(furl)) {
+            return(furl)
+        }
     }
 }

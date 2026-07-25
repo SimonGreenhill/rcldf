@@ -33,7 +33,11 @@ test_that("get_foreign_keys detects implicit FKs from reference properties", {
 })
 
 test_that("get_foreign_keys resolves non-standard ID column names in implicit FKs", {
-    o <- cldf(system.file("extdata/examples/implicit_fk_nonstandard_id", "StructureDataset-metadata.json", package = "rcldf"))
+    sf <- system.file(
+        "extdata/examples/implicit_fk_nonstandard_id", "StructureDataset-metadata.json",
+        package = "rcldf"
+    )
+    o <- cldf(sf)
     fks <- get_foreign_keys(o)
     expect_equal(nrow(fks), 1)
     expect_equal(fks$SourceColumn,      "Language_ID")
@@ -41,4 +45,3 @@ test_that("get_foreign_keys resolves non-standard ID column names in implicit FK
     expect_equal(fks$DestinationTable,  "LanguageTable")
     expect_equal(fks$DestinationColumn, "glottocode")
 })
-

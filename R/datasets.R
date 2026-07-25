@@ -5,12 +5,12 @@
 #' @return A dataframe of available dataset.
 #'
 datasets <- function() {
-    ds <- get_table_from('ContributionTable', 'https://github.com/cldf-datasets/cldf_meta')
+    ds <- get_table_from("ContributionTable", "https://github.com/cldf-datasets/cldf_meta")
 
     # tidy up some things
-    labels <- strsplit(urltools::path(ds[['GitHub_Link']]), '/')
-    ds[['Organisation']] <- vapply(labels, `[[`, character(1), 1)
-    ds[['Dataset']] <- vapply(labels, function(x) if (length(x) >= 2) x[[2]] else NA_character_, character(1))
+    labels <- strsplit(urltools::path(ds[["GitHub_Link"]]), "/")
+    ds[["Organisation"]] <- vapply(labels, `[[`, character(1), 1)
+    ds[["Dataset"]] <- vapply(labels, function(x) if (length(x) >= 2) x[[2]] else NA_character_, character(1))
     # reorder for niceness
     cols <- c("ID", "Dataset", "Organisation", "Version")
     ds[, c(cols, setdiff(colnames(ds), cols))]
@@ -50,25 +50,28 @@ datasets <- function() {
 #' # load from GitHub instead
 #' ds <- load_dataset("vanuatuvoices", source = "GitHub")
 #' }
-load_dataset <- function(dataset, version=NULL, source='Zenodo') {
+load_dataset <- function(dataset, version = NULL, source = "Zenodo") {
     ds <- rcldf::datasets()
-    ds <- ds[!is.na(ds$Dataset) & ds$Dataset == dataset,]
-    if (nrow(ds) == 0) { stop(paste('invalid dataset', dataset))}
+    ds <- ds[!is.na(ds$Dataset) & ds$Dataset == dataset, ]
+
+    if (nrow(ds) == 0) {
+        stop(paste("invalid dataset", dataset))
+    }
 
     # which version? default to latest
     if (is.null(version)) {
         version <- versionsort::ver_latest(ds$Version)
     } else {
-        if (version %in% ds[['Version']] == FALSE) {
-            stop(paste("invalid version, select from:", paste(ds[['Version']], collapse=", ")))
+        if (version %in% ds[["Version"]] == FALSE) {
+            stop(paste("invalid version, select from:", paste(ds[["Version"]], collapse = ", ")))
         }
     }
 
     # where to download from
-    if (tolower(source) == 'zenodo') {
-        get_from_zenodo(ds[ds$Version == version, ][['Zenodo_ID']])
-    } else if (tolower(source) == 'github') {
-        cldf(ds[ds$Version == version, ][['GitHub_Link']])
+    if (tolower(source) == "zenodo") {
+        get_from_zenodo(ds[ds$Version == version, ][["Zenodo_ID"]])
+    } else if (tolower(source) == "github") {
+        cldf(ds[ds$Version == version, ][["GitHub_Link"]])
     } else {
         stop("invalid URL, please choose zenodo or github")
     }

@@ -6,13 +6,13 @@
 #' @export
 #' @examples
 #' get_tablename("http://cldf.clld.org/v1.0/terms.rdf#ValueTable")
-get_tablename <- function(conformsto, url=NA) {
+get_tablename <- function(conformsto, url = NA) {
     # default to basename of url name if no conformsto statement (=filename)
     if (is.na(conformsto) || is.null(conformsto)) {
-        return(basename(url))
-    } else if (!grepl("#", conformsto, fixed=TRUE)) {
+        return(basename(url))  # nolint: return_linter, explicit return for clarity
+    } else if (!grepl("#", conformsto, fixed = TRUE)) {
         stop(paste("Invalid table name: ", conformsto))
     } else {
-        return(strsplit(conformsto, '#')[[1]][[2]])
+        return(strsplit(conformsto, "#")[[1]][[2]])  # nolint: return_linter, explicit return for clarity
     }
 }

@@ -1,0 +1,10 @@
+linters: linters_with_defaults(
+    line_length_linter(120),
+    indentation_linter(indent=4L),
+    commented_code_linter = NULL,
+    object_name_linter(styles = c("CamelCase", "UPPERCASE", "SNAKE_CASE", "snake_case", "lowercase"))
+  )
+exclusions: list(
+    "R/csvwr_overrides.R",
+    "vignettes/using-rcldf.R"
+    )

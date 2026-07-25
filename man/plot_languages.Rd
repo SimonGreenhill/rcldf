@@ -4,13 +4,13 @@
 \alias{plot_languages}
 \title{Plot CLDF Languages on an Interactive Map}
 \usage{
-plot_languages(x, color_by = "ID")
+plot_languages(x, color_by = NULL)
 }
 \arguments{
 \item{x}{A cldf object.}
 
 \item{color_by}{Character string specifying the column in \code{LanguageTable} to use for marker coloring.
-Default is "ID".}
+Defaults to the first column of \code{LanguageTable}.}
 }
 \value{
 A leaflet map object.

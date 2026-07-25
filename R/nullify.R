@@ -1,13 +1,13 @@
 get_nulls <- function(metadata) {
-    find <- function(url, tableSchema) {
-        if (!('null' %in% colnames(tableSchema$columns))) return(data.frame())
-        cols <- tableSchema$columns[c('name', 'null')]
+    find <- function(url, tableschema) {
+        if (!("null" %in% colnames(tableschema$columns))) return(data.frame())
+        cols <- tableschema$columns[c("name", "null")]
         dplyr::bind_rows(lapply(seq_len(nrow(cols)), function(i) {
             n <- cols$null[[i]]
             if (is.null(n) || length(n) == 0) return(NULL)
             n <- n[!is.na(n)]
             if (length(n) == 0) return(NULL)
-            data.frame(url=url, name=cols$name[[i]], null=as.character(n), stringsAsFactors=FALSE)
+            data.frame(url = url, name = cols$name[[i]], null = as.character(n), stringsAsFactors = FALSE)
         }))
     }
     dplyr::bind_rows(
@@ -31,28 +31,33 @@ get_nulls <- function(metadata) {
 #' @examples
 #' cldfobj <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
 #' cldfobj <- nullify(cldfobj)
-nullify <- function(cldfobj, nulls=NULL) {
-    if (!inherits(cldfobj, "cldf")) { stop("'cldfobj' must inherit from class cldf") }
+nullify <- function(cldfobj, nulls = NULL) {
+    if (!inherits(cldfobj, "cldf")) {
+        stop("'cldfobj' must inherit from class cldf")
+    }
 
-    if (is.null(nulls)) { nulls <- get_nulls(cldfobj$metadata) }
+    if (is.null(nulls)) {
+        nulls <- get_nulls(cldfobj$metadata)
+    }
 
     # loop over and nullify
     if (nrow(nulls)) {
         for (i in seq_len(nrow(nulls))) {
-            url <- nulls[i, 'url']
+            url <- nulls[i, "url"]
             column <- nulls[i, "name"]
-            null <- nulls[i, 'null']
+            null <- nulls[i, "null"]
+
+            cu <- cldfobj$resources[[url]]
 
             # how many do we have?
-            if (null %in% cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]]) {
-                n <- table(cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]])[[null]]
+            if (null %in% cldfobj$tables[[cu]][[column]]) {
+                n <- table(cldfobj$tables[[cu]][[column]])[[null]]
             } else {
                 n <- 0
             }
-            logger::log_debug("nullify: setting null value for {url}::{column} = `{null}` (n={n})", namespace="nullify")
+            logger::log_debug("nullify: setting null for {url}::{column} = `{null}` (n={n})", namespace = "nullify")
             if (n > 0) {
-                cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]] <- dplyr::na_if(
-                cldfobj$tables[[ cldfobj$resources[[url]] ]][[column]], null)
+                cldfobj$tables[[cu]][[column]] <- dplyr::na_if(cldfobj$tables[[cu]][[column]], null)
             }
         }
     }

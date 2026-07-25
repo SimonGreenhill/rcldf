@@ -15,9 +15,9 @@ plot_languages <- function(x, color_by = NULL) {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
     }
 
-    lat_col <- get_cldf_colname(x, "LanguageTable", "latitude")
-    lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
-    name_col <- get_cldf_colname(x, "LanguageTable", "name")
+    lat_col <- rcldf::get_cldf_colname(x, "LanguageTable", "latitude")
+    lon_col <- rcldf::get_cldf_colname(x, "LanguageTable", "longitude")
+    name_col <- rcldf::get_cldf_colname(x, "LanguageTable", "name")
     if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
     if (is.null(color_by)) color_by <- colnames(x$tables$LanguageTable)[[1]]
 
@@ -55,7 +55,7 @@ plot_languages <- function(x, color_by = NULL) {
 #'
 #' @return A leaflet map object.
 #' @export
-plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
+plot_parameter <- function(x, parameter = "1sg_a", color_by = "Value") {
     if (!requireNamespace("leaflet", quietly = TRUE)) {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
     }
@@ -66,15 +66,16 @@ plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
     }
     # do we have form table or value table
     fk <- rcldf::get_foreign_keys(x)
-    fk <- fk[fk$SourceColumn == 'Parameter_ID', ]
+    fk <- fk[fk$SourceColumn == "Parameter_ID", ]
+    fktbl <- fk[["SourceTable"]][[1]]
 
     lat_col <- get_cldf_colname(x, "LanguageTable", "latitude")
     lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
     name_col <- get_cldf_colname(x, "LanguageTable", "name")
     if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
 
-    df <- as.cldf.wide(x, x$resources[[ fk[['SourceTable']][[1]] ]])
-    df <- df[df$Parameter_ID == parameter,]
+    df <- as.cldf.wide(x, x$resources[[fktbl]])
+    df <- df[df$Parameter_ID == parameter, ]
 
     # remove no locations and standardise
     df <- df[! is.na(df[[lat_col]]) & ! is.na(df[[lon_col]]), ]
@@ -112,7 +113,7 @@ plot_parameter <- function(x, parameter = "1sg_a", color_by = 'Value') {
 #'
 #' @return A leaflet map object.
 #' @export
-plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
+plot_word <- function(x, parameter = "1sg_a", color_by = "Cognacy") {
     if (!requireNamespace("leaflet", quietly = TRUE)) {
         stop("Package 'leaflet' is required for interactive maps. Please install it.")
     }
@@ -123,14 +124,15 @@ plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
     }
     # do we have form table or value table
     fk <- rcldf::get_foreign_keys(x)
-    fk <- fk[fk$SourceColumn == 'Parameter_ID', ]
+    fk <- fk[fk$SourceColumn == "Parameter_ID", ]
+    fktbl <- fk[["SourceTable"]][[1]]
 
     lat_col <- get_cldf_colname(x, "LanguageTable", "latitude")
     lon_col <- get_cldf_colname(x, "LanguageTable", "longitude")
     if (is.null(lat_col) || is.null(lon_col)) stop("LanguageTable has no latitude/longitude columns")
 
-    df <- as.cldf.wide(x, x$resources[[ fk[['SourceTable']][[1]] ]])
-    df <- df[df$Parameter_ID == parameter,]
+    df <- as.cldf.wide(x, x$resources[[fktbl]])
+    df <- df[df$Parameter_ID == parameter, ]
 
     # remove no locations and standardise
     df <- df[! is.na(df[[lat_col]]) & ! is.na(df[[lon_col]]), ]
@@ -142,7 +144,7 @@ plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
 
     # Build HTML labels with inline colors
     df$html_label <- sprintf(
-        "<span style='color:%s; font-weight:bold; font-size:12px;'>%s</span>",
+        '<span style="color:%s; font-weight:bold; font-size:12px;">%s</span>',
         df$label_color,
         htmltools::htmlEscape(df$Value)
     )
@@ -159,4 +161,3 @@ plot_word <- function(x, parameter = "1sg_a", color_by = 'Cognacy') {
             )
         )
 }
-

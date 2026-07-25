@@ -1,28 +1,28 @@
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
-CLDF_OBJ <- cldf(MD_JSON_PATH, load_bib=TRUE)
+CLDF_OBJ <- cldf(MD_JSON_PATH, load_bib = TRUE)
 
 
 test_that("test cldf", {
-    expect_is(CLDF_OBJ, 'cldf')
+    expect_is(CLDF_OBJ, "cldf")
     # is metadata the same
-    expect_equal(CLDF_OBJ[['metadata']], csvwr::read_metadata(MD_JSON_PATH))
+    expect_equal(CLDF_OBJ[["metadata"]], csvwr::read_metadata(MD_JSON_PATH))
     # do we have all tables loaded
-    expect_equal(nrow(CLDF_OBJ$tables[['LanguageTable']]), 9)
-    expect_equal(nrow(CLDF_OBJ$tables[['ParameterTable']]), 1)
-    expect_equal(nrow(CLDF_OBJ$tables[['ValueTable']]), 9)
-    expect_equal(nrow(CLDF_OBJ$tables[['CodeTable']]), 5)
+    expect_equal(nrow(CLDF_OBJ$tables[["LanguageTable"]]), 9)
+    expect_equal(nrow(CLDF_OBJ$tables[["ParameterTable"]]), 1)
+    expect_equal(nrow(CLDF_OBJ$tables[["ValueTable"]]), 9)
+    expect_equal(nrow(CLDF_OBJ$tables[["CodeTable"]]), 5)
 
     # test resource mapping
-    expect_equal(CLDF_OBJ$resources[['codes.csv']], 'CodeTable')
-    expect_equal(CLDF_OBJ$resources[['languages.csv']], 'LanguageTable')
-    expect_equal(CLDF_OBJ$resources[['parameters.csv']], 'ParameterTable')
-    expect_equal(CLDF_OBJ$resources[['values.csv']], 'ValueTable')
+    expect_equal(CLDF_OBJ$resources[["codes.csv"]], "CodeTable")
+    expect_equal(CLDF_OBJ$resources[["languages.csv"]], "LanguageTable")
+    expect_equal(CLDF_OBJ$resources[["parameters.csv"]], "ParameterTable")
+    expect_equal(CLDF_OBJ$resources[["values.csv"]], "ValueTable")
 
     # check some values
-    expect_equal(CLDF_OBJ$tables[['LanguageTable']]$ID[1], 'abi')
-    expect_equal(CLDF_OBJ$tables[['ParameterTable']]$ID[1], '1A')
-    expect_equal(CLDF_OBJ$tables[['ValueTable']]$ID[1], '1A-abi')
-    expect_equal(CLDF_OBJ$tables[['CodeTable']]$ID[1], '1A-1')
+    expect_equal(CLDF_OBJ$tables[["LanguageTable"]]$ID[1], "abi")
+    expect_equal(CLDF_OBJ$tables[["ParameterTable"]]$ID[1], "1A")
+    expect_equal(CLDF_OBJ$tables[["ValueTable"]]$ID[1], "1A-abi")
+    expect_equal(CLDF_OBJ$tables[["CodeTable"]]$ID[1], "1A-1")
 
     expect_equal(nrow(CLDF_OBJ$sources), 11)
 
@@ -41,18 +41,18 @@ test_that("test invalid CLDF JSON", {
 test_that("test dir or json", {
     expect_equal(
         CLDF_OBJ, # load direct from JSON
-        cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"), load_bib=TRUE)
+        cldf(system.file("extdata/examples/wals_1A_cldf/", package = "rcldf"), load_bib = TRUE)
     )
 })
 
 
 test_that("test read_cldf", {
-    expect_equal(CLDF_OBJ, read_cldf(MD_JSON_PATH, load_bib=TRUE))
+    expect_equal(CLDF_OBJ, read_cldf(MD_JSON_PATH, load_bib = TRUE))
 })
 
 
 test_that("test print.cldf", {
-    expect_error(print.cldf('x'), "'x' must inherit from class cldf")
+    expect_error(print.cldf("x"), "'x' must inherit from class cldf")
     out <- capture.output(print(CLDF_OBJ))
     expect_match(out[1], "A CLDF dataset with 4 tables \\(CodeTable, LanguageTable, ParameterTable, ValueTable\\)")
 })
@@ -85,9 +85,9 @@ test_that("test handling of valid/invalid JSON files", {
 
 
 test_that("Error with dialect$headerRowCount and skip", {
-    o <- cldf('datasets/barlownumerals')
+    o <- cldf("datasets/barlownumerals")
     p <- readr::problems(o$tables$ParameterTable)
     expect_equal(nrow(p), 0)
     # first row should NOT be the header row repeated ("ID", "Name", ...)
-    expect_equal(as.character(o$tables$ParameterTable[1, 'ID']), 'numeral-system')
+    expect_equal(as.character(o$tables$ParameterTable[1, "ID"]), "numeral-system")
 })

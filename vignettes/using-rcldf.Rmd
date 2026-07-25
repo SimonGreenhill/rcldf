@@ -16,8 +16,8 @@ bibliography: references.bib
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>"
 )
 ```
 
@@ -81,16 +81,16 @@ dataset is located:
 library(rcldf)
 
 # Load from a local directory:
-ds <- cldf('/path/to/dir/wals_1a_cldf')
+ds <- cldf("/path/to/dir/wals_1a_cldf")
 
 # or load from a specific metadatafile:
-ds <- cldf('/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json')
+ds <- cldf("/path/to/dir/wals_1a_cldf/StructureDataset-metadata.json")
 
 # or load from zenodo:
 df <- cldf("https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
 
 # or load from github:
-df <- cldf('https://github.com/lexibank/abvd')
+df <- cldf("https://github.com/lexibank/abvd")
 ```
 
 # Exploring a CLDF Dataset
@@ -106,10 +106,10 @@ from New Guinea, originally detailed in @McElhanon1967:
 
 ```{r}
 library(rcldf)
-ds <- cldf(system.file("extdata/huon", package="rcldf"))
+ds <- cldf(system.file("extdata/huon", package = "rcldf"))
 
 # this dataset has 4 tables:
-ds 
+ds
 
 # more details:
 summary(ds)
@@ -142,7 +142,7 @@ tibbles) so you can then do anything you want with them:
 ```{r}
 names(ds$tables)
 
-# let's look at the languages -- 
+# let's look at the languages --
 head(ds$tables$LanguageTable)
 
 # and the parameters - in this case the words in the wordlist
@@ -171,7 +171,7 @@ You can load and access them like this, and the sources are then
 available in `ds$sources` in `bib2df` format:
 
 ```{r}
-ds <- cldf(system.file("extdata/huon", package="rcldf"), load_bib=TRUE)
+ds <- cldf(system.file("extdata/huon", package = "rcldf"), load_bib = TRUE)
 
 # or if you loaded the CLDF without sources the first time you can add them now:
 ds <- read_bib(ds)
@@ -197,7 +197,7 @@ Using `as.cldf.wide` we can combine all the information from `ParameterTable` an
 `LanguageTable` into the `FormTable`:
 
 ```{r}
-as.cldf.wide(ds, 'FormTable')
+as.cldf.wide(ds, "FormTable")
 ```
 
 ## Load just one table:
@@ -206,7 +206,7 @@ Sometimes you just want to get one table. To do this call
 `get_table_from` with the table type, and dataset path:
 
 ```{r}
-get_table_from('LanguageTable', system.file("extdata/huon", package="rcldf"))
+get_table_from("LanguageTable", system.file("extdata/huon", package = "rcldf"))
 ```
 
 Unlike `read.csv()`, `get_table_from` (and `cldf()` generally) gives you three
@@ -233,7 +233,7 @@ Perhaps you want to know which version of a dataset you have without
 loading the whole dataset. Use `get_details`:
 
 ```{r}
-get_details(system.file("extdata/huon", package="rcldf"))
+get_details(system.file("extdata/huon", package = "rcldf"))
 ```
 
 ## Easily get reference catalogs (Glottolog, Concepticon):
@@ -259,7 +259,7 @@ datasets()
 And too easily install one, find the Dataset name:
 
 ```{r}
-semitic <- load_dataset('kitchensemitic')
+semitic <- load_dataset("kitchensemitic")
 ```
 ## Cache Information
 
@@ -280,7 +280,7 @@ get_cache_dir()
 You can set the cache_dir setting for the session by:
 
 ```{r, eval=FALSE}
-set_cache_dir('/path/somewhere')
+set_cache_dir("/path/somewhere")
 ```
 
 If you want to set this permanently, then edit your R environ file to
@@ -288,7 +288,7 @@ add the line: `RCLDF_CACHE_DIR=/path/somewhere`.
 
 ```{r, eval=FALSE}
 usethis::edit_r_environ()
-# now add 
+# now add
 # RCLDF_CACHE_DIR=<where you want the data saved>
 ```
 
@@ -301,13 +301,14 @@ list_cache_files()
 You can re-use datasets in your cache:
 
 ```{r, eval=FALSE}
-cldf(list_cache_files()[1, 'Path'])
+cldf(list_cache_files()[1, "Path"])
 ```
 
 Or just save them to a particular directory:
 
 ```{r, eval=FALSE}
-df <- cldf("https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1", cache_dir="~/data/grambank")
+url <- "https://zenodo.org/record/7844558/files/grambank/grambank-v1.0.3.zip?download=1"
+df <- cldf(url, cache_dir = "~/data/grambank")
 ```
 
 # Using rcldf to analyse datasets:
@@ -338,7 +339,7 @@ It will look like this <https://zenodo.org/records/7844558/files/grambank/gramba
 grambank <- cldf("https://zenodo.org/records/7844558/files/grambank/grambank-v1.0.3.zip?download=1")
 grambank
 
-# or: 
+# or:
 # grambank <- load_dataset('grambank')
 ```
 
@@ -355,7 +356,7 @@ summary(grambank)
 To see what languages we have, let's use `rcldf`'s plotting functionality:
 
 ```{r}
-plot_languages(grambank, color_by='Macroarea')
+plot_languages(grambank, color_by = "Macroarea")
 ```
 
 
@@ -363,10 +364,10 @@ plot_languages(grambank, color_by='Macroarea')
 Ok, let's start by extracting a list of languages in this dataset:
 
 ```{r}
+# using 'select' here to make it easier to see
 languages <- grambank$tables$LanguageTable |>
-    select(ID, Name, Macroarea, Latitude, Longitude)    
-    # only selecting some columns above to make it easier to see    
-languages    
+    select(ID, Name, Macroarea, Latitude, Longitude)
+languages
 ```
 
 
@@ -376,13 +377,13 @@ of interest: "GB028: Is there a distinction between inclusive and exclusive?".
 The `ID` of this feature is "GB028", so let's just see that one:
 
 ```{r}
-grambank$tables$ParameterTable |> filter(ID=='GB028')
+grambank$tables$ParameterTable |> filter(ID == "GB028")
 ```
 
 Plot it:
 
 ```{r}
-plot_parameter(grambank, parameter='GB028')
+plot_parameter(grambank, parameter = "GB028")
 ```
 
 
@@ -392,8 +393,8 @@ into the ValueTable in the `Parameter_ID` column, so let's select all
 the rows in `ValueTable` that match Parameter_ID of GB028:
 
 ```{r}
-values <- grambank$tables$ValueTable |> 
-    filter(Parameter_ID=='GB028') |>
+values <- grambank$tables$ValueTable |>
+    filter(Parameter_ID == "GB028") |>
     select(ID, Language_ID, Parameter_ID, Value, Source)
 
 ```
@@ -412,7 +413,7 @@ Great, let's get the values for the parameter we want. D-PLACE indexes the
 variables in a column `Var_ID`:
 
 ```{r}
-dplace$tables$ValueTable |> filter(Var_ID=='EA113')
+dplace$tables$ValueTable |> filter(Var_ID == "EA113")
 ```
 
 We want to merge this with our Grambank data but need a way to do this.
@@ -425,13 +426,13 @@ So, let's get the trait values for EA113 and add the glottocodes from LanguageTa
 dplanguages <- dplace$tables$LanguageTable |> select(ID, Glottocode)
 
 # get values for EA113 and merge with language information
-ea113 <- dplace$tables$ValueTable |> 
-    filter(Var_ID=='EA113') |> 
+ea113 <- dplace$tables$ValueTable |>
+    filter(Var_ID == "EA113") |>
     select(Soc_ID, Value) |>
-    left_join(dplanguages, join_by(Soc_ID==ID))
+    left_join(dplanguages, join_by(Soc_ID == ID))
 
 # rename `Value` to EA113
-ea113 <- ea113 |> mutate(EA113=Value) |> select(Glottocode, EA113)
+ea113 <- ea113 |> mutate(EA113 = Value) |> select(Glottocode, EA113)
 
 head(ea113)
 ```
@@ -439,8 +440,8 @@ head(ea113)
 Now get the grambank data into the same format:
 
 ```{r}
-gb028 <- values |> 
-    mutate(Glottocode=Language_ID, GB028=Value) |>
+gb028 <- values |>
+    mutate(Glottocode = Language_ID, GB028 = Value) |>
     select(Glottocode, GB028)
 head(gb028)
 ```
@@ -458,8 +459,8 @@ Ok, it looks like we only have 17 rows for this pairing.
 That's a little small, but let's plot the data:
 
 ```{r}
-p1 <- ggplot(df, aes(x=GB028)) + geom_histogram(stat='count')
-p2 <- ggplot(df, aes(x=EA113)) + geom_histogram(stat='count')
+p1 <- ggplot(df, aes(x = GB028)) + geom_histogram(stat = "count")
+p2 <- ggplot(df, aes(x = EA113)) + geom_histogram(stat = "count")
 
 p1 / p2   #  patchwork
 ```

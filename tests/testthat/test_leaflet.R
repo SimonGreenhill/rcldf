@@ -11,8 +11,8 @@ test_that("plot_languages returns a leaflet object and processes data", {
 
 
 test_that("plot_parameter returns a leaflet object", {
-    expect_error(plot_parameter(cldf_obj, '1sg_a'), 'Invalid Parameter_ID')  # does not exist
-    result <- plot_parameter(cldf_obj, '1A')
+    expect_error(plot_parameter(cldf_obj, "1sg_a"), "Invalid Parameter_ID")  # does not exist
+    result <- plot_parameter(cldf_obj, "1A")
     expect_s3_class(result, "leaflet")
 })
 
@@ -20,10 +20,10 @@ test_that("plot_parameter returns a leaflet object", {
 test_that("plot_word returns a leaflet object", {
     df <- cldf(system.file("extdata/huon", "cldf-metadata.json", package = "rcldf"))
     # this dataset has no lat and long, so fix that
-    df$tables$LanguageTable[df$tables$LanguageTable$ID == 'borong', ]$Latitude <- -6.56688
-    df$tables$LanguageTable[df$tables$LanguageTable$ID == 'borong', ]$Longitude <- 147.511
+    df$tables$LanguageTable[df$tables$LanguageTable$ID == "borong", ]$Latitude <- -6.56688
+    df$tables$LanguageTable[df$tables$LanguageTable$ID == "borong", ]$Longitude <- 147.511
 
-    expect_error(plot_word(df, '1sg_a'), 'Invalid Parameter_ID')  # does not exist
-    result <- plot_word(df, 'thou')
+    expect_error(plot_word(df, "1sg_a"), "Invalid Parameter_ID")  # does not exist
+    result <- plot_word(df, "thou")
     expect_s3_class(result, "leaflet")
 })

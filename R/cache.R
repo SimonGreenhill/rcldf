@@ -6,18 +6,19 @@
 #'
 #' @export
 #' @return A string of the cache dir
-get_cache_dir <- function(cache_dir=NA) {
+get_cache_dir <- function(cache_dir = NA) {
     env_var <- Sys.getenv("RCLDF_CACHE_DIR", unset = NA)
-    # manually specified
     if (!is.na(cache_dir) && nzchar(cache_dir)) {
-        return(normalizePath(cache_dir, mustWork=FALSE))
-    # from environment
+        # manually specified
+        out <- normalizePath(cache_dir, mustWork = FALSE)
     } else if (!is.na(env_var) && nzchar(env_var)) {
-        return(env_var)
-    # otherwise use session temp dir
+        # from environment
+        out <- env_var
     } else {
-        return(tempdir())
+        # otherwise use session temp dir
+        out <- tempdir()
     }
+    out
 }
 
 #' Sets the cache dir for the current session.
@@ -26,7 +27,7 @@ get_cache_dir <- function(cache_dir=NA) {
 #'
 #' @export
 #' @return NULL. Sets an environment value.
-set_cache_dir <- function(cache_dir=NA) {
+set_cache_dir <- function(cache_dir = NA) {
     Sys.setenv(RCLDF_CACHE_DIR = cache_dir)
 }
 
@@ -47,7 +48,7 @@ make_cache_key <- function(path) {
         path <- paste0(urltools::domain(path), "_", urltools::path(path))
     } else {
         # normalise
-        path <- normalizePath(path, mustWork=FALSE)
+        path <- normalizePath(path, mustWork = FALSE)
         path <- basename(path)
     }
 
@@ -75,11 +76,12 @@ make_cache_key <- function(path) {
 #' @return A numeric of the file size in bytes
 get_dir_size <- function(path) {
     files <- list.files(path, full.names = TRUE)
+    out <- 0
     if (length(files) > 0) {
-        sizes <- vapply(files, FUN.VALUE=numeric(1), function(x) file.size(x))
-        return(sum(sizes))
+        sizes <- vapply(files, FUN.VALUE = numeric(1), function(x) file.size(x))
+        out <- sum(sizes)
     }
-    return(0)
+    out
 }
 
 
@@ -90,17 +92,22 @@ get_dir_size <- function(path) {
 #'
 #' @export
 #' @return A dataframe of the directories
-list_cache_files <- function(cache_dir=NULL) {
+list_cache_files <- function(cache_dir = NULL) {
     if (is.null(cache_dir)) cache_dir <- get_cache_dir()
-    paths <- list.files(
-        cache_dir, pattern = "-metadata\\.json$",
-        recursive = TRUE, full.names = TRUE)
-    if (length(paths) == 0) { return(data.frame()) }
+    paths <- list.files(cache_dir, pattern = "-metadata\\.json$", recursive = TRUE, full.names = TRUE)
+
+    if (length(paths) == 0) {
+        return(data.frame())
+    }
+
     results <- lapply(paths, function(p) {
         tryCatch(rcldf::get_details(p), error = function(e) NULL)
     })
+
     results <- Filter(Negate(is.null), results)
-    if (length(results) == 0) { return(data.frame()) }
+    if (length(results) == 0) {
+        return(data.frame())
+    }
+
     do.call(rbind, results)
 }
-

@@ -83,12 +83,11 @@ subset_cldf <- function(x, expr) {
             keep_mask <- src_tbl[[rel$SourceColumn]] %in% dst_tbl[[rel$DestinationColumn]]
 
             if (any(!keep_mask)) {
-                logger::log_debug(sprintf("Cascading: %s -> %s", dst_key, src_key), namespace="subset_cldf")
+                logger::log_debug(sprintf("Cascading: %s -> %s", dst_key, src_key), namespace = "subset_cldf")
                 x$tables[[src_key]] <- src_tbl[keep_mask, , drop = FALSE]
                 changed <- TRUE
             }
         }
     }
-
-    return(x)
+    x
 }

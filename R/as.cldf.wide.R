@@ -1,4 +1,4 @@
-`:=` <- rlang::`:=`   # hack to shut up R CMD check
+`:=` <- rlang::`:=`   # nolint:  hack to shut up R CMD check
 
 #' Extracts a CLDF table as a 'wide' dataframe by resolving all foreign
 #'  key links
@@ -19,7 +19,9 @@ as.cldf.wide <- function(object, table) {
     # error on no table
     if (is.na(table)) stop("Need a table to expand")
     # error on bad table
-    if (table %in% names(object$tables) == FALSE) stop(paste("Invalid table", table))
+    if (table %in% names(object$tables) == FALSE) {
+        stop(paste("Invalid table", table))
+    }
     # find tables that join this one
     pks <- object$metadata$tables[[which(names(object$tables) == table)]][["tableSchema"]][["foreignKeys"]]
     out <- object$tables[[table]]
@@ -27,24 +29,24 @@ as.cldf.wide <- function(object, table) {
     if (is.null(pks)) return(out)
 
     for (p in seq_along(pks)) {
-      pk       <- pks[[p]]
-      src      <- pk$columnReference[[1]]
-      filename <- pk$reference$resource[[1]]  # filename.csv
-      tbl      <- object$resources[[filename]]
-      dest     <- pk$reference$columnReference[[1]]
+        pk       <- pks[[p]]
+        src      <- pk$columnReference[[1]]
+        filename <- pk$reference$resource[[1]]  # filename.csv
+        tbl      <- object$resources[[filename]]
+        dest     <- pk$reference$columnReference[[1]]
 
-      message("Joining ", src, " -> ", tbl, " -> ", dest)
+        message("Joining ", src, " -> ", tbl, " -> ", dest)
 
-      # rename columns to column.table format
-      t <- dplyr::rename_with(object$tables[[tbl]], ~ relabel(.x, tbl))
-      by_clause <- setNames(relabel(dest, tbl), src)
+        # rename columns to column.table format
+        t <- dplyr::rename_with(object$tables[[tbl]], ~ relabel(.x, tbl))
+        by_clause <- setNames(relabel(dest, tbl), src)
 
-      out <- dplyr::left_join(out, t, by = by_clause)
+        out <- dplyr::left_join(out, t, by = by_clause)
     }
 
     # and now tidy up by renaming unique columns (i.e. remove excess ".table")
     shortnames  <- gsub("\\..*$", "", colnames(out))
-    unique_cols <- shortnames[!duplicated(shortnames) & !duplicated(shortnames, fromLast=TRUE)]
+    unique_cols <- shortnames[!duplicated(shortnames) & !duplicated(shortnames, fromLast = TRUE)]
     colnames(out)[colnames(out) != shortnames & shortnames %in% unique_cols] <-
         shortnames[colnames(out) != shortnames & shortnames %in% unique_cols]
 

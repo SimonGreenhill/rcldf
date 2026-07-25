@@ -2,7 +2,7 @@ MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-meta
 
 test_that("test summary.cldf", {
 
-    expect_error(summary.cldf('x'), "'object' must inherit from class cldf")
+    expect_error(summary.cldf("x"), "'object' must inherit from class cldf")
 
     df <- cldf(MD_JSON_PATH)
     out <- capture.output(summary(df))
