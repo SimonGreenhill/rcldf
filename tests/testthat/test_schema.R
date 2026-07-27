@@ -64,7 +64,7 @@ test_that("test schema", {
 
 
 test_that("schema works for datasets with no foreign keys", {
-    cldf_obj <- cldf(system.file("extdata/examples/no_sources", "StructureDataset-metadata.json", package = "rcldf"))
+    cldf_obj <- cldf(test_path("fixtures/no_sources", "StructureDataset-metadata.json"))
     s <- schema(cldf_obj)
     expect_s3_class(s, "cldf_schema")
     expect_equal(nrow(s$relations), 0)

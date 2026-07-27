@@ -32,7 +32,7 @@ test_that("test cldf", {
 
 
 test_that("test invalid CLDF JSON", {
-    MD_JSON_PATH <- system.file("extdata/examples/incorrect_conformsTo.json", package = "rcldf")
+    MD_JSON_PATH <- test_path("fixtures/incorrect_conformsTo.json")
     expect_error(cldf(MD_JSON_PATH), "Invalid CLDF JSON file - does not conform to CLDF spec")
 })
 
@@ -59,7 +59,7 @@ test_that("test print.cldf", {
 
 
 test_that("test handling of no sources", {
-    df <- cldf(system.file("extdata/examples/no_sources", package = "rcldf"))
+    df <- cldf(test_path("fixtures/no_sources"))
     expect_equal(is.na(df$sources), TRUE)
 
     out <- capture.output(summary(df))
@@ -68,7 +68,7 @@ test_that("test handling of no sources", {
 
 
 test_that("test handling of no sources", {
-    df <- cldf(system.file("extdata/examples/no_sources", package = "rcldf"))
+    df <- cldf(test_path("fixtures/no_sources"))
     expect_equal(is.na(df$sources), TRUE)
 
     out <- capture.output(summary(df))
@@ -78,7 +78,7 @@ test_that("test handling of no sources", {
 
 test_that("test handling of valid/invalid JSON files", {
     expect_error(
-        cldf(system.file("extdata/examples/not_a_cldf/also_not_a_cldf/invalid.json", package = "rcldf")),
+        cldf(test_path("fixtures/not_a_cldf/also_not_a_cldf/invalid.json")),
         "Metadata doesn't define any tables, or a url to build a table definition from"
     )
 })

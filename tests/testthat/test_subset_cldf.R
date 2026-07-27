@@ -40,7 +40,7 @@ test_that("subset_cldf does not cascade self-referential FKs", {
     # Reproduces #54: Parent_ID -> LanguageTable.ID is a self-referential FK.
     # After filtering to one language, the cascade was removing that language
     # because its Parent_ID was no longer present in the filtered table.
-    o <- cldf(system.file("extdata/examples/self_ref_fk", "StructureDataset-metadata.json", package = "rcldf"))
+    o <- cldf(test_path("fixtures/self_ref_fk", "StructureDataset-metadata.json"))
     o2 <- subset_cldf(o, Glottocode == "abua1245")
     expect_equal(nrow(o2$tables$LanguageTable), 1)
     expect_equal(o2$tables$LanguageTable$Glottocode, "abua1245")

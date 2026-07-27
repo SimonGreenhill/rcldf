@@ -12,7 +12,7 @@ test_that("load_bib=TRUE", {
     expect_equal(df1$sources, df2$sources)
 
     # no sources
-    df <- cldf(system.file("extdata/examples/no_sources", package = "rcldf"), load_bib = TRUE)
+    df <- cldf(test_path("fixtures/no_sources"), load_bib = TRUE)
     expect_equal(is.na(df$sources), TRUE)
 })
 
@@ -30,7 +30,7 @@ test_that("read_bib", {
 
 
 test_that("read_bib with zipped", {
-    df <- cldf(system.file("extdata/examples/zipped_bib", package = "rcldf"))
+    df <- cldf(test_path("fixtures/zipped_bib"))
     s <- read_bib(df)
     expect_true(nrow(s$sources) == 11)
 })
@@ -38,7 +38,7 @@ test_that("read_bib with zipped", {
 
 
 test_that("read_bib with missing file", {
-    df <- cldf(system.file("extdata/examples/zipped_bib", package = "rcldf"))
+    df <- cldf(test_path("fixtures/zipped_bib"))
     df$metadata[["dc:source"]] <- "Does Not Exist"
 
     s <- read_bib(df)

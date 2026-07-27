@@ -1,5 +1,5 @@
 MD_JSON_PATH <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
-NULL_ARRAY_PATH <- system.file("extdata/examples/null_empty_array/StructureDataset-metadata.json", package = "rcldf")
+NULL_ARRAY_PATH <- test_path("fixtures/null_empty_array/StructureDataset-metadata.json")
 
 test_that("test get_nulls", {
     md <- resolve_path(MD_JSON_PATH)

@@ -94,8 +94,8 @@ test_that("test list_cache_dir", {
     files <- list_cache_files()
     expect_equal(nrow(files), 0)
 
-    # use the package inst/extdata as example
-    files <- list_cache_files(cache_dir = system.file("extdata/examples", package = "rcldf"))
-    # should be 8 cldf's in here
-    expect_equal(nrow(files), 8)
+    # use the test fixtures as example
+    files <- list_cache_files(cache_dir = test_path("fixtures"))
+    # should be 6 cldf's in here
+    expect_equal(nrow(files), 6)
 })

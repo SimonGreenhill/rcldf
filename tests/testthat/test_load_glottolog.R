@@ -43,10 +43,7 @@ test_that("get_from_zenodo", {
 test_that("get_from_zenodo - concept record without files follows links$latest", {
     # Simulates the case where the API returns a concept record (no files) and
     # the code must follow links$latest to reach the actual versioned record.
-    local_path <- system.file(
-        "extdata/examples/wals_1A_cldf/StructureDataset-metadata.json",
-        package = "rcldf"
-    )
+    local_path <- system.file("extdata/examples/wals_1A_cldf/StructureDataset-metadata.json", package = "rcldf")
     call_count <- 0L
     fake_json_concept <- function(url) {
         call_count <<- call_count + 1L

@@ -17,8 +17,8 @@ test_that("resolve_path", {
     expect_equal(p$metadata, expected)
 
     # given dir with multiple jsons
-    p <- resolve_path(system.file("extdata/examples/multiple_json/", package = "rcldf"), tempdir())
-    q <- csvwr::read_metadata(system.file("extdata/examples/multiple_json/valid.json", package = "rcldf"))
+    p <- resolve_path(test_path("fixtures/multiple_json/"), tempdir())
+    q <- csvwr::read_metadata(test_path("fixtures/multiple_json/valid.json"))
     expect_equal(p$metadata, q)
 
     ### ERRORS
@@ -29,17 +29,17 @@ test_that("resolve_path", {
     expect_error(resolve_path(sf, tempdir()), "Need either")
 
     # no metadata JSON file
-    sf <- system.file("extdata/examples/not_a_cldf/", package = "rcldf")
+    sf <- test_path("fixtures/not_a_cldf/")
     expect_error(resolve_path(sf, tempdir()), "no metadata JSON file found")
 
     # multiple JSON files found
-    sf <- system.file("extdata/examples/not_a_cldf/also_not_a_cldf", package = "rcldf")
+    sf <- test_path("fixtures/not_a_cldf/also_not_a_cldf")
     expect_error(resolve_path(sf, tempdir()), "no metadata JSON file found")
 })
 
 
 test_that("resolve_path handles archives (.zip)", {
-    zfile <- system.file("extdata/examples/wals_1A_cldf.zip", package = "rcldf")
+    zfile <- test_path("fixtures/wals_1A_cldf.zip")
     expected <- csvwr::read_metadata(MD_JSON_PATH)
     obtained <- resolve_path(zfile, tempdir())
     expect_equal(obtained$metadata, expected)
