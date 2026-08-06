@@ -20,7 +20,7 @@ bibliography: paper.bib
 
 # Summary
 
-Cross-Linguistic Data Formats (CLDF) is a standardized data format becoming increasingly common for storing
+Cross-Linguistic Data Formats (CLDF) is an increasingly common standardized data format for storing
 and distributing a wide range of comparative linguistic, cultural, ethnographic, geographic, and religious
 data. The `rcldf` package provides a lightweight _R_ toolkit for loading and reading CLDF files from both
 local and remote sources. The package facilitates analysis with _R_ by providing a number of convenience
@@ -37,8 +37,8 @@ available](https://zenodo.org/search?q=CLDF&f=resource_type%3Adataset&l=list&p=1
 representing many of the major publicly available linguistic and cultural datasets. 
 These datasets contain a wide variety of different types of data from the
 world's languages and cultures including catalogues of linguistic metadata, 
-to lexical word lists, grammatical features, phonetic information, 
-geographical locations and areas, as well as religious and cultural traits (Table 1).
+lexical word lists, grammatical features, phonetic information, 
+and geographical locations and areas, as well as religious and cultural traits (Table 1).
 
 CLDF provides a consistent specification and package format ([https://cldf.clld.org/](https://cldf.clld.org/)). This format is a lightweight data-package
 comprised of one or more data tables containing tabular data in 'CSV on the Web' format (CSVW)
@@ -47,7 +47,7 @@ in the CSVW files and how they are related to each other, and to global 'referen
 linguistic and cultural information [@Forkel2018]. 
 
 CLDF is rapidly becoming a standard framework for storing cultural data as it provides a simple, 
-reliable data format that facilitate the storage, sharing, and re-use for these data. The format
+reliable data format that facilitates the storage, sharing, and re-use for these data. The format
 has been used both as the native format for newly released datasets [e.g. @Lexibank; @Lexibank2; @Grambank], as well as to republish legacy datasets after 'retrostandardizing' them for modern
 use [@Forkel2024].
 
@@ -88,7 +88,7 @@ Table 1: Examples of CLDF Datasets showing the dataset, the type of data it cont
 
 ## State of the field
 
-Recently a number of _R_ packages have emerged to support analysis of cross-linguistic and cross-cultural data indicating a growing need for R infrastructure for comparative analysis.
+Recently a number of _R_ packages have emerged to support analysis of cross-linguistic and cross-cultural data, indicating a growing need for R infrastructure for comparative analysis.
 For example, `lingtypology` [@lingtypology] provides an interface to Glottolog and a handful of other CLDF datasets, 
 `glottospace` [@glottospace] provides geographical mapping tools, and `glottoTrees` [@glottoTrees] provides the taxonomic trees from [@Glottolog].
 
@@ -99,7 +99,7 @@ Second, because these packages largely bypass the CSVW/JSON metadata in a CLDF p
 The rcldf package provides the missing link that solves these issues: A general-purpose package for loading and parsing any CLDF dataset. Dataset-specific metadata is incorporated and handled correctly, and the dataset is exposed in a form ready for easy analysis in R. This package should help shift the maintenance burden from per-dataset wrappers to a single shared layer, and open the full CLDF ecosystem to _R_ users.
 
 
-# Software Design:
+# Software design
 
 The decision to build a bespoke package for CLDF datasets rather than reuse existing packages was driven by a number of key friction points in the existing functionality in R [@R]. `rcldf` builds on existing R packages [e.g. @csvwr; @jsonlite; @readr; @vroom; @bib2df] and extends them to reduce the risk of analysis bugs and enhance the findability, re-use, and aggregation of CLDF datasets.
 
@@ -110,31 +110,31 @@ First, `rcldf` is metadata aware, and uses the metadata JSON file that is part o
 
 Second, the CLDF specification indicates which sentinel values indicate missing data (e.g. the strings '', or '-', '?', or 'NA') and `rcldf` automatically converts these to a standard R `NA` value. This handling reduces the risk of R treating missing data as real data, or mis-identifying strings like 'NA' as 'North America'.
 
-Third, `rcldf` transparently handles a number of CLDF specific implementation details that can trip up unaware users, for example, to save space CLDF can compress particular media files (e.g. Nexus formatted phylogenetic data [@NEXUS] or large BibTex files [as found in e.g. @Glottolog]). The `rcldf` package transparently handles these implementation details to make it easier for users to work with these data.
+Third, `rcldf` transparently handles a number of CLDF specific implementation details that can trip up unaware users: for example, to save space CLDF can compress particular media files (e.g. Nexus formatted phylogenetic data [@NEXUS] or large BibTex files [as found in e.g. @Glottolog]). The `rcldf` package transparently handles these implementation details to make it easier for users to work with these data.
 
 Finally, all the information for a dataset is wrapped in a single `S3` object which incorporates each table, metadata, and source information into one namespace. This namespacing makes it easier for users to keep the relevant metadata for each dataset separate from each other, reducing the risk of bugs from data from difference datasets blending into each other.
 
 **2. Enabling the findability, re-use, and aggregation of dataset.**
 One of the key aims of CLDF is to make data Findable, Accessible, Interoperable, and Reusable i.e. 'FAIR' [@FAIR]. The package `rcldf` fosters this aim in three key ways.
 
-First, `rcldf` supports loading CLDF files from not just local sources but websites and remote archives as well; especially from common repositories of scientific data like Github.com or Zenodo.com. As an added aid for enabling dataset findability, `rcldf` implements a `datasets` function which retrieves the full list of known CLDF datasets, and gives the user the required URL identifier to download and open any of these datasets immediately.
+First, `rcldf` supports loading CLDF files from not just local sources but websites and remote archives as well, especially from common repositories of scientific data like Github.com or Zenodo.com. As an added aid for enabling dataset findability, `rcldf` implements a `datasets` function which retrieves the full list of known CLDF datasets, and gives the user the required URL identifier to download and open any of these datasets immediately.
 
-Second, `rcldf` contains  functions for automatically loading the CLDF reference catalogs that describe the languages [Glottolog @Glottolog], lexical concepts [Concepticon @Concepticon] and phonetic transcriptions [Cross Linguistic Transcription Systems, @CLTSDS, @Anderson_2018]. These reference catalogs are the key mechanisms which enable datasets to be connected to each other by, for example, aggregating the datasets that contain the Glottolog 'Glottocode' language identifier for a particular language e.g. New Zealand Māori [maor1246](https://glottolog.org/resource/languoid/id/maor1246), or finding datasets with a particular lexical concept of interest.
+Second, `rcldf` contains  functions for automatically loading the CLDF reference catalogs that describe the languages [Glottolog @Glottolog], lexical concepts [Concepticon @Concepticon] and phonetic transcriptions [Cross Linguistic Transcription Systems, @CLTSDS, @Anderson_2018]. These reference catalogs are the key mechanisms which enable datasets to be connected to each other by, for example, aggregating the datasets that contain the Glottolog 'Glottocode' language identifier for a particular language e.g. Aotearoa New Zealand Māori [maor1246](https://glottolog.org/resource/languoid/id/maor1246), or finding datasets with a particular lexical concept of interest.
 
 Third, CLDF datasets are normally stored in a 'long' format where multiple variables are included in the same column matching common database normalisation practices [@Forkel2018]. However, often in statistical analysis users prefer a 'wide' format [@TidyData] where each variable is contained in its own column, and each observation is a row. To facilitate this, `rcldf` contains tools to converts the 'long' or 'tidy' CLDF tables into 'wide' formats while resolving the foreign keys into expanded columns into one data frame.
 
 
-# Research Impact Statement: 
+# Research impact statement
 
-Recent years have seen a major quantitative turn towards large-scale quantitative analysis in linguistics [@Kortmann2021] and humanities [@McGillivray2022]. Cross-Linguistic Data Formats [CLDF, @Forkel2018] has rapidly become a very common standard for producing, releasing, and distributing a rich array of cultural data. CLDF has been suggested as a best-practice approach for distributing data alongside research publications [e.g. @Tresoldi2022]. Publicly available datasets in this format have rapidly increased with more than 200 datasets online. However, the archival database nature of CLDF is often at conflict with how users want to interact with and analyse data, and the flexibility of CSV formats means that there are many potential bugs waiting to happen with naïve parsing and loading of data. In addition, CLDF datasets are scattered across various websites, dataset repositories, and in journal supplementary materials, requiring users to know how to find, download, unarchive, and load these datasets.
+Recent years have seen a major quantitative turn towards large-scale quantitative analysis in linguistics [@Kortmann2021] and humanities [@McGillivray2022]. Cross-Linguistic Data Formats has rapidly become a very common standard for producing, releasing, and distributing a rich array of cultural data. CLDF has been suggested as a best-practice approach for distributing data alongside research publications [e.g. @Tresoldi2022]. Publicly available datasets in this format have rapidly increased with more than 300 datasets online. However, the archival database nature of CLDF is often at conflict with how users want to interact with and analyse data, and the flexibility of CSV formats means that there are many potential bugs waiting to happen with naïve parsing and loading of data. In addition, CLDF datasets are scattered across various websites, dataset repositories, and in journal supplementary materials, requiring users to know how to find, download, unarchive, and load these datasets.
 
 The `rcldf` package resolves these issues by, first, providing metadata-aware loading capabilities that easily load datasets from wherever they may be found, and providing a catalogue of common datasets to make this even easier. This functionality will enable users to readily access and re-use any of these datasets for their own work within the `R` language. Second, the package provides automatic functionality to identify column types, standardize missing data sentinels, and resolve compressed archives like NEXUS and BibTeX. These capabilities will ensure reproducible workflows free from parsing bugs common in ad-hoc CSV imports. Finally, `rcldf` provides a number of tools to explore datasets, from describing the metadata schema, to plotting of data onto maps, to allow users to rapidly understand the dataset they are exploring.
 
 To make the package usable and community ready, the package is fully documented along with a 'vignette' tutorial describing how to analyse and merge datasets into a common analysis. Almost all of the code is rigorously tested with test-case coverage above 95%. The package aims to provide an almost invisible infrastructure layer, lowering the barrier for researchers to seamlessly integrate the rich array of legacy and modern datasets into R, thereby facilitating novel, reliable large-scale comparative analysis across languages, cultures, and environments. This toolkit is ready for immediate adoption by the linguistic data science community.
 
-# AI usage disclosure:
+# AI usage disclosure
 
-No AI tools were used in the software creation, documentation, or paper drafting process. ChatGPT, Claude, and Google Gemini were used to review and critique the code for potential bugs, provide documentation templates for some functions, and suggest improvements to the manuscript.
+ChatGPT, Claude, and Google Gemini were used to review and critique the code for potential bugs, provide documentation templates for some functions, and suggest improvements to the manuscript.
 
 # Acknowledgements
 
