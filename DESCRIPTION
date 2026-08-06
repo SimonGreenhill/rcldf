@@ -13,6 +13,7 @@ Description: Cross-Linguistic Data Format (CLDF) is a framework for storing
     datasets making it easier to conduct comparative linguistic analyses, manage 
     language data, and apply statistical methods directly within R.
 License: Apache License (>= 2.0)
+Date: 2026-06-30
 Encoding: UTF-8
 Depends:
     R (>= 4.1.0)
