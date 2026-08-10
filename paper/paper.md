@@ -61,14 +61,14 @@ A full `vignette` is provided with the R package showing an example analysis and
 
 | Dataset                                                                                  | CLDF |
 |:-----------------------------------------------------------------------------------------|:-----|
-| **Metadata**                                                                             ||
-| [Glottolog](https://glottolog.org) [@Glottolog]                                         |  [1](https://zenodo.org/records/15640174)         |
-| [EndangeredLanguages.com](https://www.endangeredlanguages.com)                           |  [2](https://zenodo.org/records/13946786)         |
-| **Lexicon**                                                                             ||
+| **Metadata**                                                                             |      |
+| [Glottolog](https://glottolog.org) [@Glottolog]                                          |  [1](https://zenodo.org/records/15640174)         |
+| [EndangeredLanguages.com](https://www.endangeredlanguages.com) [@ELCat]                  |  [2](https://zenodo.org/records/13946786)         |
+| **Lexicon**                                                                              ||
 | [Lexibank](https://lexibank.clld.org/) [@Lexibank]                                       |  [3](https://doi.org/10.5281/zenodo.5227817)      |
 | [TransNewGuinea.org](https://transnewguinea.org) [@TNG]                                  |  [4](https://zenodo.org/records/14162587)         |
-| [Indo-European Cognate Relationships](https://iecor.clld.org/) [@Anderson_2025)]          |  [5](https://doi.org/10.5281/zenodo.8089434)      |
-| **Grammatical**                                                                             ||
+| [Indo-European Cognate Relationships](https://iecor.clld.org/) [@Anderson_2025)]         |  [5](https://doi.org/10.5281/zenodo.8089434)      |
+| **Grammatical**                                                                          ||
 | [Grambank](https://grambank.clld.org) [@Grambank]                                        |   [6](https://zenodo.org/records/7844558)          |
 | [AUTOTYP](https://www.isle.uzh.ch/en/DLL/Databases-and-Methods/AUTOTYP.html) [@AUTOTYP]  |   [7](https://zenodo.org/records/7976754)          |
 | [The World Atlas of Language Structures](https://wals.info) [@WALS]                      |   [8](https://zenodo.org/records/13950591)         |
@@ -76,11 +76,11 @@ A full `vignette` is provided with the R package showing an example analysis and
 | **Phonetic**                                                                             ||
 | [Phoible](https://phoible.org/) [@PHOIBLE]                                               |   [10](https://zenodo.org/records/2677911) |
 | [Illustrations of the International Phonetic Assoc.](https://www.cambridge.org/core/journals/journal-of-the-international-phonetic-association) [@JIPA]  |   [11](https://zenodo.org/records/11044861) |
-| **Geographic**                                                                             ||
+| **Geographic**                                                                           ||
 | [Glottography](https://github.com/Glottography) [@Ranacher_2025]  |   [12](https://zenodo.org/communities/glottography/records)  |
 | **Cultural**                                                                             ||
 | [D-PLACE: The Database of Places, Language, Culture, & Environment](https://d-place.org/) [@DPLACE]  |   [13](https://zenodo.org/records/13326769)   |
-| **Religious Data**                                                                             ||
+| **Religious Data**                                                                       ||
 | [Pulotu: Database of Austronesian Religions](https://pulotu.com) [@Pulotu]  | [14](https://zenodo.org/records/15687074) | 
 
 Table 1: Examples of CLDF Datasets showing the dataset, the type of data it contains, the source, and a link to the dataset.
