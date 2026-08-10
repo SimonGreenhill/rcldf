@@ -32,8 +32,7 @@ enhancing the efficiency of linguistic and cultural research.
 
 Cross-Linguistic Data Formats [CLDF, @Forkel2018] is a standardized data
 format designed to handle cross-linguistic and cross-cultural datasets. 
-There are currently almost [300 CLDF datasets
-available](https://zenodo.org/search?q=CLDF&f=resource_type%3Adataset&l=list&p=1&s=10&sort=bestmatch),
+There are currently hundreds [of CLDF datasets available](https://meta.clld.org),
 representing many of the major publicly available linguistic and cultural datasets. 
 These datasets contain a wide variety of different types of data from the
 world's languages and cultures including catalogues of linguistic metadata, 
