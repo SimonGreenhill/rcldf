@@ -67,7 +67,7 @@ A full `vignette` is provided with the R package showing an example analysis and
 | **Lexicon**                                                                              ||
 | [Lexibank](https://lexibank.clld.org/) [@Lexibank]                                       |  [3](https://doi.org/10.5281/zenodo.5227817)      |
 | [TransNewGuinea.org](https://transnewguinea.org) [@TNG]                                  |  [4](https://zenodo.org/records/14162587)         |
-| [Indo-European Cognate Relationships](https://iecor.clld.org/) [@Anderson_2025)]         |  [5](https://doi.org/10.5281/zenodo.8089434)      |
+| [Indo-European Cognate Relationships](https://iecor.clld.org/) [@Anderson_2025]          |  [5](https://doi.org/10.5281/zenodo.8089434)      |
 | **Grammatical**                                                                          ||
 | [Grambank](https://grambank.clld.org) [@Grambank]                                        |   [6](https://zenodo.org/records/7844558)          |
 | [AUTOTYP](https://www.isle.uzh.ch/en/DLL/Databases-and-Methods/AUTOTYP.html) [@AUTOTYP]  |   [7](https://zenodo.org/records/7976754)          |
