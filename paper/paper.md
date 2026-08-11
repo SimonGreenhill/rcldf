@@ -65,23 +65,23 @@ A full `vignette` is provided with the R package showing an example analysis and
 | [Glottolog](https://glottolog.org) [@Glottolog]                                          |  [10.5281/zenodo.18840967](https://doi.org/10.5281/zenodo.18840967)         |
 | [EndangeredLanguages.com](https://www.endangeredlanguages.com) [@ELCat]                  |  [10.5281/zenodo.13946786](https://zenodo.org/records/13946786)         |
 | **Lexicon**                                                                              ||
-| [Lexibank](https://lexibank.clld.org/) [@Lexibank]                                       |  [doi:10.5281/zenodo.5227817](https://doi.org/10.5281/zenodo.5227817)      |
-| [TransNewGuinea.org](https://transnewguinea.org) [@TNG]                                  |  [doi:10.5281/zenodo.14162587](https://zenodo.org/records/14162587)         |
-| [Indo-European Cognate Relationships](https://iecor.clld.org/) [@Anderson_2025]          |  [doi:10.5281/zenodo.8089434](https://doi.org/10.5281/zenodo.8089434)      |
+| [Lexibank](https://lexibank.clld.org/) [@Lexibank]                                       |  [10.5281/zenodo.5227817](https://doi.org/10.5281/zenodo.5227817)      |
+| [TransNewGuinea.org](https://transnewguinea.org) [@TNG]                                  |  [10.5281/zenodo.14162587](https://zenodo.org/records/14162587)         |
+| [Indo-European Cognate Relationships](https://iecor.clld.org/) [@Anderson_2025]          |  [10.5281/zenodo.8089434](https://doi.org/10.5281/zenodo.8089434)      |
 | **Grammatical**                                                                          ||
-| [Grambank](https://grambank.clld.org) [@Grambank]                                        |   [doi:10.5281/zenodo.7844558](https://zenodo.org/records/7844558)          |
-| [AUTOTYP](https://www.isle.uzh.ch/en/DLL/Databases-and-Methods/AUTOTYP.html) [@AUTOTYP]  |   [doi:10.5281/zenodo.7976754](https://zenodo.org/records/7976754)          |
-| [The World Atlas of Language Structures](https://wals.info) [@WALS]                      |   [doi:10.5281/zenodo.13950591](https://zenodo.org/records/13950591)         |
-| [The Electronic World Atlas of Varieties of English](https://ewave-atlas.org) [@EWAVE]   |   [doi:10.5281/zenodo.3712132](https://zenodo.org/records/3712132)          |
+| [Grambank](https://grambank.clld.org) [@Grambank]                                        |   [10.5281/zenodo.7844558](https://zenodo.org/records/7844558)          |
+| [AUTOTYP](https://www.isle.uzh.ch/en/DLL/Databases-and-Methods/AUTOTYP.html) [@AUTOTYP]  |   [10.5281/zenodo.7976754](https://zenodo.org/records/7976754)          |
+| [The World Atlas of Language Structures](https://wals.info) [@WALS]                      |   [10.5281/zenodo.13950591](https://zenodo.org/records/13950591)         |
+| [Electronic World Atlas of Varieties of English](https://ewave-atlas.org) [@EWAVE]       |   [10.5281/zenodo.3712132](https://zenodo.org/records/3712132)          |
 | **Phonetic**                                                                             ||
-| [Phoible](https://phoible.org/) [@PHOIBLE]                                               |   [doi:10.5281/zenodo.2677911](https://zenodo.org/records/2677911) |
-| [Illustrations of the International Phonetic Assoc.](https://www.cambridge.org/core/journals/journal-of-the-international-phonetic-association) [@JIPA]  |   [doi:10.5281/zenodo.11044861](https://zenodo.org/records/11044861) |
+| [Phoible](https://phoible.org/) [@PHOIBLE]                                               |   [10.5281/zenodo.2677911](https://zenodo.org/records/2677911) |
+| [Illustrations of the I.P.A.](https://www.cambridge.org/core/journals/journal-of-the-international-phonetic-association) [@JIPA]  |   [10.5281/zenodo.11044861](https://zenodo.org/records/11044861) |
 | **Geographic**                                                                           ||
-| [Glottography](https://github.com/Glottography) [@Ranacher_2025]  |   [Glottography on Zenodo](https://zenodo.org/communities/glottography/records)  |
+| [Glottography](https://github.com/Glottography) [@Ranacher_2025]  |   [Zenodo](https://zenodo.org/communities/glottography/records)  |
 | **Cultural**                                                                             ||
-| [D-PLACE: The Database of Places, Language, Culture, & Environment](https://d-place.org/) [@DPLACE]  |   [doi:10.5281/zenodo.13326769](https://zenodo.org/records/13326769)   |
+| [D-PLACE: Database of Places, Language, Culture, & Environment](https://d-place.org/) [@DPLACE]  |   [10.5281/zenodo.13326769](https://zenodo.org/records/13326769)   |
 | **Religious Data**                                                                       ||
-| [Pulotu: Database of Austronesian Religions](https://pulotu.com) [@Pulotu]               | [doi:10.5281/zenodo.15687074](https://zenodo.org/records/15687074) | 
+| [Pulotu: Database of Austronesian Religions](https://pulotu.com) [@Pulotu]               | [10.5281/zenodo.15687074](https://zenodo.org/records/15687074) | 
 
 Table 1: Examples of CLDF Datasets showing the dataset, the type of data it contains, the source, and a link to the dataset.
 
