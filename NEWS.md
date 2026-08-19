@@ -1,5 +1,28 @@
 # rcldf development version
-  
+
+## v1.6.3:
+
+- add `get_cldf_colname` to look up column names from CLDF properties.
+- fix property extraction (#53).
+- fix schema handling (#55).
+- fix `subset_cldf` (#54).
+- fix ValueTable/CognateTable handling.
+- fix issues #52 and #56.
+- fix tidy/wide/long handling.
+- add details on `get_table_from`.
+- make Zenodo fetching safer.
+- use a better default for `plot_languages`.
+- use `tempdir()` instead of `R_user_dir` by default for caching.
+- improve DOI display and citation references (ELCat, Anderson) in printed output.
+- add State of the Field section to the documentation.
+- add `CONTRIBUTING.md`.
+- update README to use `pak` instead of the deprecated `devtools`.
+
+## v1.6.1:
+
+- fixed vignette build on Windows.
+- misc tweaks for CRAN compliance.
+
 ## v1.6.0:
 
 - add mapping tools
