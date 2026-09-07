@@ -92,7 +92,7 @@ Each table is attached to the _df$tables_ list:
 # A tibble: 1 x 6
   ID    Name                 Description Authors       Url                      Area    
   <chr> <chr>                <chr>       <chr>         <chr>                    <chr>   
-1 1A    Consonant Inventori… NA          Ian Maddieson http://wals.info/featur… Phonolo… 
+1 1A    Consonant Inventori… NA          Ian Maddieson http://wals.info/feature… Phonolo… 
 
 
 # OR

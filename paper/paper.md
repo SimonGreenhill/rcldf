@@ -54,7 +54,7 @@ The package `rcldf` was developed to make it easy for users to access CLDF data 
 robust metadata-aware data loader that correctly identifies column types, missing data, and other key
 information. To make analysis easier, `rcldf` also provides a suite of methods for manipulating CLDF data,
 converting to 'tidy' data formats [@TidyData], and plot selected data onto maps. Finally, the package 
-enables users to access reference catalog data to connect and aggregrate data across any dataset. 
+enables users to access reference catalog data to connect and aggregate data across any dataset. 
 
 A full `vignette` is provided with the R package showing an example analysis and how the package can be used. 
 
@@ -100,7 +100,7 @@ The rcldf package provides the missing link that solves these issues: A general-
 
 # Software design
 
-The decision to build a bespoke package for CLDF datasets rather than reuse existing packages was driven by a number of key friction points in the existing functionality in R [@R]. `rcldf` builds on existing R packages [e.g. @csvwr; @jsonlite; @readr; @vroom; @bib2df] and extends them to reduce the risk of analysis bugs and enhance the findability, re-use, and aggregation of CLDF datasets.
+The decision to build a bespoke package for CLDF datasets rather than re-use existing packages was driven by a number of key friction points in the existing functionality in R [@R]. `rcldf` builds on existing R packages [e.g. @csvwr; @jsonlite; @readr; @vroom; @bib2df] and extends them to reduce the risk of analysis bugs and enhance the findability, re-use, and aggregation of CLDF datasets.
 
 **1. Reducing the risk of potential bugs.**
 While the Comma Separated Value (CSV) files that underlie CLDF are highly flexible and critically allows them to store a range of datatypes, this flexibility introduces issues with naïve CSV parsers [e.g. @Ziemann_2016]. Many of these issues are solved by CSVW which provides a metadata file to describe the column format of each file and we use this information in the metadata to make parsing more robust. 
