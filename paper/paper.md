@@ -54,7 +54,7 @@ The package `rcldf` was developed to make it easy for users to access CLDF data 
 robust metadata-aware data loader that correctly identifies column types, missing data, and other key
 information. To make analysis easier, `rcldf` also provides a suite of methods for manipulating CLDF data,
 converting to 'tidy' data formats [@TidyData], and plot selected data onto maps. Finally, the package 
-enables users to access reference catalog data to connect and aggregrate data across any dataset. 
+enables users to access reference catalog data to connect and aggregate data across any dataset. 
 
 A full `vignette` is provided with the R package showing an example analysis and how the package can be used. 
 
