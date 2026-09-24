@@ -24,7 +24,6 @@ Imports:
     digest,
     dplyr,
     jsonlite,
-    leaflet,
     logger,
     magrittr,
     purrr,
@@ -45,6 +44,7 @@ Suggests:
     spelling,
     knitr,
     rmarkdown,
+    leaflet,
     qpdf
 URL: https://github.com/SimonGreenhill/rcldf
 BugReports: https://github.com/SimonGreenhill/rcldf/issues
